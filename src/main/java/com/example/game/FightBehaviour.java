@@ -1,4 +1,5 @@
 package com.example.game;
 
-public class FightBehaviour {
+public interface FightBehaviour {
+    abstract void attack(double deltatime, Player plr);
 }
