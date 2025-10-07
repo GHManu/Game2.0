@@ -4,7 +4,7 @@ import javafx.scene.input.KeyCode;
 
 //16 righe
 
-public abstract class CharacterPlayable extends Character{
+public abstract class ACharacterPlayable extends ACharacter {
     //comandi
     protected  final KeyCode forward = KeyCode.W;
     protected  final KeyCode backward = KeyCode.S;

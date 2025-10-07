@@ -7,7 +7,7 @@ import javafx.scene.layout.VBox;
 
 //17 righe
 
-public abstract class Character extends Entity{
+public abstract class ACharacter extends AEntity {
     //caratteristiche
     protected ProgressBar progressBar;
     protected VBox vBox;

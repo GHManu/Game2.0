@@ -1,5 +1,5 @@
 package com.example.game;
 
-public class NPC extends Character{
+public class NPC extends ACharacter {
 
 }

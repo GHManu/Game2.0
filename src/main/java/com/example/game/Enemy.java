@@ -9,7 +9,7 @@ import javafx.scene.layout.VBox;
 
 //94 righe
 
-public class Enemy extends Character{
+public class Enemy extends ACharacterEnemy {
 
 
     Image attackImage;
@@ -21,6 +21,7 @@ public class Enemy extends Character{
 
 
     public Enemy(){
+        super();
         goingDown = true;
 
         this.x = (ScreenSettings.screenWidth/2.0) + 100.0;

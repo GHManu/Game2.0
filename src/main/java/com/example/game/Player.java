@@ -13,7 +13,7 @@ import java.util.List;
 
 //circa 108 righe
 
-public class Player extends CharacterPlayable{
+public class Player extends ACharacterPlayable {
     //per lo sprint
     protected double timeSprint;
     protected double timeReCharge;

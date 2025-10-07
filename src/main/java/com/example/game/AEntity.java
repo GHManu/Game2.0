@@ -5,7 +5,7 @@ import javafx.scene.image.ImageView;
 
 //5 righe
 
-public abstract class Entity {
+public abstract class AEntity {
 
     //immagine
     protected Image img;

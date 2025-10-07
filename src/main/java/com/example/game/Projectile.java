@@ -6,7 +6,7 @@ import javafx.scene.image.ImageView;
 
 //circa 33 righe
 
-public class Projectile extends Entity{
+public class Projectile extends AEntity {
 
     double directionX, directionY;
     double xDest, yDest;
