@@ -1,12 +1,19 @@
 package com.example.game;
 
 public abstract class ACharacterEnemy extends ACharacter{
-    private IFightBehaviour fight;
+    private IFightStrategy fightStrategy;
     public ACharacterEnemy(){
 
     }
-    private void attack(double deltatime, Player plr){
-        fight.attack(deltatime, plr);
+    public ACharacterEnemy(IFightStrategy fightStrategy){
+        setFightStrategy(fightStrategy);
     }
 
+    public IFightStrategy getFightStrategy() {
+        return fightStrategy;
+    }
+
+    public void setFightStrategy(IFightStrategy fightStrategy) {
+        this.fightStrategy = fightStrategy;
+    }
 }

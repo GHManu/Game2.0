@@ -21,7 +21,7 @@ public class Enemy extends ACharacterEnemy {
 
 
     public Enemy(){
-        super();
+        super(new NormalPistol());
         goingDown = true;
 
         this.x = (ScreenSettings.screenWidth/2.0) + 100.0;

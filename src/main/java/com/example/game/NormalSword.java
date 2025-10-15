@@ -1,9 +1,9 @@
 package com.example.game;
 
-public class NormalPistol extends AFireWeapon {
+public class NormalSword extends AMeleeWeapon{
 
     @Override
-    void shot(double deltaTime, Player plr, Projectile p) {
+    void slash(double deltaTime, Player plr) {
 
     }
 
