@@ -12,20 +12,12 @@ import javafx.scene.layout.VBox;
 public class Enemy extends ACharacterEnemy {
 
 
-    Image attackImage;
-    boolean attack_flag;
-    Projectile p;
-    final double REBOUND = 2.56784;
-    private boolean goingDown;
-
-
-
-    public Enemy(){
-        super(new NormalPistol());
+    public Enemy(IFightStrategy fightStrategy){
+        super(fightStrategy);
         goingDown = true;
 
-        this.x = (ScreenSettings.screenWidth/2.0) + 100.0;
-        this.y = (ScreenSettings.screenHeight/2.0) - 100.0;
+        this.x = (IScreenSettings.screenWidth/2.0) + 100.0;
+        this.y = (IScreenSettings.screenHeight/2.0) - 100.0;
 
         progressBar = new ProgressBar(1.0);   //1 = 100%, 0.5 = 50%
         vBox = new VBox(progressBar);
@@ -47,23 +39,23 @@ public class Enemy extends ACharacterEnemy {
         speed = 1.5;
         strength = 4;
 
-        img = new Image(getClass().getResourceAsStream("Images/Front_Enemy_c.png"), ScreenSettings.sizeTile, // requestedWidth
-                ScreenSettings.sizeTile, // requestedHeight
+        img = new Image(getClass().getResourceAsStream("Images/Front_Enemy_c.png"), IScreenSettings.sizeTile, // requestedWidth
+                IScreenSettings.sizeTile, // requestedHeight
                 false, false);  //preserveRatio = false e disattivando il smoothing a livello di Image
         //Questo dice a JavaFX: "Scala esattamente a 48x48, non interpolare, non mantenere le proporzioni"
         imgView = new ImageView(img);
 
         //imposto la grandezza dell'immagine
-        imgView.setFitWidth(ScreenSettings.sizeTile);
-        imgView.setFitHeight(ScreenSettings.sizeTile);
+        imgView.setFitWidth(IScreenSettings.sizeTile);
+        imgView.setFitHeight(IScreenSettings.sizeTile);
 
         imgView.setLayoutX(x);
         imgView.setLayoutY(y);
 
-        cld = new Collider(x, y,ScreenSettings.sizeTile,ScreenSettings.sizeTile);
+        cld = new Collider(x, y, IScreenSettings.sizeTile, IScreenSettings.sizeTile);
 
-        attackImage = new Image(getClass().getResourceAsStream("Images/ProvaAttaccoEnemy.png"), ScreenSettings.sizeTile, // requestedWidth
-                ScreenSettings.sizeTile, // requestedHeight
+        attackImage = new Image(getClass().getResourceAsStream("Images/ProvaAttaccoEnemy.png"), IScreenSettings.sizeTile, // requestedWidth
+                IScreenSettings.sizeTile, // requestedHeight
                 false, false);
 
         attack_flag = true;
@@ -71,17 +63,19 @@ public class Enemy extends ACharacterEnemy {
     }
 
 
+//    protected void attack(double deltatime, Player plr){
+//        if(attack_flag && plr.progressBar.getProgress() > 0.1 && this.progressBar.getProgress() > 0.1){
+//            attack_flag = false;
+//            NormalProjectile p = new NormalProjectile(attackImage, this.x, this.y, plr.x, plr.y);
+//            Platform.runLater(() -> { plr.root.getChildren().addAll(p.cld.ret,p.imgView); });
+//            this.p = p;
+//            shot(deltatime, plr, this.p);
+//        }
+//    }
+
     protected void attack(double deltatime, Player plr){
-        if(attack_flag && plr.progressBar.getProgress() > 0.1 && this.progressBar.getProgress() > 0.1){
-            attack_flag = false;
-            Projectile p = new Projectile(attackImage, this.x, this.y, plr.x, plr.y);
-            Platform.runLater(() -> { plr.root.getChildren().addAll(p.cld.ret,p.imgView); });
-            this.p = p;
-            shot(deltatime, plr, this.p);
-        }
+        this.getFightStrategy().attack(deltatime, plr, this.attack_flag, this.progressBar, this.attackImage);
     }
-
-
 
 
     protected void shot(double deltaTime, Player plr, Projectile p){
@@ -107,7 +101,7 @@ public class Enemy extends ACharacterEnemy {
                     });
                 }
 
-                if(plr.cld.sx && plr.x < (ScreenSettings.screenWidth-ScreenSettings.sizeTile)){
+                if(plr.cld.sx && plr.x < (IScreenSettings.screenWidth- IScreenSettings.sizeTile)){
                     Platform.runLater(() -> {
                         plr.imgView.setX(plr.imgView.getX() + (plr.speed * this.REBOUND));
                         plr.cld.ret.setLayoutX(plr.cld.ret.getLayoutX() + (plr.speed * this.REBOUND));
@@ -116,7 +110,7 @@ public class Enemy extends ACharacterEnemy {
                     });
                 }
 
-                if(plr.cld.br && plr.y < (ScreenSettings.screenHeight-ScreenSettings.sizeTile)){
+                if(plr.cld.br && plr.y < (IScreenSettings.screenHeight- IScreenSettings.sizeTile)){
 
 
                     Platform.runLater(() -> {
@@ -152,7 +146,7 @@ public class Enemy extends ACharacterEnemy {
     }
 
     public void movement(double deltaTime){
-        double maxDestY = ScreenSettings.screenHeight - ScreenSettings.sizeTile;
+        double maxDestY = IScreenSettings.screenHeight - IScreenSettings.sizeTile;
         double minDestY = 0; // oppure un valore di partenza
 
         if (goingDown) {

@@ -22,7 +22,7 @@ public class Player extends ACharacterPlayable {
     protected boolean isSprinting;
 
     //attacco
-    private List<Projectile> projectiles;
+    private List<NormalProjectile> normalProjectiles;
     Image attackImage;
     boolean attack_flag;
     double xDest, yDest;
@@ -30,8 +30,8 @@ public class Player extends ACharacterPlayable {
     private Enemy enemy;
 
     public Player(){
-        x = ScreenSettings.screenWidth/2.0;
-        y = ScreenSettings.screenHeight/2.0;
+        x = IScreenSettings.screenWidth/2.0;
+        y = IScreenSettings.screenHeight/2.0;
 
 
         progressBar = new ProgressBar(1.0);   //1 = 100%, 0.5 = 50%
@@ -41,7 +41,7 @@ public class Player extends ACharacterPlayable {
         vBox.setLayoutY(this.y - 20);
 
 
-        this.projectiles = new ArrayList<>();
+        this.normalProjectiles = new ArrayList<>();
         attack_flag = false;
 
         xDest = 0;
@@ -64,27 +64,27 @@ public class Player extends ACharacterPlayable {
         speed = 2.5;
         strength = 2.46793;
 
-        img = new Image(getClass().getResourceAsStream("Images/Front_Pg.png"), ScreenSettings.sizeTile, // requestedWidth
-                ScreenSettings.sizeTile, // requestedHeight
+        img = new Image(getClass().getResourceAsStream("Images/Front_Pg.png"), IScreenSettings.sizeTile, // requestedWidth
+                IScreenSettings.sizeTile, // requestedHeight
                 false, false);  //preserveRatio = false e disattivando il smoothing a livello di Image
         //Questo dice a JavaFX: "Scala esattamente a 48x48, non interpolare, non mantenere le proporzioni"
         imgView = new ImageView(img);
 
         //imposto la grandezza dell'immagine
-        imgView.setFitWidth(ScreenSettings.sizeTile);
-        imgView.setFitHeight(ScreenSettings.sizeTile);
+        imgView.setFitWidth(IScreenSettings.sizeTile);
+        imgView.setFitHeight(IScreenSettings.sizeTile);
 
 
 
         imgView.setLayoutX(x);
         imgView.setLayoutY(y);
 
-        attackImage = new Image(getClass().getResourceAsStream("Images/ProvaAttacco.png"), ScreenSettings.sizeTile, // requestedWidth
-                ScreenSettings.sizeTile, // requestedHeight
+        attackImage = new Image(getClass().getResourceAsStream("Images/ProvaAttacco.png"), IScreenSettings.sizeTile, // requestedWidth
+                IScreenSettings.sizeTile, // requestedHeight
                 false, false);
 
 
-        cld = new Collider(x, y,ScreenSettings.sizeTile,ScreenSettings.sizeTile);
+        cld = new Collider(x, y, IScreenSettings.sizeTile, IScreenSettings.sizeTile);
     }
 
 //    protected static void walk(KeyEvent keyEvent, double deltatime) {
@@ -200,13 +200,13 @@ public class Player extends ACharacterPlayable {
 
         if(this.progressBar.getProgress() > 5.551115123125783E-17) {
 
-            Projectile p = new Projectile(attackImage, imgView.getLayoutX(), imgView.getLayoutY(), xDest, yDest);
+            NormalProjectile p = new NormalProjectile(attackImage, imgView.getLayoutX(), imgView.getLayoutY(), xDest, yDest);
 
             this.attack_flag = true;
 //        Platform.runLater(() -> {attackView.setLayoutX(playerView.getLayoutX());
 //        attackView.setLayoutY(playerView.getLayoutY()); });
 
-            projectiles.add(p);
+            normalProjectiles.add(p);
             Platform.runLater(() -> {
                 root.getChildren().addAll(p.cld.ret, p.imgView);
             });
@@ -234,9 +234,9 @@ public class Player extends ACharacterPlayable {
 //        double directionX = dx / distance;  //coseno dell'angolo tra x e l'ipotenusa
 //        double directionY = dy / distance;  //seno dell'angolo tra y e l'ipotenusa
 
-        Iterator<Projectile> iterator = projectiles.iterator();
+        Iterator<NormalProjectile> iterator = normalProjectiles.iterator();
         while(iterator.hasNext()){
-            Projectile p = iterator.next();
+            NormalProjectile p = iterator.next();
             p.journey(deltaTime, p.speed);
 
 
@@ -269,7 +269,7 @@ public class Player extends ACharacterPlayable {
             }
         }
 
-        if(projectiles.isEmpty())   attack_flag = false;    //così ne posso sparare di più
+        if(normalProjectiles.isEmpty())   attack_flag = false;    //così ne posso sparare di più
 
 
     }

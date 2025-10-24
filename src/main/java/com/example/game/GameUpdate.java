@@ -22,7 +22,7 @@ public class GameUpdate implements Runnable{
     public GameUpdate(Group root){
         currentThread = new Thread(this);
         plr = new Player();
-        enemy = new Enemy();
+        enemy = new Enemy(new NormalPistol());
 
     }
 
@@ -182,7 +182,7 @@ In altre parole, il framework JavaFX gestisce per te il ciclo di vita degli even
                 plr.dir_forward = false;
             }
 
-            if ( (keysPressed.contains(plr.backward) || keysPressed.contains(plr.backwardArrow)) && plr.y < (ScreenSettings.screenHeight-ScreenSettings.sizeTile)
+            if ( (keysPressed.contains(plr.backward) || keysPressed.contains(plr.backwardArrow)) && plr.y < (IScreenSettings.screenHeight- IScreenSettings.sizeTile)
                      ) {
                 plr.dir_backward = true;
 
@@ -205,7 +205,7 @@ In altre parole, il framework JavaFX gestisce per te il ciclo di vita degli even
                 plr.dir_leftward = false;
             }
 
-            if ( (keysPressed.contains(plr.rightward) || keysPressed.contains(plr.rightwardArrow)) && plr.x < (ScreenSettings.screenWidth-ScreenSettings.sizeTile)
+            if ( (keysPressed.contains(plr.rightward) || keysPressed.contains(plr.rightwardArrow)) && plr.x < (IScreenSettings.screenWidth- IScreenSettings.sizeTile)
                     ) {
                 plr.dir_rightward = true;
 

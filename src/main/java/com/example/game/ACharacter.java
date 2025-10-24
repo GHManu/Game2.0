@@ -27,8 +27,8 @@ public abstract class ACharacter extends AEntity {
     protected boolean dir_backward_oblq_left;
 
     protected final void changeImage(String pathImage){
-        Platform.runLater(() -> { imgView.setImage(new Image(getClass().getResourceAsStream(pathImage), ScreenSettings.sizeTile, // requestedWidth
-                ScreenSettings.sizeTile, // requestedHeight
+        Platform.runLater(() -> { imgView.setImage(new Image(getClass().getResourceAsStream(pathImage), IScreenSettings.sizeTile, // requestedWidth
+                IScreenSettings.sizeTile, // requestedHeight
                 false, false));});
     }
 

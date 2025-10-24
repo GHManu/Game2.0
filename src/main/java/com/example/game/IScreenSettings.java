@@ -2,7 +2,7 @@ package com.example.game;
 
 //7 righe
 
-public interface ScreenSettings{
+public interface IScreenSettings {
     //static e final sono ridondanti per le interfacce
     //cioè tutte le immagini (player, alberi, ecc...) saranno 16x16 pixel
     //dobbiamo scegliere una risoluzione giusta, perchè ad esempio il nostro 16x16 pixel con la 1920x1080 risulterà piccolo
