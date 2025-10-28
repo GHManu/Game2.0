@@ -11,7 +11,7 @@ public class NormalSword extends AMeleeWeapon{
     }
 
     @Override
-    public void attack(double deltatime, Player plr, boolean attack_flag, ProgressBar progressBar, Image img) {
+    public void attack(double deltatime, ACharacterPlayable plr, ACharacterEnemy enemy) {
 
     }
 }

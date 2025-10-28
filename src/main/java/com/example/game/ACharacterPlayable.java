@@ -1,10 +1,13 @@
 package com.example.game;
 
+import javafx.scene.Group;
 import javafx.scene.input.KeyCode;
 
 //16 righe
 
 public abstract class ACharacterPlayable extends ACharacter {
+    protected Group root;
+
     //comandi
     protected  final KeyCode forward = KeyCode.W;
     protected  final KeyCode backward = KeyCode.S;

@@ -26,7 +26,7 @@ public class Player extends ACharacterPlayable {
     Image attackImage;
     boolean attack_flag;
     double xDest, yDest;
-    protected Group root;
+
     private Enemy enemy;
 
     public Player(){
