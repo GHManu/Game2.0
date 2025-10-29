@@ -17,8 +17,8 @@ public class Enemy extends ACharacterEnemy {
         setWeapon(aFireWeapon);
         goingDown = true;
 
-        this.x = (IScreenSettings.screenWidth/2.0) + 100.0;
-        this.y = (IScreenSettings.screenHeight/2.0) - 100.0;
+        this.x = (IScreenSettings.screenWidth/2.0) + 150.0;
+        this.y = (IScreenSettings.screenHeight/2.0) - 120.0;
 
         progressBar = new ProgressBar(1.0);   //1 = 100%, 0.5 = 50%
         vBox = new VBox(progressBar);

@@ -7,17 +7,9 @@ import javafx.scene.image.Image;
 public class NormalPistol extends AFireWeapon {
 
 
-
-    public Projectile getP() {
-        return p;
-    }
-
-    public void setP(Projectile p) {
-        this.p = p;
-    }
-
     public NormalPistol(){
-        p = new NormalProjectile(new Image(getClass().getResourceAsStream("Images/ProvaAttaccoEnemy.png")), 0, 0,0,0 );
+        //new Image(getClass().getResourceAsStream("Images/ProvaAttaccoEnemy.png"))
+
     }
 
     @Override
@@ -26,7 +18,7 @@ public class NormalPistol extends AFireWeapon {
         if(enemy.progressBar.getProgress() > 0.1 )    movement(deltaTime, plr, p, enemy);
 
         if(enemy.progressBar.getProgress() > 0.1 && !enemy.attack_flag && plr.progressBar.getProgress() > 0.1) {  //finchè è in vita
-            p.imgView.setVisible(true);
+
             p.journey(deltaTime, p.speed);
             plr.cld.collision_Detected(p.cld.ret, false);
 
@@ -113,7 +105,7 @@ public class NormalPistol extends AFireWeapon {
             }
         }
 
-        double finalY = this.y;
+        double finalY = enemy.y;
         Platform.runLater(() -> {
             enemy.imgView.setLayoutY(finalY);
             enemy.cld.ret.setY(finalY);
@@ -124,12 +116,12 @@ public class NormalPistol extends AFireWeapon {
     @Override
     public void attack(double deltatime, ACharacterPlayable plr,ACharacterEnemy enemy) {
         if(enemy.attack_flag && plr.progressBar.getProgress() > 0.1 && enemy.progressBar.getProgress() > 0.1){
-            enemy.p = null;
-            System.out.println("Ciao");
+
             enemy.attack_flag = false;
-            this.p = new NormalProjectile(enemy.attackImage, enemy.x, enemy.y, plr.x, plr.y);
+            Projectile p = new NormalProjectile(new Image(getClass().getResourceAsStream("Images/ProvaAttaccoEnemy.png")), enemy.x, enemy.y, plr.x, plr.y);
             Platform.runLater(() -> { plr.root.getChildren().addAll(p.cld.ret,p.imgView); });
-            shot(deltatime, plr, this.p, enemy);
+
+            //shot(deltatime, plr, p, enemy);
         }
     }
 }

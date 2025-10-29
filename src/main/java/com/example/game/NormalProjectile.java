@@ -10,7 +10,6 @@ public class NormalProjectile extends Projectile {
 
 
     public NormalProjectile(Image img, double x, double y, double xDest, double yDest) {
-
             this.imgView = new ImageView(img);
             this.imgView.setFitWidth(IScreenSettings.sizeTile);
             this.imgView.setFitHeight(IScreenSettings.sizeTile);
@@ -29,8 +28,13 @@ public class NormalProjectile extends Projectile {
         double dx = this.xDest - x;
         double dy = this.yDest - y;
         double distance = Math.sqrt(dx * dx + dy * dy);
-        directionX = dx / distance;
-        directionY = dy / distance;
+
+        if(distance != 0){
+            directionX = dx / distance;
+            directionY = dy / distance;
+        }
+
+        //directionY = -directionY;
 
         cld = new Collider(this.x, this.y, IScreenSettings.sizeTile, IScreenSettings.sizeTile);
     }
@@ -47,6 +51,13 @@ public class NormalProjectile extends Projectile {
             cld.ret.setY(y);
 
         });
+        System.out.println(
+                "Journey | x=" + x +
+                        " y=" + y +
+                        " dirX=" + directionX +
+                        " dirY=" + directionY +
+                        " speed=" + speed);
+
     }
 
 
