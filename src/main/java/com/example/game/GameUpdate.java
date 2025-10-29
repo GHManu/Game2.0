@@ -3,9 +3,11 @@ package com.example.game;
 import javafx.application.Platform;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
+import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseEvent;
 
+import java.io.Console;
 import java.util.*;
 
 //circa 89 righe
@@ -22,8 +24,7 @@ public class GameUpdate implements Runnable{
     public GameUpdate(Group root){
         currentThread = new Thread(this);
         plr = new Player();
-        enemy = new Enemy(new NormalPistol());
-
+        enemy = new Enemy(new NormalPistol(), new NormalPistol());
     }
 
 
@@ -112,7 +113,12 @@ In altre parole, il framework JavaFX gestisce per te il ciclo di vita degli even
                 if(plr != null && plr.progressBar.getProgress() <= 0.1)    player_Died();
                 //System.out.println(plr.progressBar.getProgress());
 
-                enemy.attack(deltatime, plr, enemy);
+                if (enemy != null) {
+                    //System.out.println("Attacco Nemico");
+                    enemy.attack(deltatime, plr, enemy);
+                    if(!enemy.attack_flag) enemy.getWeapon().shot(deltatime, plr, enemy.getWeapon().p, enemy);
+
+                }
                 //if(!enemy.attack_flag)  enemy.shot(deltatime,plr, enemy.p);
                 deltatime--;
             }

@@ -6,12 +6,22 @@ public abstract class ACharacterEnemy extends ACharacter{
 
     Image attackImage;
     boolean attack_flag;
-    NormalProjectile p;
+    Projectile p;
     final double REBOUND = 2.56784;
     protected boolean goingDown;
 
 
     private IFightStrategy fightStrategy;
+    private AFireWeapon weapon;
+
+    public AFireWeapon getWeapon() {
+        return weapon;
+    }
+
+    public void setWeapon(AFireWeapon weapon) {
+        this.weapon = weapon;
+    }
+
     public ACharacterEnemy(){
 
     }

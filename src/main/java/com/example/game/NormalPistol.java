@@ -1,12 +1,12 @@
 package com.example.game;
 
 import javafx.application.Platform;
-import javafx.scene.control.ProgressBar;
+
 import javafx.scene.image.Image;
 
 public class NormalPistol extends AFireWeapon {
 
-    Projectile p;
+
 
     public Projectile getP() {
         return p;
@@ -17,14 +17,16 @@ public class NormalPistol extends AFireWeapon {
     }
 
     public NormalPistol(){
-
+        p = new NormalProjectile(new Image(getClass().getResourceAsStream("Images/ProvaAttaccoEnemy.png")), 0, 0,0,0 );
     }
 
     @Override
     void shot(double deltaTime, ACharacterPlayable plr, Projectile p, ACharacterEnemy enemy) {
+        System.out.println("Shot");
         if(enemy.progressBar.getProgress() > 0.1 )    movement(deltaTime, plr, p, enemy);
 
         if(enemy.progressBar.getProgress() > 0.1 && !enemy.attack_flag && plr.progressBar.getProgress() > 0.1) {  //finchè è in vita
+            p.imgView.setVisible(true);
             p.journey(deltaTime, p.speed);
             plr.cld.collision_Detected(p.cld.ret, false);
 
@@ -87,6 +89,7 @@ public class NormalPistol extends AFireWeapon {
 
     @Override
     void movement(double deltaTime, ACharacterPlayable plr, Projectile p, ACharacterEnemy enemy) {
+        System.out.println("Movimento nemico");
         double maxDestY = IScreenSettings.screenHeight - IScreenSettings.sizeTile;
         double minDestY = 0; // oppure un valore di partenza
 
@@ -121,10 +124,12 @@ public class NormalPistol extends AFireWeapon {
     @Override
     public void attack(double deltatime, ACharacterPlayable plr,ACharacterEnemy enemy) {
         if(enemy.attack_flag && plr.progressBar.getProgress() > 0.1 && enemy.progressBar.getProgress() > 0.1){
+            enemy.p = null;
+            System.out.println("Ciao");
             enemy.attack_flag = false;
-            p = new NormalProjectile(enemy.attackImage, this.x, this.y, plr.x, plr.y);
+            this.p = new NormalProjectile(enemy.attackImage, enemy.x, enemy.y, plr.x, plr.y);
             Platform.runLater(() -> { plr.root.getChildren().addAll(p.cld.ret,p.imgView); });
-            shot(deltatime, plr, p, enemy);
+            shot(deltatime, plr, this.p, enemy);
         }
     }
 }

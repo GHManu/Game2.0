@@ -36,6 +36,7 @@ public class NormalProjectile extends Projectile {
     }
 
     protected void journey(double deltaTime, double speed){
+        System.out.println("Journey");
         x += deltaTime * speed * directionX;
         y +=  deltaTime * speed * directionY;
 
