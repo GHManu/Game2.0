@@ -4,7 +4,6 @@ import javafx.application.Platform;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
-//circa 33 righe
 
 public class NormalProjectile extends Projectile {
 
@@ -34,13 +33,11 @@ public class NormalProjectile extends Projectile {
             directionY = dy / distance;
         }
 
-        //directionY = -directionY;
-
         cld = new Collider(this.x, this.y, IScreenSettings.sizeTile, IScreenSettings.sizeTile);
     }
 
     protected void journey(double deltaTime, double speed){
-        System.out.println("Journey");
+
         x += deltaTime * speed * directionX;
         y +=  deltaTime * speed * directionY;
 
@@ -51,12 +48,6 @@ public class NormalProjectile extends Projectile {
             cld.ret.setY(y);
 
         });
-        System.out.println(
-                "Journey | x=" + x +
-                        " y=" + y +
-                        " dirX=" + directionX +
-                        " dirY=" + directionY +
-                        " speed=" + speed);
 
     }
 

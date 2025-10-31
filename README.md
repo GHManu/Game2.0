@@ -15,7 +15,7 @@
  quindi dovrò attuare il Desingn Pattern Strategy, poichè ad esempio tra i personaggi giocabili, il movimento o gli attacchi potrebbero cambiare 
  --> quindi farò due interfacce/classe astratte per l'attacco e per il movimento di tutti i character
 
-
+- In generale applicherò un principio per avere un po' di clean code, quello usato nel Design Pattern Facade, ovvero Principle of Least Knowledge
 
 ### UML (Class Diagram)
 ```mermaid

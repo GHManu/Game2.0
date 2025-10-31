@@ -48,7 +48,6 @@ public class GameUpdate implements Runnable{
         long lastUpdate = System.currentTimeMillis();
         //creo un Set di KeyCode, per salvare tutti gli eventi relativi all'input da tastiera
         Set<KeyCode> keysPressed = new HashSet<>();
-        //Set<MouseButton> mouseButtons = new HashSet<>();
 
         if(plr.progressBar.getProgress() > 0.1) gameScene.setOnKeyPressed((event) -> keysPressed.add(event.getCode()));
         if(plr.progressBar.getProgress() > 0.1) gameScene.setOnKeyReleased(event -> keysPressed.remove(event.getCode()));
@@ -57,29 +56,24 @@ public class GameUpdate implements Runnable{
         //gameLoop
         while(currentThread.isAlive()){
             currentTime = System.currentTimeMillis();
-            //System.out.println(currentTime);
+
             deltatime += (currentTime - lastUpdate) / (1000.0 / FPS);   //se uso FPS allora metto l'if dopo, sennò no
             lastUpdate = currentTime;
-            //System.out.println(lastUpdate);
-            if(deltatime >= 1){ //un secondo
-                //System.out.println(deltatime);
+
+            if(deltatime >= 1){
 
                 if(plr.progressBar.getProgress() > 0.1) gameMethodMovementHandler(deltatime, this.gameScene, keysPressed);
                 if(plr.progressBar.getProgress() > 5.551115123125783E-17) gameMethodAttackHandler(deltatime);
                 if(enemy != null && enemy.progressBar.getProgress() <= 0.1) {   kill_Enemy(); }//perchè è 1.1368683772161603E-13
 
                 if(plr != null && plr.progressBar.getProgress() <= 0.1)    player_Died();
-                //System.out.println(plr.progressBar.getProgress());
 
                 if (enemy != null) {
-                    //System.out.println("Attacco Nemico");
+
                     enemy.attack(deltatime, plr, enemy);
                     if(!enemy.attack_flag) {
                         //posso farlo poichè io so che metto una pistola!
                         AFireWeapon weapon = (AFireWeapon) enemy.getWeapon();
-                        //da sistemare
-//                        if(enemy.getWeapon() instanceof AFireWeapon)
-//                            weapon = (AFireWeapon) enemy.getWeapon();
                         weapon.shot(deltatime, plr,enemy.p , enemy);
                     }
 

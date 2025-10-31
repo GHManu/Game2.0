@@ -11,6 +11,7 @@ import javafx.scene.layout.VBox;
 
 public class Enemy extends ACharacterEnemy {
 
+    public Projectile p;
 
     public Enemy(IFightStrategy fightStrategy, AWeapon aFireWeapon){
         super(fightStrategy);
@@ -54,10 +55,6 @@ public class Enemy extends ACharacterEnemy {
         imgView.setLayoutY(y);
 
         cld = new Collider(x, y, IScreenSettings.sizeTile, IScreenSettings.sizeTile);
-
-        attackImage = new Image(getClass().getResourceAsStream("Images/ProvaAttaccoEnemy.png"), IScreenSettings.sizeTile, // requestedWidth
-                IScreenSettings.sizeTile, // requestedHeight
-                false, false);
 
         attack_flag = true;
 
