@@ -8,7 +8,6 @@ public class NormalPistol extends AFireWeapon {
 
 
     public NormalPistol(){
-        //new Image(getClass().getResourceAsStream("Images/ProvaAttaccoEnemy.png"))
 
     }
 
@@ -119,9 +118,9 @@ public class NormalPistol extends AFireWeapon {
 
             enemy.attack_flag = false;
             Projectile p = new NormalProjectile(new Image(getClass().getResourceAsStream("Images/ProvaAttaccoEnemy.png")), enemy.x, enemy.y, plr.x, plr.y);
-            Platform.runLater(() -> { plr.root.getChildren().addAll(p.cld.ret,p.imgView); });
-
-            //shot(deltatime, plr, p, enemy);
+            Platform.runLater(() -> { plr.root.getChildren().addAll(p.cld.ret, p.imgView); });
+            enemy.p = p;
+            shot(deltatime, plr, enemy.p, enemy);
         }
     }
 }

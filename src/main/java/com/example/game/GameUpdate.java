@@ -75,13 +75,15 @@ public class GameUpdate implements Runnable{
                     //System.out.println("Attacco Nemico");
                     enemy.attack(deltatime, plr, enemy);
                     if(!enemy.attack_flag) {
-                        Projectile p = new NormalProjectile(new Image(getClass().getResourceAsStream("Images/ProvaAttaccoEnemy.png")), enemy.x, enemy.y, plr.x, plr.y);
-                        Platform.runLater(() -> { plr.root.getChildren().addAll(p.cld.ret,p.imgView); });
-                        enemy.getWeapon().shot(deltatime, plr,p , enemy);
+                        //posso farlo poichè io so che metto una pistola!
+                        AFireWeapon weapon = (AFireWeapon) enemy.getWeapon();
+                        //da sistemare
+//                        if(enemy.getWeapon() instanceof AFireWeapon)
+//                            weapon = (AFireWeapon) enemy.getWeapon();
+                        weapon.shot(deltatime, plr,enemy.p , enemy);
                     }
 
                 }
-                //if(!enemy.attack_flag)  enemy.shot(deltatime,plr, enemy.p);
                 deltatime--;
             }
         }

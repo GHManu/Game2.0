@@ -12,7 +12,7 @@ import javafx.scene.layout.VBox;
 public class Enemy extends ACharacterEnemy {
 
 
-    public Enemy(IFightStrategy fightStrategy, AFireWeapon aFireWeapon){
+    public Enemy(IFightStrategy fightStrategy, AWeapon aFireWeapon){
         super(fightStrategy);
         setWeapon(aFireWeapon);
         goingDown = true;

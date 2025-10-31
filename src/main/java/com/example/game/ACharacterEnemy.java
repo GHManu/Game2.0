@@ -12,13 +12,13 @@ public abstract class ACharacterEnemy extends ACharacter{
 
 
     private IFightStrategy fightStrategy;
-    private AFireWeapon weapon;
+    private AWeapon weapon;
 
-    public AFireWeapon getWeapon() {
+    public AWeapon getWeapon() {
         return weapon;
     }
 
-    public void setWeapon(AFireWeapon weapon) {
+    public void setWeapon(AWeapon weapon) {
         this.weapon = weapon;
     }
 
