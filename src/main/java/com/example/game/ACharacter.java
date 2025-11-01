@@ -26,10 +26,15 @@ public abstract class ACharacter extends AEntity {
     protected boolean dir_backward_oblq_right;
     protected boolean dir_backward_oblq_left;
 
-    protected final void changeImage(String pathImage){
-        Platform.runLater(() -> { imgView.setImage(new Image(getClass().getResourceAsStream(pathImage), IScreenSettings.sizeTile, // requestedWidth
-                IScreenSettings.sizeTile, // requestedHeight
-                false, false));});
+    protected final void changeImage(Image image){
+        for(EGameImages ea : EGameImages.values()){
+            if(ea.getImage() == image){
+                Platform.runLater(() -> {
+                    imgView.setImage(image);
+                });
+                break;
+            }
+        }
     }
 
 

@@ -107,7 +107,7 @@ public class NormalPistol extends AFireWeapon {
 
         if (enemy.goingDown) {
             Platform.runLater(() -> {
-                enemy.changeImage("Images/Front_Enemy_c.png");
+                enemy.changeImage(EGameImages.Front_Enemy_c.getImage());
             });
             enemy.y += enemy.speed * deltaTime;
             if (enemy.y >= maxDestY) {
@@ -116,7 +116,7 @@ public class NormalPistol extends AFireWeapon {
             }
         } else {
             Platform.runLater(() -> {
-                enemy.changeImage("Images/Back_Enemy_c.png");
+                enemy.changeImage(EGameImages.Back_Enemy_c.getImage());
             });
             enemy.y -= enemy.speed * deltaTime;
             if (enemy.y <= minDestY) {
@@ -138,7 +138,7 @@ public class NormalPistol extends AFireWeapon {
         if(enemy.attack_flag && plr.progressBar.getProgress() > 0.1 && enemy.progressBar.getProgress() > 0.1){
 
             enemy.attack_flag = false;
-            Projectile p = new NormalProjectile(new Image(getClass().getResourceAsStream("Images/ProvaAttaccoEnemy.png")), enemy.x, enemy.y, plr.x, plr.y);
+            Projectile p = new NormalProjectile(EGameImages.ProvaAttaccoEnemy.getImage(), enemy.x, enemy.y, plr.x, plr.y);
             Platform.runLater(() -> { plr.root.getChildren().addAll(p.cld.ret, p.imgView); });
 
             if(enemy instanceof Enemy){

@@ -41,10 +41,8 @@ public class Enemy extends ACharacterEnemy {
         speed = 1.5;
         strength = 4;
 
-        img = new Image(getClass().getResourceAsStream("Images/Front_Enemy_c.png"), IScreenSettings.sizeTile, // requestedWidth
-                IScreenSettings.sizeTile, // requestedHeight
-                false, false);  //preserveRatio = false e disattivando il smoothing a livello di Image
-        //Questo dice a JavaFX: "Scala esattamente a 48x48, non interpolare, non mantenere le proporzioni"
+        img = EGameImages.Front_Enemy_c.getImage();
+        
         imgView = new ImageView(img);
 
         //imposto la grandezza dell'immagine

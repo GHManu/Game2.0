@@ -64,10 +64,7 @@ public class Player extends ACharacterPlayable {
         speed = 2.5;
         strength = 2.46793;
 
-        img = new Image(getClass().getResourceAsStream("Images/Front_Pg.png"), IScreenSettings.sizeTile, // requestedWidth
-                IScreenSettings.sizeTile, // requestedHeight
-                false, false);  //preserveRatio = false e disattivando il smoothing a livello di Image
-        //Questo dice a JavaFX: "Scala esattamente a 48x48, non interpolare, non mantenere le proporzioni"
+        img = EGameImages.Front_Pg.getImage();
         imgView = new ImageView(img);
 
         //imposto la grandezza dell'immagine
@@ -79,45 +76,11 @@ public class Player extends ACharacterPlayable {
         imgView.setLayoutX(x);
         imgView.setLayoutY(y);
 
-        attackImage = new Image(getClass().getResourceAsStream("Images/ProvaAttacco.png"), IScreenSettings.sizeTile, // requestedWidth
-                IScreenSettings.sizeTile, // requestedHeight
-                false, false);
+        attackImage = EGameImages.ProvaAttacco.getImage();
 
 
         cld = new Collider(x, y, IScreenSettings.sizeTile, IScreenSettings.sizeTile);
     }
-
-//    protected static void walk(KeyEvent keyEvent, double deltatime) {
-//        if(forward == keyEvent.getCode() || forwardArrow == keyEvent.getCode()){
-//            y -= speed * deltatime;   //così è più fluido il movimento invece di spostarsi di netto
-//            playerView.setY(y); //sposto la posizione dell'immagine
-//
-//            System.out.println("Stai premendo W");
-//        }
-//
-//        if(backward == keyEvent.getCode() || backwardArrow == keyEvent.getCode()){
-//            y += speed * deltatime;
-//            playerView.setY(y);
-//            System.out.println("Stai premendo S");
-//        }
-//
-//        if(leftward == keyEvent.getCode() || leftwardArrow == keyEvent.getCode()){
-//            x -= speed * deltatime;
-//            playerView.setX(x);
-//            System.out.println("Stai premendo A");
-//        }
-//
-//        if(rightward == keyEvent.getCode() || rightwardArrow == keyEvent.getCode()){
-//            x += speed * deltatime;
-//            playerView.setX(x);
-//            System.out.println("Stai premendo D");
-//        }
-
-    /*Se stai aggiornando la posizione del personaggio in un thread separato (ad esempio, per animazioni o movimenti continui),
-    assicurati che gli aggiornamenti vengano eseguiti nel thread giusto. In JavaFX, tutte le modifiche all'interfaccia grafica devono essere
-    fatte nel JavaFX Application Thread.
-    Puoi risolverlo utilizzando Platform.runLater() se stai aggiornando la UI da un thread separato:
-    * */
 
 
     //implementazione metodi movimento

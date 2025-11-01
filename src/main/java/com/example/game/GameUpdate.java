@@ -130,7 +130,7 @@ public class GameUpdate implements Runnable{
                     ) {
                 plr.dir_forward = true;
 
-                plr.changeImage("Images/Back_Pg.png");
+                plr.changeImage(EGameImages.Back_Pg.getImage());
                 if(plr.cld.fr)   plr.moveUp(deltaTime);
             }
             else{
@@ -141,7 +141,7 @@ public class GameUpdate implements Runnable{
                      ) {
                 plr.dir_backward = true;
 
-                plr.changeImage("Images/Front_Pg.png");
+                plr.changeImage(EGameImages.Front_Pg.getImage());
                 if(plr.cld.br) plr.moveDown(deltaTime);
             }
             else{
@@ -153,7 +153,7 @@ public class GameUpdate implements Runnable{
                 plr.dir_leftward = true;
 
 
-                plr.changeImage("Images/Left_Side_Pg.png");
+                plr.changeImage(EGameImages.Left_Side_Pg.getImage());
                 if(plr.cld.dx) plr.moveLeft(deltaTime);
             }
             else{
@@ -164,7 +164,7 @@ public class GameUpdate implements Runnable{
                     ) {
                 plr.dir_rightward = true;
 
-                plr.changeImage("Images/Right_Side_Pg.png");
+                plr.changeImage(EGameImages.Right_Side_Pg.getImage());
                 if(plr.cld.sx)    plr.moveRight(deltaTime);
             }
             else{
