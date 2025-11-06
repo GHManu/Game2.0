@@ -166,14 +166,12 @@ public class Player extends ACharacterPlayable {
             NormalProjectile p = new NormalProjectile(attackImage, imgView.getLayoutX(), imgView.getLayoutY(), xDest, yDest);
 
             this.attack_flag = true;
-//        Platform.runLater(() -> {attackView.setLayoutX(playerView.getLayoutX());
-//        attackView.setLayoutY(playerView.getLayoutY()); });
 
             normalProjectiles.add(p);
             Platform.runLater(() -> {
                 root.getChildren().addAll(p.cld.ret, p.imgView);
             });
-            //System.out.println("Attacco");
+
         }
     }
 
@@ -189,13 +187,6 @@ public class Player extends ACharacterPlayable {
     protected void setEnemy(Enemy enemy){this.enemy = enemy;}
 
     protected void shot(double deltaTime){
-        //teorema di pitagora
-//        double dx = xDest - xAttack;
-//        double dy = yDest - yAttack;
-//        double distance = Math.sqrt(dx * dx + dy * dy); //ipotenusa, vettore direzione
-//        //calcolo le componenti
-//        double directionX = dx / distance;  //coseno dell'angolo tra x e l'ipotenusa
-//        double directionY = dy / distance;  //seno dell'angolo tra y e l'ipotenusa
 
         Iterator<NormalProjectile> iterator = normalProjectiles.iterator();
         while(iterator.hasNext()){

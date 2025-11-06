@@ -9,16 +9,7 @@ public abstract class ACharacterEnemy extends ACharacter{
     protected boolean goingDown;
 
 
-    private IFightStrategy fightStrategy;
-    private AWeapon weapon;
 
-    public AWeapon getWeapon() {
-        return weapon;
-    }
-
-    public void setWeapon(AWeapon weapon) {
-        this.weapon = weapon;
-    }
 
     public ACharacterEnemy(){
 
@@ -27,11 +18,5 @@ public abstract class ACharacterEnemy extends ACharacter{
         setFightStrategy(fightStrategy);
     }
 
-    public IFightStrategy getFightStrategy() {
-        return fightStrategy;
-    }
 
-    public void setFightStrategy(IFightStrategy fightStrategy) {
-        this.fightStrategy = fightStrategy;
-    }
 }

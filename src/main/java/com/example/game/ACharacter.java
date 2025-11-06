@@ -26,6 +26,25 @@ public abstract class ACharacter extends AEntity {
     protected boolean dir_backward_oblq_right;
     protected boolean dir_backward_oblq_left;
 
+    private IFightStrategy fightStrategy;
+    private AWeapon weapon;
+
+    public AWeapon getWeapon() {
+        return weapon;
+    }
+
+    public void setWeapon(AWeapon weapon) {
+        this.weapon = weapon;
+    }
+    public IFightStrategy getFightStrategy() {
+        return fightStrategy;
+    }
+
+    public void setFightStrategy(IFightStrategy fightStrategy) {
+        this.fightStrategy = fightStrategy;
+    }
+
+
     protected final void changeImage(Image image){
         for(EGameImages ea : EGameImages.values()){
             if(ea.getImage() == image){

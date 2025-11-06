@@ -3,11 +3,9 @@ package com.example.game;
 import javafx.application.Platform;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
-import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseEvent;
 
-import java.io.Console;
 import java.util.*;
 
 //circa 89 righe
@@ -20,11 +18,21 @@ public class GameUpdate implements Runnable{
     final float FPS = 60; //Frame Per Second
     Enemy enemy;
 
+    private volatile static GameUpdate uniqueInstance;
 
-    public GameUpdate(Group root){
+    private GameUpdate(Group root){
         currentThread = new Thread(this);
         plr = new Player();
         enemy = new Enemy(new NormalPistol(), new NormalPistol());
+    }
+
+    public static GameUpdate getInstance(Group root){
+        if(uniqueInstance == null)
+            synchronized (GameUpdate.class){
+                if(uniqueInstance == null)
+                    uniqueInstance =  new GameUpdate(root);
+            }
+        return uniqueInstance;
     }
 
 
@@ -73,8 +81,9 @@ public class GameUpdate implements Runnable{
                     enemy.attack(deltatime, plr, enemy);
                     if(!enemy.attack_flag) {
                         //posso farlo poichè io so che metto una pistola!
-                        AFireWeapon weapon = (AFireWeapon) enemy.getWeapon();
-                        weapon.shot(deltatime, plr,enemy.p , enemy);
+//                        AFireWeapon weapon = (AFireWeapon) enemy.getWeapon();
+//                        weapon.shot(deltatime, plr,enemy.p , enemy);
+                        enemy.shot(deltatime, plr,enemy.p , enemy);
                     }
 
                 }

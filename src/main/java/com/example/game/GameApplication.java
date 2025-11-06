@@ -12,17 +12,15 @@ public class GameApplication extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-        //Parent root = FXMLLoader.load(getClass().getResource("Prova.fxml"));
         Group root = new Group();
         GameScene gameScene = new GameScene(root,GameScene.screenWidth, GameScene.screenHeight, Color.BLACK);
-        //stage.setFullScreen(true);
+
         stage.setScene(gameScene);
         stage.show();
-        GameUpdate gameUpdate = new GameUpdate(root);
+        GameUpdate gameUpdate = GameUpdate.getInstance(root);
         gameUpdate.startGameLoop(gameScene, root); //corpo del giocod
         stage.setResizable(false);
-        stage.setOnCloseRequest(event -> System.exit(0));  //quando chiudo con la x, termina anche l'esecuzione, lo stato !=0 indica un
-        // uscita non normale
+        stage.setOnCloseRequest(event -> System.exit(0));
     }
 
     public static void main(String[] args){
