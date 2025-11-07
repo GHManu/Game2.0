@@ -22,8 +22,6 @@ public class Player extends ACharacterPlayable {
     protected boolean isSprinting;
 
     //attacco
-    private List<NormalProjectile> normalProjectiles;
-    Image attackImage;
     boolean attack_flag;
     double xDest, yDest;
 
@@ -41,7 +39,6 @@ public class Player extends ACharacterPlayable {
         vBox.setLayoutY(this.y - 20);
 
 
-        this.normalProjectiles = new ArrayList<>();
         attack_flag = false;
 
         xDest = 0;
@@ -75,8 +72,6 @@ public class Player extends ACharacterPlayable {
 
         imgView.setLayoutX(x);
         imgView.setLayoutY(y);
-
-        attackImage = EGameImages.ProvaAttacco.getImage();
 
 
         cld = new Collider(x, y, IScreenSettings.sizeTile, IScreenSettings.sizeTile);
@@ -160,14 +155,13 @@ public class Player extends ACharacterPlayable {
 
     @Override
     protected void normal_attack(double deltatime) {
-
         if(this.progressBar.getProgress() > 5.551115123125783E-17) {
-
-            NormalProjectile p = new NormalProjectile(attackImage, imgView.getLayoutX(), imgView.getLayoutY(), xDest, yDest);
+            AFireWeapon fireWeapon = (AFireWeapon) this.getWeapon();
+            NormalProjectile p = new NormalProjectile(EGameImages.ProvaAttacco.getImage(), imgView.getLayoutX(), imgView.getLayoutY(), xDest, yDest);
 
             this.attack_flag = true;
 
-            normalProjectiles.add(p);
+            fireWeapon.getProjectiles().add(p);
             Platform.runLater(() -> {
                 root.getChildren().addAll(p.cld.ret, p.imgView);
             });
@@ -188,11 +182,12 @@ public class Player extends ACharacterPlayable {
 
     protected void shot(double deltaTime){
 
-        Iterator<NormalProjectile> iterator = normalProjectiles.iterator();
+        AFireWeapon fireWeapon = (AFireWeapon) this.getWeapon();
+        Iterator<Projectile> iterator = fireWeapon.getProjectiles().iterator();
         while(iterator.hasNext()){
-            NormalProjectile p = iterator.next();
-            p.journey(deltaTime, p.speed);
+            NormalProjectile p = (NormalProjectile) iterator.next();
 
+            fireWeapon.shot(deltaTime, this, p, enemy);
 
             if(p.isArrived(xDest, yDest)){
                 Platform.runLater(() -> {
@@ -223,10 +218,14 @@ public class Player extends ACharacterPlayable {
             }
         }
 
-        if(normalProjectiles.isEmpty())   attack_flag = false;    //così ne posso sparare di più
+        if(fireWeapon.getProjectiles().isEmpty())   attack_flag = false;    //così ne posso sparare di più
 
 
     }
 
 
+    @Override
+    public void attack(double deltatime, ACharacterPlayable plr, ACharacterEnemy enemy) {
+
+    }
 }
