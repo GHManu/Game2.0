@@ -16,8 +16,7 @@ public class Enemy extends ACharacterEnemy {
 
     public Projectile p;
 
-    public Enemy(IFightStrategy fightStrategy, AWeapon aFireWeapon){
-        super(fightStrategy);
+    public Enemy( AWeapon aFireWeapon){
         setWeapon(aFireWeapon);
         goingDown = true;
 
@@ -61,7 +60,8 @@ public class Enemy extends ACharacterEnemy {
 
     }
 
-    protected void attack(double deltatime, ACharacterPlayable plr, ACharacterEnemy enemy){
+    @Override
+    public void attack(double deltatime, ACharacterPlayable plr, ACharacterEnemy enemy){
         if(enemy.attack_flag && plr.progressBar.getProgress() > 0.1 && enemy.progressBar.getProgress() > 0.1) {
 
             this.attack_flag = false;

@@ -25,7 +25,7 @@ public class GameUpdate implements Runnable{
         currentThread = new Thread(this);
         plr = new Player();
         fireWeapon = new NormalPistol();
-        enemy = new Enemy(fireWeapon, fireWeapon);
+        enemy = new Enemy(fireWeapon);
     }
 
     public static GameUpdate getInstance(Group root){

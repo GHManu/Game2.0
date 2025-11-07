@@ -57,8 +57,4 @@ public class NormalPistol extends AFireWeapon {
         });
     }
 
-    @Override
-    public void attack(double deltatime, ACharacterPlayable plr,ACharacterEnemy enemy) {
-
-    }
 }

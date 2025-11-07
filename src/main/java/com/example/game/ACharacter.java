@@ -7,7 +7,7 @@ import javafx.scene.layout.VBox;
 
 //17 righe
 
-public abstract class ACharacter extends AEntity {
+public abstract class ACharacter extends AEntity implements IFightStrategy{
     //caratteristiche
     protected ProgressBar progressBar;
     protected VBox vBox;
