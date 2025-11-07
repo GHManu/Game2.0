@@ -62,9 +62,17 @@ public class Enemy extends ACharacterEnemy {
     }
 
     protected void attack(double deltatime, ACharacterPlayable plr, ACharacterEnemy enemy){
+        if(enemy.attack_flag && plr.progressBar.getProgress() > 0.1 && enemy.progressBar.getProgress() > 0.1) {
 
+            this.attack_flag = false;
             this.getFightStrategy().attack(deltatime, plr, this);
 
+            Projectile p = new NormalProjectile(EGameImages.ProvaAttaccoEnemy.getImage(), enemy.x, enemy.y, plr.x, plr.y);
+            Platform.runLater(() -> {
+                plr.root.getChildren().addAll(p.cld.ret, p.imgView);
+            });
+            ((AFireWeapon) this.getWeapon()).getProjectiles().set(0, p);
+        }
     }
     protected void shot(double deltatime, ACharacterPlayable plr, Projectile p, ACharacterEnemy enemy){
         AFireWeapon weapon = (AFireWeapon) enemy.getWeapon();

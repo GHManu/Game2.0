@@ -13,17 +13,19 @@ import java.util.*;
 //implementa l'interfaccia per far si che il processo sia eseguibile
 public class GameUpdate implements Runnable{
     private Player plr;
-    Thread currentThread;   //per tenere conto del tempo del processo
-    GameScene gameScene;
-    final float FPS = 60; //Frame Per Second
-    Enemy enemy;
+    private Thread currentThread;   //per tenere conto del tempo del processo
+    private GameScene gameScene;
+    private final float FPS = 60; //Frame Per Second
+    private Enemy enemy;
+    private AFireWeapon fireWeapon;
 
     private volatile static GameUpdate uniqueInstance;
 
     private GameUpdate(Group root){
         currentThread = new Thread(this);
         plr = new Player();
-        enemy = new Enemy(new NormalPistol(), new NormalPistol());
+        fireWeapon = new NormalPistol();
+        enemy = new Enemy(fireWeapon, fireWeapon);
     }
 
     public static GameUpdate getInstance(Group root){
@@ -83,7 +85,7 @@ public class GameUpdate implements Runnable{
                         //posso farlo poichè io so che metto una pistola!
 //                        AFireWeapon weapon = (AFireWeapon) enemy.getWeapon();
 //                        weapon.shot(deltatime, plr,enemy.p , enemy);
-                        enemy.shot(deltatime, plr,enemy.p , enemy);
+                        enemy.shot(deltatime, plr, fireWeapon.getProjectiles().getFirst() , enemy);
                     }
 
                 }

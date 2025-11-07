@@ -2,20 +2,16 @@ package com.example.game;
 
 import javafx.application.Platform;
 
-import javafx.collections.ObservableList;
+import java.util.ArrayList;
 
-import javafx.scene.Node;
-import javafx.scene.control.ProgressBar;
-import javafx.scene.image.ImageView;
-import javafx.scene.layout.VBox;
-import javafx.scene.shape.Rectangle;
 
 
 public class NormalPistol extends AFireWeapon {
 
 
     public NormalPistol(){
-
+        this.setProjectiles(new ArrayList<Projectile>());
+        this.getProjectiles().add(new NormalProjectile(EGameImages.ProvaAttaccoEnemy.getImage(),0,0, 0, 0));
     }
 
     @Override
@@ -63,17 +59,6 @@ public class NormalPistol extends AFireWeapon {
 
     @Override
     public void attack(double deltatime, ACharacterPlayable plr,ACharacterEnemy enemy) {
-        if(enemy.attack_flag && plr.progressBar.getProgress() > 0.1 && enemy.progressBar.getProgress() > 0.1){
 
-            enemy.attack_flag = false;
-            Projectile p = new NormalProjectile(EGameImages.ProvaAttaccoEnemy.getImage(), enemy.x, enemy.y, plr.x, plr.y);
-            Platform.runLater(() -> { plr.root.getChildren().addAll(p.cld.ret, p.imgView); });
-
-            if(enemy instanceof Enemy){
-               ((Enemy)enemy).p = p;
-                shot(deltatime, plr, ((Enemy)enemy).p , enemy);
-            }
-
-       }
     }
 }
