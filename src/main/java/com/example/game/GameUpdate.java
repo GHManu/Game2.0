@@ -26,6 +26,7 @@ public class GameUpdate implements Runnable{
         plr = new Player();
         fireWeapon = new NormalPistol();
         enemy = new Enemy(fireWeapon);
+        plr.setWeapon(new NormalPistol());
     }
 
     public static GameUpdate getInstance(Group root){

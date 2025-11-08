@@ -65,7 +65,6 @@ public class Enemy extends ACharacterEnemy {
         if(enemy.attack_flag && plr.progressBar.getProgress() > 0.1 && enemy.progressBar.getProgress() > 0.1) {
 
             this.attack_flag = false;
-            this.getFightStrategy().attack(deltatime, plr, this);
 
             Projectile p = new NormalProjectile(EGameImages.ProvaAttaccoEnemy.getImage(), enemy.x, enemy.y, plr.x, plr.y);
             Platform.runLater(() -> {

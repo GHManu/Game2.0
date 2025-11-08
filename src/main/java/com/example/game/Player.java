@@ -209,7 +209,9 @@ public class Player extends ACharacterPlayable {
                         root.getChildren().removeAll(p.cld.ret, p.imgView);
                     });
                     iterator.remove();
-                } else if(p.cld.ret.intersects(enemy.p.cld.ret.getBoundsInLocal())){    // se colpisce il proiettile del nemico
+//                    enemy.p.cld.ret.getBoundsInLocal())
+                    //DA MODIFICARE
+                } else if(p.cld.ret.intersects( ((AFireWeapon) enemy.getWeapon()).getProjectiles().getFirst().cld.ret.getBoundsInLocal() ) ){    // se colpisce il proiettile del nemico
                     Platform.runLater(() -> {
                         root.getChildren().removeAll(p.cld.ret, p.imgView);
                     });
