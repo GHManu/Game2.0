@@ -3,7 +3,7 @@ package com.example.game;
 
 import java.util.List;
 
-public abstract class AFireWeapon extends AWeapon {
+public abstract class AFireWeapon extends AWeapon{
     List<Projectile> projectiles;
 
     public List<Projectile> getProjectiles() {
@@ -14,6 +14,5 @@ public abstract class AFireWeapon extends AWeapon {
         this.projectiles = projectiles;
     }
 
-    abstract void shot(double deltaTime, ACharacterPlayable plr, Projectile p, ACharacterEnemy enemy);
-    abstract void movement(double deltaTime, ACharacterPlayable plr, Projectile p, ACharacterEnemy enemy);
+    abstract void shot(double deltatime, Projectile p, ACharacterPlayable player, ACharacterEnemy enemy);
 }

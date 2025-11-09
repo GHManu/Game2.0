@@ -17,15 +17,14 @@ public class GameUpdate implements Runnable{
     private GameScene gameScene;
     private final float FPS = 60; //Frame Per Second
     private Enemy enemy;
-    private AFireWeapon fireWeapon;
 
     private volatile static GameUpdate uniqueInstance;
 
     private GameUpdate(Group root){
         currentThread = new Thread(this);
         plr = new Player();
-        fireWeapon = new NormalPistol();
-        enemy = new Enemy(fireWeapon);
+
+        enemy = new Enemy(new NormalPistol());
         plr.setWeapon(new NormalPistol());
     }
 
@@ -84,9 +83,9 @@ public class GameUpdate implements Runnable{
                     enemy.attack(deltatime, plr, enemy);
                     if(!enemy.attack_flag) {
                         //posso farlo poichè io so che metto una pistola!
-//                        AFireWeapon weapon = (AFireWeapon) enemy.getWeapon();
+                        AFireWeapon weapon = (AFireWeapon) enemy.getWeapon();
 //                        weapon.shot(deltatime, plr,enemy.p , enemy);
-                        enemy.shot(deltatime, plr, fireWeapon.getProjectiles().getFirst() , enemy);
+                        enemy.shot(deltatime, plr, weapon.getProjectiles().getFirst() , enemy);
                     }
 
                 }

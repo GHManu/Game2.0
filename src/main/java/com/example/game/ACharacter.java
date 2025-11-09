@@ -7,7 +7,7 @@ import javafx.scene.layout.VBox;
 
 //17 righe
 
-public abstract class ACharacter extends AEntity implements IFightStrategy{
+public abstract class ACharacter extends AEntity{
     //caratteristiche
     protected ProgressBar progressBar;
     protected VBox vBox;
@@ -26,7 +26,6 @@ public abstract class ACharacter extends AEntity implements IFightStrategy{
     protected boolean dir_backward_oblq_right;
     protected boolean dir_backward_oblq_left;
 
-    private IFightStrategy fightStrategy;
     private AWeapon weapon;
 
     public AWeapon getWeapon() {
@@ -35,13 +34,6 @@ public abstract class ACharacter extends AEntity implements IFightStrategy{
 
     public void setWeapon(AWeapon weapon) {
         this.weapon = weapon;
-    }
-    public IFightStrategy getFightStrategy() {
-        return fightStrategy;
-    }
-
-    public void setFightStrategy(IFightStrategy fightStrategy) {
-        this.fightStrategy = fightStrategy;
     }
 
 

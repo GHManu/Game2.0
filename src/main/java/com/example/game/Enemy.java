@@ -14,10 +14,14 @@ import javafx.scene.shape.Rectangle;
 
 public class Enemy extends ACharacterEnemy {
 
-    public Projectile p;
+    public Enemy( AWeapon weapon){
+        setWeapon(weapon);
 
-    public Enemy( AWeapon aFireWeapon){
-        setWeapon(aFireWeapon);
+        if(weapon instanceof AFireWeapon fireWeapon){
+            setWeapon(fireWeapon);
+        }
+
+
         goingDown = true;
 
         this.x = (IScreenSettings.screenWidth/2.0) + 150.0;
@@ -60,7 +64,6 @@ public class Enemy extends ACharacterEnemy {
 
     }
 
-    @Override
     public void attack(double deltatime, ACharacterPlayable plr, ACharacterEnemy enemy){
         if(enemy.attack_flag && plr.progressBar.getProgress() > 0.1 && enemy.progressBar.getProgress() > 0.1) {
 
@@ -97,7 +100,7 @@ public class Enemy extends ACharacterEnemy {
         if(enemyprogbar.getProgress() > 0.1 )   movement(deltatime, plr, p, enemy);
 
         if(enemyprogbar.getProgress() > 0.1 && !enemy.attack_flag && plrprogbar.getProgress() > 0.1) {  //finchè è in vita
-            weapon.shot(deltatime, plr,p , enemy);
+            weapon.shot(deltatime, p,plr , enemy);
 
             plrcld.collision_Detected(projret, false);
 

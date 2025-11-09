@@ -186,14 +186,15 @@ public class Player extends ACharacterPlayable {
         Iterator<Projectile> iterator = fireWeapon.getProjectiles().iterator();
         while(iterator.hasNext()){
             NormalProjectile p = (NormalProjectile) iterator.next();
-
-            fireWeapon.shot(deltaTime, this, p, enemy);
+            fireWeapon.shot(deltaTime,p,this, enemy);
 
             if(p.isArrived(xDest, yDest)){
                 Platform.runLater(() -> {
                     root.getChildren().removeAll(p.cld.ret, p.imgView);
                 });
+
                 iterator.remove();
+
             }else if ((enemy != null) && (enemy.cld.ret != null) ) {
                 if ( p.cld.ret.intersects(enemy.cld.ret.getBoundsInLocal())) {  //se colpisce il nemico
                     if (enemy.health > 1) {  //perchè non so il perchè non va negativo e si ferma a circa 1e-13
@@ -208,6 +209,7 @@ public class Player extends ACharacterPlayable {
                     Platform.runLater(() -> {
                         root.getChildren().removeAll(p.cld.ret, p.imgView);
                     });
+
                     iterator.remove();
 //                    enemy.p.cld.ret.getBoundsInLocal())
                     //DA MODIFICARE
@@ -215,6 +217,7 @@ public class Player extends ACharacterPlayable {
                     Platform.runLater(() -> {
                         root.getChildren().removeAll(p.cld.ret, p.imgView);
                     });
+
                     iterator.remove();
                 }
             }
@@ -225,9 +228,4 @@ public class Player extends ACharacterPlayable {
 
     }
 
-
-    @Override
-    public void attack(double deltatime, ACharacterPlayable plr, ACharacterEnemy enemy) {
-
-    }
 }

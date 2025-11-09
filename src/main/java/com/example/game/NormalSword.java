@@ -1,8 +1,5 @@
 package com.example.game;
 
-import javafx.scene.control.ProgressBar;
-import javafx.scene.image.Image;
-
 public class NormalSword extends AMeleeWeapon{
 
     @Override
@@ -10,8 +7,9 @@ public class NormalSword extends AMeleeWeapon{
 
     }
 
+
     @Override
-    public void attack(double deltatime, ACharacterPlayable plr, ACharacterEnemy enemy) {
+    public void fight(double deltatime, ACharacterPlayable player, ACharacterEnemy enemy) {
 
     }
 }

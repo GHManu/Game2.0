@@ -14,9 +14,6 @@ public abstract class ACharacterEnemy extends ACharacter{
     public ACharacterEnemy(){
 
     }
-    public ACharacterEnemy(IFightStrategy fightStrategy){
-        setFightStrategy(fightStrategy);
-    }
 
 
 }
