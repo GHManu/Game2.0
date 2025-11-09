@@ -81,10 +81,7 @@ public class GameUpdate implements Runnable{
                     enemyFireWeaponType.attack(deltatime, plr, enemyFireWeaponType);
                     if(!enemyFireWeaponType.attack_flag) {
                         //posso farlo poichè io so che metto una pistola!
-                        AFireWeapon weapon = (AFireWeapon) enemyFireWeaponType.getWeapon();
-//                        weapon.shot(deltatime, plr,enemy.p , enemy);
-
-                        enemyFireWeaponType.shot(deltatime, plr, weapon.getProjectiles().getFirst() , enemyFireWeaponType);
+                        enemyFireWeaponType.shot(deltatime, plr , enemyFireWeaponType);
                     }
 
                 }

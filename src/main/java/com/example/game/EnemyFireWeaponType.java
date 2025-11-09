@@ -71,7 +71,8 @@ public class EnemyFireWeaponType extends ACharacterEnemy {
             ((AFireWeapon) this.getWeapon()).getProjectiles().set(0, p);
         }
     }
-    protected void shot(double deltatime, ACharacterPlayable plr, Projectile p, ACharacterEnemy enemy){
+    protected void shot(double deltatime, ACharacterPlayable plr, ACharacterEnemy enemy){
+        AFireWeapon fireWeapon = ((AFireWeapon)this.getWeapon());
 
         //Player
         Collider plrcld = plr.cld;
@@ -87,21 +88,21 @@ public class EnemyFireWeaponType extends ACharacterEnemy {
         ProgressBar enemyprogbar = enemy.progressBar;
 
         //Projectile
-        Collider projcld = p.cld;
+        Collider projcld = fireWeapon.p.cld;
         Rectangle projret = projcld.ret;
 
 
-        if(enemyprogbar.getProgress() > 0.1 )   movement(deltatime, plr, p, enemy);
+        if(enemyprogbar.getProgress() > 0.1 )   movement(deltatime, plr, fireWeapon.p, enemy);
 
         if(enemyprogbar.getProgress() > 0.1 && !enemy.attack_flag && plrprogbar.getProgress() > 0.1) {  //finchè è in vita
 
-            ((AFireWeapon)this.getWeapon()).p = p;
+            fireWeapon.p =  fireWeapon.getProjectiles().getFirst();
             this.getWeapon().fight(deltatime, plr, enemy);
 
             plrcld.collision_Detected(projret, false);
 
-            if (p.isArrived(plr.x, plr.y)) {
-                Platform.runLater(() -> { plrrootchildren.removeAll(projret, p.imgView); } );
+            if (fireWeapon.p.isArrived(plr.x, plr.y)) {
+                Platform.runLater(() -> { plrrootchildren.removeAll(projret, fireWeapon.p.imgView); } );
                 enemy.attack_flag = true;
             }
             if(projret.intersects(ret.getBoundsInLocal())){
@@ -121,7 +122,7 @@ public class EnemyFireWeaponType extends ACharacterEnemy {
                     setPlrCollisionY(plrimgview, ret, plrprogbar, plrvbox, -plr.speed, enemy.REBOUND);
                 }
 
-                Platform.runLater(() -> { plrrootchildren.removeAll(projret, p.imgView); } );
+                Platform.runLater(() -> { plrrootchildren.removeAll(projret, fireWeapon.p.imgView); } );
                 Platform.runLater(() -> {  plrprogbar.setProgress(plrprogbar.getProgress() - 0.2); });
                 enemy.attack_flag = true;
             }
@@ -129,8 +130,8 @@ public class EnemyFireWeaponType extends ACharacterEnemy {
         }
 
 
-        if(enemyprogbar.getProgress() < 0.1 && !p.isArrived(plr.x, plr.y)){
-            Platform.runLater(() -> { plrrootchildren.removeAll(projret, p.imgView); } );
+        if(enemyprogbar.getProgress() < 0.1 && !fireWeapon.p.isArrived(plr.x, plr.y)){
+            Platform.runLater(() -> { plrrootchildren.removeAll(projret, fireWeapon.p.imgView); } );
         }
 
 
