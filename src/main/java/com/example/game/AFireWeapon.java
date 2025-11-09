@@ -4,7 +4,14 @@ package com.example.game;
 import java.util.List;
 
 public abstract class AFireWeapon extends AWeapon{
+    Projectile p;
     List<Projectile> projectiles;
+
+
+    public AFireWeapon(){
+        p = new NormalProjectile(EGameImages.ProvaAttaccoEnemy.getImage(), 0,0,0,0);
+
+    }
 
     public List<Projectile> getProjectiles() {
         return projectiles;

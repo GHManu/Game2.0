@@ -29,10 +29,12 @@ public abstract class ACharacter extends AEntity{
     private AWeapon weapon;
 
     public AWeapon getWeapon() {
+
         return weapon;
     }
 
     public void setWeapon(AWeapon weapon) {
+
         this.weapon = weapon;
     }
 

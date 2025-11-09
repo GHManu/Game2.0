@@ -3,17 +3,14 @@ package com.example.game;
 import javafx.application.Platform;
 import javafx.scene.Group;
 import javafx.scene.control.ProgressBar;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
 
-import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.List;
 
 //circa 108 righe
 
-public class Player extends ACharacterPlayable {
+public class PlayerFireWeaponType extends ACharacterPlayable {
     //per lo sprint
     protected double timeSprint;
     protected double timeReCharge;
@@ -25,9 +22,10 @@ public class Player extends ACharacterPlayable {
     boolean attack_flag;
     double xDest, yDest;
 
-    private Enemy enemy;
+    private EnemyFireWeaponType enemyFireWeaponType;
 
-    public Player(){
+    public PlayerFireWeaponType(AFireWeapon weapon){
+        this.setWeapon(weapon);
         x = IScreenSettings.screenWidth/2.0;
         y = IScreenSettings.screenHeight/2.0;
 
@@ -133,7 +131,7 @@ public class Player extends ACharacterPlayable {
             if (this.timeSprint <= 0) {
                 this.walk(deltatime);
                 this.isSprinting = false;
-                this.timeReCharge = Player.RECHARGE_TIME_DURATION;  // Inizia la ricarica
+                this.timeReCharge = PlayerFireWeaponType.RECHARGE_TIME_DURATION;  // Inizia la ricarica
                 System.out.println("Sprint finito! Inizia la ricarica.");
             }
         }
@@ -178,7 +176,7 @@ public class Player extends ACharacterPlayable {
         this.root = root;
     }
 
-    protected void setEnemy(Enemy enemy){this.enemy = enemy;}
+    protected void setEnemy(EnemyFireWeaponType enemyFireWeaponType){this.enemyFireWeaponType = enemyFireWeaponType;}
 
     protected void shot(double deltaTime){
 
@@ -186,7 +184,9 @@ public class Player extends ACharacterPlayable {
         Iterator<Projectile> iterator = fireWeapon.getProjectiles().iterator();
         while(iterator.hasNext()){
             NormalProjectile p = (NormalProjectile) iterator.next();
-            fireWeapon.shot(deltaTime,p,this, enemy);
+            fireWeapon.p = p;
+            this.getWeapon().fight(deltaTime, this, enemyFireWeaponType);
+            //fireWeapon.shot(deltaTime,p,this, enemy);
 
             if(p.isArrived(xDest, yDest)){
                 Platform.runLater(() -> {
@@ -195,14 +195,14 @@ public class Player extends ACharacterPlayable {
 
                 iterator.remove();
 
-            }else if ((enemy != null) && (enemy.cld.ret != null) ) {
-                if ( p.cld.ret.intersects(enemy.cld.ret.getBoundsInLocal())) {  //se colpisce il nemico
-                    if (enemy.health > 1) {  //perchè non so il perchè non va negativo e si ferma a circa 1e-13
-                        enemy.speed += 0.2;
-                        enemy.health -= (enemy.initial_Health * p.normal_damage);
+            }else if ((enemyFireWeaponType != null) && (enemyFireWeaponType.cld.ret != null) ) {
+                if ( p.cld.ret.intersects(enemyFireWeaponType.cld.ret.getBoundsInLocal())) {  //se colpisce il nemico
+                    if (enemyFireWeaponType.health > 1) {  //perchè non so il perchè non va negativo e si ferma a circa 1e-13
+                        enemyFireWeaponType.speed += 0.2;
+                        enemyFireWeaponType.health -= (enemyFireWeaponType.initial_Health * p.normal_damage);
                         //System.out.println(enemy.health);
                         Platform.runLater(() -> {
-                            enemy.progressBar.setProgress(enemy.progressBar.getProgress() - p.normal_damage);
+                            enemyFireWeaponType.progressBar.setProgress(enemyFireWeaponType.progressBar.getProgress() - p.normal_damage);
                         });
                     }
 
@@ -213,7 +213,7 @@ public class Player extends ACharacterPlayable {
                     iterator.remove();
 //                    enemy.p.cld.ret.getBoundsInLocal())
                     //DA MODIFICARE
-                } else if(p.cld.ret.intersects( ((AFireWeapon) enemy.getWeapon()).getProjectiles().getFirst().cld.ret.getBoundsInLocal() ) ){    // se colpisce il proiettile del nemico
+                } else if(p.cld.ret.intersects( ((AFireWeapon) enemyFireWeaponType.getWeapon()).getProjectiles().getFirst().cld.ret.getBoundsInLocal() ) ){    // se colpisce il proiettile del nemico
                     Platform.runLater(() -> {
                         root.getChildren().removeAll(p.cld.ret, p.imgView);
                     });

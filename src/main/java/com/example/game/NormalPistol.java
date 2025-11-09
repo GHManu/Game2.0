@@ -7,7 +7,8 @@ import java.util.ArrayList;
 
 
 public class NormalPistol extends AFireWeapon {
-    Projectile p;
+
+
 
     public NormalPistol(){
         this.setProjectiles(new ArrayList<Projectile>());
@@ -52,13 +53,12 @@ public class NormalPistol extends AFireWeapon {
 
     @Override
     public void fight(double deltatime, ACharacterPlayable player, ACharacterEnemy enemy) {
-        this.p.journey(deltatime, p.speed);
+        this.shot(deltatime, this.p, player, enemy);
 
     }
 
     @Override
     void shot(double deltatime, Projectile p, ACharacterPlayable player, ACharacterEnemy enemy) {
-        this.p = p;
-        this.fight(deltatime, player, enemy);
+        this.p.journey(deltatime, p.speed);
     }
 }

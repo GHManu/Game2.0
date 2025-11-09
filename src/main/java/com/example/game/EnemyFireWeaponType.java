@@ -4,7 +4,6 @@ import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import javafx.scene.Node;
 import javafx.scene.control.ProgressBar;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.Rectangle;
@@ -12,15 +11,11 @@ import javafx.scene.shape.Rectangle;
 
 //94 righe
 
-public class Enemy extends ACharacterEnemy {
+public class EnemyFireWeaponType extends ACharacterEnemy {
 
-    public Enemy( AWeapon weapon){
+
+    public EnemyFireWeaponType(AFireWeapon weapon){
         setWeapon(weapon);
-
-        if(weapon instanceof AFireWeapon fireWeapon){
-            setWeapon(fireWeapon);
-        }
-
 
         goingDown = true;
 
@@ -77,7 +72,6 @@ public class Enemy extends ACharacterEnemy {
         }
     }
     protected void shot(double deltatime, ACharacterPlayable plr, Projectile p, ACharacterEnemy enemy){
-        AFireWeapon weapon = (AFireWeapon) enemy.getWeapon();
 
         //Player
         Collider plrcld = plr.cld;
@@ -100,7 +94,9 @@ public class Enemy extends ACharacterEnemy {
         if(enemyprogbar.getProgress() > 0.1 )   movement(deltatime, plr, p, enemy);
 
         if(enemyprogbar.getProgress() > 0.1 && !enemy.attack_flag && plrprogbar.getProgress() > 0.1) {  //finchè è in vita
-            weapon.shot(deltatime, p,plr , enemy);
+
+            ((AFireWeapon)this.getWeapon()).p = p;
+            this.getWeapon().fight(deltatime, plr, enemy);
 
             plrcld.collision_Detected(projret, false);
 

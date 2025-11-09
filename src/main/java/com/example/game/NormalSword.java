@@ -3,7 +3,7 @@ package com.example.game;
 public class NormalSword extends AMeleeWeapon{
 
     @Override
-    void slash(double deltaTime, Player plr) {
+    void slash(double deltaTime, PlayerFireWeaponType plr) {
 
     }
 
