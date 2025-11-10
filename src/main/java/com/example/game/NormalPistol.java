@@ -52,13 +52,13 @@ public class NormalPistol extends AFireWeapon {
 //    }
 
     @Override
-    public void fight(double deltatime, ACharacterPlayable player, ACharacterEnemy enemy) {
-        this.shot(deltatime, this.p, player, enemy);
+    public void fight(double deltatime) {
+        this.shot(deltatime);
 
     }
 
     @Override
-    void shot(double deltatime, Projectile p, ACharacterPlayable player, ACharacterEnemy enemy) {
+    void shot(double deltatime) {
         this.p.journey(deltatime, p.speed);
     }
 }

@@ -97,7 +97,7 @@ public class EnemyFireWeaponType extends ACharacterEnemy {
         if(enemyprogbar.getProgress() > 0.1 && !enemy.attack_flag && plrprogbar.getProgress() > 0.1) {  //finchè è in vita
 
             fireWeapon.p =  fireWeapon.getProjectiles().getFirst();
-            this.getWeapon().fight(deltatime, plr, enemy);
+            this.getWeapon().fight(deltatime);
 
             plrcld.collision_Detected(projret, false);
 

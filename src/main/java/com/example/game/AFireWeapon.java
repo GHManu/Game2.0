@@ -21,5 +21,5 @@ public abstract class AFireWeapon extends AWeapon{
         this.projectiles = projectiles;
     }
 
-    abstract void shot(double deltatime, Projectile p, ACharacterPlayable player, ACharacterEnemy enemy);
+    abstract void shot(double deltatime);
 }

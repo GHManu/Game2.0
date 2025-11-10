@@ -9,7 +9,7 @@ public class NormalSword extends AMeleeWeapon{
 
 
     @Override
-    public void fight(double deltatime, ACharacterPlayable player, ACharacterEnemy enemy) {
+    public void fight(double deltatime) {
 
     }
 }

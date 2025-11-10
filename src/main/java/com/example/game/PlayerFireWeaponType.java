@@ -185,7 +185,7 @@ public class PlayerFireWeaponType extends ACharacterPlayable {
         while(iterator.hasNext()){
             NormalProjectile p = (NormalProjectile) iterator.next();
             fireWeapon.p = p;
-            this.getWeapon().fight(deltaTime, this, enemyFireWeaponType);
+            this.getWeapon().fight(deltaTime);
             //fireWeapon.shot(deltaTime,p,this, enemy);
 
             if(p.isArrived(xDest, yDest)){
