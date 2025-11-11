@@ -10,7 +10,7 @@ import java.util.Iterator;
 
 //circa 108 righe
 
-public class Player extends ACharacterPlayable {
+public class PlayerType1 extends ACharacterPlayable {
     //per lo sprint
     protected double timeSprint;
     protected double timeReCharge;
@@ -22,9 +22,60 @@ public class Player extends ACharacterPlayable {
     boolean attack_flag;
     double xDest, yDest;
 
-    private Enemy enemy;
+    private EnemyType1 enemyType1;
 
-    public Player(AWeapon weapon){
+    public PlayerType1(){
+        x = IScreenSettings.screenWidth/2.0;
+        y = IScreenSettings.screenHeight/2.0;
+
+
+        progressBar = new ProgressBar(1.0);   //1 = 100%, 0.5 = 50%
+        vBox = new VBox(progressBar);
+        vBox.setSpacing(10);
+        vBox.setLayoutX(this.x);
+        vBox.setLayoutY(this.y - 20);
+
+
+        attack_flag = false;
+
+        xDest = 0;
+        yDest = 0;
+
+        timeSprint = 0.0;
+        timeReCharge = 0.0;
+        isSprinting = false;
+
+
+        dir_forward = false;
+        dir_backward = false;
+        dir_rightward = false;
+        dir_leftward = false;
+        dir_forward_oblq_right = false;
+        dir_forward_oblq_left = false;
+        dir_backward_oblq_right = false;
+        dir_backward_oblq_left = false;
+
+        speed = 2.5;
+        strength = 2.46793;
+
+        img = EGameImages.Front_Pg.getImage();
+        imgView = new ImageView(img);
+
+        //imposto la grandezza dell'immagine
+        imgView.setFitWidth(IScreenSettings.sizeTile);
+        imgView.setFitHeight(IScreenSettings.sizeTile);
+
+
+
+        imgView.setLayoutX(x);
+        imgView.setLayoutY(y);
+
+
+        cld = new Collider(x, y, IScreenSettings.sizeTile, IScreenSettings.sizeTile);
+    }
+
+
+    public PlayerType1(AWeapon weapon){
         this.setWeapon(weapon);
         x = IScreenSettings.screenWidth/2.0;
         y = IScreenSettings.screenHeight/2.0;
@@ -131,7 +182,7 @@ public class Player extends ACharacterPlayable {
             if (this.timeSprint <= 0) {
                 this.walk(deltatime);
                 this.isSprinting = false;
-                this.timeReCharge = Player.RECHARGE_TIME_DURATION;  // Inizia la ricarica
+                this.timeReCharge = PlayerType1.RECHARGE_TIME_DURATION;  // Inizia la ricarica
                 System.out.println("Sprint finito! Inizia la ricarica.");
             }
         }
@@ -176,7 +227,7 @@ public class Player extends ACharacterPlayable {
         this.root = root;
     }
 
-    protected void setEnemy(Enemy enemy){this.enemy = enemy;}
+    protected void setEnemy(EnemyType1 enemyType1){this.enemyType1 = enemyType1;}
 
     protected void shot(double deltaTime){
 
@@ -195,14 +246,14 @@ public class Player extends ACharacterPlayable {
 
                 iterator.remove();
 
-            }else if ((enemy != null) && (enemy.cld.ret != null) ) {
-                if ( p.cld.ret.intersects(enemy.cld.ret.getBoundsInLocal())) {  //se colpisce il nemico
-                    if (enemy.health > 1) {  //perchè non so il perchè non va negativo e si ferma a circa 1e-13
-                        enemy.speed += 0.2;
-                        enemy.health -= (enemy.initial_Health * p.normal_damage);
+            }else if ((enemyType1 != null) && (enemyType1.cld.ret != null) ) {
+                if ( p.cld.ret.intersects(enemyType1.cld.ret.getBoundsInLocal())) {  //se colpisce il nemico
+                    if (enemyType1.health > 1) {  //perchè non so il perchè non va negativo e si ferma a circa 1e-13
+                        enemyType1.speed += 0.2;
+                        enemyType1.health -= (enemyType1.initial_Health * p.normal_damage);
                         //System.out.println(enemy.health);
                         Platform.runLater(() -> {
-                            enemy.progressBar.setProgress(enemy.progressBar.getProgress() - p.normal_damage);
+                            enemyType1.progressBar.setProgress(enemyType1.progressBar.getProgress() - p.normal_damage);
                         });
                     }
 
@@ -213,7 +264,7 @@ public class Player extends ACharacterPlayable {
                     iterator.remove();
 //                    enemy.p.cld.ret.getBoundsInLocal())
                     //DA MODIFICARE
-                } else if(p.cld.ret.intersects( ((AFireWeapon) enemy.getWeapon()).getProjectiles().getFirst().cld.ret.getBoundsInLocal() ) ){    // se colpisce il proiettile del nemico
+                } else if(p.cld.ret.intersects( ((AFireWeapon) enemyType1.getWeapon()).getProjectiles().getFirst().cld.ret.getBoundsInLocal() ) ){    // se colpisce il proiettile del nemico
                     Platform.runLater(() -> {
                         root.getChildren().removeAll(p.cld.ret, p.imgView);
                     });

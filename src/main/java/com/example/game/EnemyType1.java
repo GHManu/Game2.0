@@ -11,9 +11,9 @@ import javafx.scene.shape.Rectangle;
 
 //94 righe
 
-public class Enemy extends ACharacterEnemy {
+public class EnemyType1 extends ACharacterEnemy {
 
-    public Enemy(){
+    public EnemyType1(){
         goingDown = true;
 
         this.x = (IScreenSettings.screenWidth/2.0) + 150.0;
@@ -56,7 +56,7 @@ public class Enemy extends ACharacterEnemy {
 
     }
 
-    public Enemy(AWeapon weapon){
+    public EnemyType1(AWeapon weapon){
         setWeapon(weapon);
 
         goingDown = true;
