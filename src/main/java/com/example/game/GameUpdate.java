@@ -12,18 +12,24 @@ import java.util.*;
 
 //implementa l'interfaccia per far si che il processo sia eseguibile
 public class GameUpdate implements Runnable{
-    private PlayerFireWeaponType plr;
+    private Player plr;
     private Thread currentThread;   //per tenere conto del tempo del processo
     private GameScene gameScene;
     private final float FPS = 60; //Frame Per Second
-    private EnemyFireWeaponType enemyFireWeaponType;
+    private Enemy enemy;
+    AWeaponFactory weaponFactory;
+    ICharacterFactory characterFactory;
+    ACharacter enemy1;
 
     private volatile static GameUpdate uniqueInstance;
 
     private GameUpdate(Group root){
         currentThread = new Thread(this);
-        plr = new PlayerFireWeaponType(new NormalPistol());
-        enemyFireWeaponType = new EnemyFireWeaponType(new NormalPistol());
+        weaponFactory = new FireWeaponFactory();
+        characterFactory = new EnemyFactory();
+        enemy1 = characterFactory.createWeapon("fire weapon", "pistol");
+        plr = new Player(weaponFactory.createWeapon("pistol"));
+        enemy = new Enemy(weaponFactory.createWeapon("pistol"));
     }
 
     public static GameUpdate getInstance(Group root){
@@ -42,9 +48,9 @@ public class GameUpdate implements Runnable{
 
         root.getChildren().addAll(plr.vBox,plr.cld.ret, plr.imgView); //per far si che l'immagine stia sopra al rettangolo
         this.gameScene = gameScene;
-        root.getChildren().addAll(enemyFireWeaponType.vBox, enemyFireWeaponType.cld.ret, enemyFireWeaponType.imgView);
+        root.getChildren().addAll(enemy.vBox, enemy.cld.ret, enemy.imgView);
         currentThread.start(); //chiama implicitamente run, eseguo il processo
-        plr.setEnemy(enemyFireWeaponType);
+        plr.setEnemy(enemy);
 
     }
 
@@ -72,16 +78,16 @@ public class GameUpdate implements Runnable{
 
                 if(plr.progressBar.getProgress() > 0.1) gameMethodMovementHandler(deltatime, this.gameScene, keysPressed);
                 if(plr.progressBar.getProgress() > 5.551115123125783E-17) gameMethodAttackHandler(deltatime);
-                if(enemyFireWeaponType != null && enemyFireWeaponType.progressBar.getProgress() <= 0.1) {   kill_Enemy(); }//perchè è 1.1368683772161603E-13
+                if(enemy != null && enemy.progressBar.getProgress() <= 0.1) {   kill_Enemy(); }//perchè è 1.1368683772161603E-13
 
                 if(plr != null && plr.progressBar.getProgress() <= 0.1)    player_Died();
 
-                if (enemyFireWeaponType != null) {
+                if (enemy != null) {
 
-                    enemyFireWeaponType.attack(deltatime, plr, enemyFireWeaponType);
-                    if(!enemyFireWeaponType.attack_flag) {
+                    enemy.attack(deltatime, plr, enemy);
+                    if(!enemy.attack_flag) {
                         //posso farlo poichè io so che metto una pistola!
-                        enemyFireWeaponType.shot(deltatime, plr , enemyFireWeaponType);
+                        enemy.shot(deltatime, plr , enemy);
                     }
 
                 }
@@ -92,18 +98,18 @@ public class GameUpdate implements Runnable{
     }
 
     private void kill_Enemy(){
-        if(this.enemyFireWeaponType != null && this.enemyFireWeaponType.cld.ret != null) {
+        if(this.enemy != null && this.enemy.cld.ret != null) {
             Platform.runLater(() -> {
-                plr.root.getChildren().remove(enemyFireWeaponType.vBox);
-                enemyFireWeaponType.vBox = null;
+                plr.root.getChildren().remove(enemy.vBox);
+                enemy.vBox = null;
             });
             Platform.runLater(() -> {
-                plr.root.getChildren().remove(enemyFireWeaponType.cld.ret);
-                enemyFireWeaponType.cld.ret = null;
+                plr.root.getChildren().remove(enemy.cld.ret);
+                enemy.cld.ret = null;
             });
            Platform.runLater(() -> {
-                plr.root.getChildren().remove(enemyFireWeaponType.imgView);
-                enemyFireWeaponType.imgView = null;
+                plr.root.getChildren().remove(enemy.imgView);
+                enemy.imgView = null;
             });
            System.gc(); //richiama il garbage collector
         }
@@ -131,7 +137,7 @@ public class GameUpdate implements Runnable{
 
     private void gameMethodMovementHandler(double deltaTime, GameScene gameScene, Set<KeyCode> keysPressed) {
 
-            if(enemyFireWeaponType != null && plr != null && plr.cld != null && enemyFireWeaponType.cld != null)   plr.cld.collision_Detected(enemyFireWeaponType.cld.ret, true);
+            if(enemy != null && plr != null && plr.cld != null && enemy.cld != null)   plr.cld.collision_Detected(enemy.cld.ret, true);
             //gestisco l'evento, la penultima condizione degli if è per non far andare fuori mappa, l'ultima condizione è per la collisione
             if ( (keysPressed.contains(plr.forward) || keysPressed.contains(plr.forwardArrow)) && plr.y >0
                     ) {
