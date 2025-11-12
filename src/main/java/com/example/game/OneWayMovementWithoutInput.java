@@ -2,7 +2,7 @@ package com.example.game;
 
 import javafx.application.Platform;
 
-public class OneWayMovement implements IMovementStrategy{
+public class OneWayMovementWithoutInput implements IMovementStrategyWithoutInput {
     @Override
     public void movement(double deltatime, ACharacterPlayable target, ACharacter enemy) {
         double maxDestY = IScreenSettings.screenHeight - IScreenSettings.sizeTile;

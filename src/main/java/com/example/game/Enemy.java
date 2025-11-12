@@ -100,14 +100,15 @@ public class Enemy extends ACharacterEnemy {
         attack_flag = true;
 
     }
+    @Override
     protected void select_attack(double deltatime, ACharacterPlayable plr, ACharacterEnemy enemy){
         if(this.getWeapon() instanceof AFireWeapon fireWeapon){
             this.initialize_attack(deltatime, plr, enemy);
-            this.shot(deltatime,plr, enemy);
+            this.shot(deltatime,plr,enemy);
         }
     }
 
-    public void initialize_attack(double deltatime, ACharacterPlayable plr, ACharacterEnemy enemy){
+    protected void initialize_attack(double deltatime, ACharacterPlayable plr, ACharacterEnemy enemy){
         if(enemy.attack_flag && plr.progressBar.getProgress() > 0.1 && enemy.progressBar.getProgress() > 0.1) {
 
             this.attack_flag = false;
@@ -144,7 +145,7 @@ public class Enemy extends ACharacterEnemy {
         Rectangle projret = projcld.ret;
 
 
-        if(enemyprogbar.getProgress() > 0.1 )    this.getMovementStrategy().movement(deltatime, plr, enemy);
+        if(enemyprogbar.getProgress() > 0.1 && plrprogbar.getProgress() > 0.1)    this.getMovementStrategyWithoutInput().movement(deltatime, plr, enemy);
 
         if(enemyprogbar.getProgress() > 0.1 && !enemy.attack_flag && plrprogbar.getProgress() > 0.1) {  //finchè è in vita
 

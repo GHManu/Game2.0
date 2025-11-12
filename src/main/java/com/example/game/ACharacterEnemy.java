@@ -9,10 +9,11 @@ public abstract class ACharacterEnemy extends ACharacter{
 
 
 
-
     public ACharacterEnemy(){
 
     }
+
+    abstract void select_attack(double deltatime, ACharacterPlayable plr, ACharacterEnemy enemy);
 
 
 }

@@ -52,7 +52,8 @@ public class GameUpdate implements Runnable{
         root.getChildren().addAll(enemy.vBox, enemy.cld.ret, enemy.imgView);
         currentThread.start(); //chiama implicitamente run, eseguo il processo
         plr.setEnemy(enemy);
-        enemy.setMovementStrategy(new OneWayMovement());
+        enemy.setMovementStrategyWithoutInput(new OneWayMovementWithoutInput());
+        plr.setMovementStrategyWithInput(new EightWaySmoothlyMovementWithoutInput());
     }
 
     @Override
@@ -77,7 +78,7 @@ public class GameUpdate implements Runnable{
 
             if(deltatime >= 1){
 
-                if(plr.progressBar.getProgress() > 0.1) gameMethodMovementHandler(deltatime, this.gameScene, keysPressed);
+                if(plr.progressBar.getProgress() > 0.1) gameMethodMovementHandler(deltatime, keysPressed);
                 if(plr.progressBar.getProgress() > 5.551115123125783E-17) gameMethodAttackHandler(deltatime);
                 if(enemy != null && enemy.progressBar.getProgress() <= 0.1) {   kill_Enemy(); }//perchè è 1.1368683772161603E-13
 
@@ -130,58 +131,16 @@ public class GameUpdate implements Runnable{
     }
 
 
-    private void gameMethodMovementHandler(double deltaTime, GameScene gameScene, Set<KeyCode> keysPressed) {
+    private void gameMethodMovementHandler(double deltaTime, Set<KeyCode> keysPressed) {
 
             if(enemy != null && plr != null && plr.cld != null && enemy.cld != null)   plr.cld.collision_Detected(enemy.cld.ret, true);
             //gestisco l'evento, la penultima condizione degli if è per non far andare fuori mappa, l'ultima condizione è per la collisione
-            if ( (keysPressed.contains(plr.forward) || keysPressed.contains(plr.forwardArrow)) && plr.y >0
-                    ) {
-                plr.dir_forward = true;
 
-                plr.changeImage(EGameImages.Back_Pg.getImage());
-                if(plr.cld.fr)   plr.moveUp(deltaTime);
-            }
-            else{
-                plr.dir_forward = false;
-            }
-
-            if ( (keysPressed.contains(plr.backward) || keysPressed.contains(plr.backwardArrow)) && plr.y < (IScreenSettings.screenHeight- IScreenSettings.sizeTile)
-                     ) {
-                plr.dir_backward = true;
-
-                plr.changeImage(EGameImages.Front_Pg.getImage());
-                if(plr.cld.br) plr.moveDown(deltaTime);
-            }
-            else{
-                plr.dir_backward = false;
-            }
-
-            if ( (keysPressed.contains(plr.leftward) || keysPressed.contains(plr.leftwardArrow)) && plr.x > 0
-                    ) {
-                plr.dir_leftward = true;
-
-
-                plr.changeImage(EGameImages.Left_Side_Pg.getImage());
-                if(plr.cld.dx) plr.moveLeft(deltaTime);
-            }
-            else{
-                plr.dir_leftward = false;
-            }
-
-            if ( (keysPressed.contains(plr.rightward) || keysPressed.contains(plr.rightwardArrow)) && plr.x < (IScreenSettings.screenWidth- IScreenSettings.sizeTile)
-                    ) {
-                plr.dir_rightward = true;
-
-                plr.changeImage(EGameImages.Right_Side_Pg.getImage());
-                if(plr.cld.sx)    plr.moveRight(deltaTime);
-            }
-            else{
-                plr.dir_rightward = false;
-            }
+            assert plr != null;
+            plr.getMovementStrategyWithInput().movement(deltaTime, plr, keysPressed);
 
             // Sprint
-            // Sprint attivato quando il tasto è tenuto premuto
-            if (keysPressed.contains(plr.sprint)) {
+            if (keysPressed.contains(AInputCommands.sprint)) {
                 plr.sprintStatus(deltaTime);  // Attiva o continua lo sprint
                 plr.sprint(deltaTime);
             } else {
@@ -210,7 +169,7 @@ public class GameUpdate implements Runnable{
              }
 
         if(plr.attack_flag && plr.progressBar.getProgress() > 0.1){
-            plr.shot(deltatime);
+            plr.select_attack(deltatime, plr, enemy);
         }
 
     }

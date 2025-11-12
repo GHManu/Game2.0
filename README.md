@@ -19,7 +19,9 @@
 
 - Per gestire le immagini ho creato un Enum con dentro le immagini e ho attuato un po' la strategia del Singleton (Costruttore privato e metodo pubblico) e ho modificato anche il metodo `changeImage()` 
 - Applico il Singleton al Game Update, con la tecnica del doppio check
-- Applico il FactoryMethod/AbstractFactoryMethod per la creazione di armi e personaggi
+- Applico il FactoryMethod/AbstractFactoryMethod per la creazione di armi
+- Dato che voglio fare in modo che ogni personaggio possa avere più armi e quindi avere più attacchi, creo solo un Enemy e un Player, che però modificano
+il movimento e l'attacco in base al movimento e all'arma e cerco di implementare le armi e il movimento affinchè siano il più generiche possibile per poterle usare anche per il player
 
 ### UML (Class Diagram)
 ```mermaid

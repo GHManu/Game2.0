@@ -25,7 +25,8 @@ public abstract class ACharacter extends AEntity{
     protected boolean dir_forward_oblq_left;
     protected boolean dir_backward_oblq_right;
     protected boolean dir_backward_oblq_left;
-    private IMovementStrategy movementStrategy;
+    private IMovementStrategyWithoutInput movementStrategyWithoutInput;
+    private IMovementStrategyWithInput movementStrategyWithInput;
 
     //per adesso per l'enemy
     protected boolean goingDown;
@@ -44,12 +45,20 @@ public abstract class ACharacter extends AEntity{
     }
 
 
-    public IMovementStrategy getMovementStrategy() {
-        return movementStrategy;
+    public IMovementStrategyWithoutInput getMovementStrategyWithoutInput() {
+        return movementStrategyWithoutInput;
     }
 
-    public void setMovementStrategy(IMovementStrategy movementStrategy) {
-        this.movementStrategy = movementStrategy;
+    public void setMovementStrategyWithoutInput(IMovementStrategyWithoutInput movementStrategyWithoutInput) {
+        this.movementStrategyWithoutInput = movementStrategyWithoutInput;
+    }
+
+    public IMovementStrategyWithInput getMovementStrategyWithInput() {
+        return movementStrategyWithInput;
+    }
+
+    public void setMovementStrategyWithInput(IMovementStrategyWithInput movementStrategyWithInput) {
+        this.movementStrategyWithInput = movementStrategyWithInput;
     }
 
     protected final void changeImage(Image image){

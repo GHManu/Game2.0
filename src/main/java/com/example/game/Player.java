@@ -9,7 +9,6 @@ import javafx.scene.layout.VBox;
 import java.util.Iterator;
 
 //circa 108 righe
-
 public class Player extends ACharacterPlayable {
     //per lo sprint
     protected double timeSprint;
@@ -126,39 +125,6 @@ public class Player extends ACharacterPlayable {
         cld = new Collider(x, y, IScreenSettings.sizeTile, IScreenSettings.sizeTile);
     }
 
-
-    //implementazione metodi movimento
-    @Override
-    protected void moveUp(double deltaTime) {
-        y -= speed * deltaTime ;
-        //playerView.setY(y);
-        Platform.runLater(() -> { imgView.setLayoutY(y); cld.ret.setY(y);   vBox.setLayoutY(y-20);});
-    }
-
-    @Override
-    protected void moveDown(double deltaTime) {
-        y += speed * deltaTime ;
-       // playerView.setY(y);
-        Platform.runLater(() -> {
-            imgView.setLayoutY(y); cld.ret.setY(y); vBox.setLayoutY(y-20);});
-    }
-
-    @Override
-    protected void moveLeft(double deltaTime) {
-        x -= speed * deltaTime ;
-        //playerView.setX(x);
-        Platform.runLater(() -> {
-            imgView.setLayoutX(x); cld.ret.setX(x); vBox.setLayoutX(x);});
-    }
-
-    @Override
-    protected void moveRight(double deltaTime) {
-        x += speed * deltaTime;
-        //playerView.setX(x);
-        Platform.runLater(() -> {
-            imgView.setLayoutX(x); cld.ret.setX(x); vBox.setLayoutX(x);});
-    }
-
     @Override
     protected void sprintStatus(double deltatime){
         if (!isSprinting && this.timeReCharge <= 0) {
@@ -203,6 +169,13 @@ public class Player extends ACharacterPlayable {
     }
 
     @Override
+    protected void select_attack(double deltatime, ACharacterPlayable plr, ACharacterEnemy enemy) {
+        if(this.getWeapon() instanceof AFireWeapon fireWeapon) {
+            this.shot(deltatime);
+        }
+    }
+
+
     protected void normal_attack(double deltatime) {
         if(this.progressBar.getProgress() > 5.551115123125783E-17) {
             AFireWeapon fireWeapon = (AFireWeapon) this.getWeapon();
@@ -214,7 +187,6 @@ public class Player extends ACharacterPlayable {
             Platform.runLater(() -> {
                 root.getChildren().addAll(p.cld.ret, p.imgView);
             });
-
         }
     }
 
@@ -229,7 +201,7 @@ public class Player extends ACharacterPlayable {
 
     protected void setEnemy(Enemy enemy){this.enemy = enemy;}
 
-    protected void shot(double deltaTime){
+    private void shot(double deltaTime){
 
         AFireWeapon fireWeapon = (AFireWeapon) this.getWeapon();
         Iterator<Projectile> iterator = fireWeapon.getProjectiles().iterator();
