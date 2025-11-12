@@ -25,6 +25,11 @@ public abstract class ACharacter extends AEntity{
     protected boolean dir_forward_oblq_left;
     protected boolean dir_backward_oblq_right;
     protected boolean dir_backward_oblq_left;
+    private IMovementStrategy movementStrategy;
+
+    //per adesso per l'enemy
+    protected boolean goingDown;
+
 
     private AWeapon weapon;
 
@@ -38,6 +43,14 @@ public abstract class ACharacter extends AEntity{
         this.weapon = weapon;
     }
 
+
+    public IMovementStrategy getMovementStrategy() {
+        return movementStrategy;
+    }
+
+    public void setMovementStrategy(IMovementStrategy movementStrategy) {
+        this.movementStrategy = movementStrategy;
+    }
 
     protected final void changeImage(Image image){
         for(EGameImages ea : EGameImages.values()){

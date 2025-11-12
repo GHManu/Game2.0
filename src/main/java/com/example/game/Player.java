@@ -10,7 +10,7 @@ import java.util.Iterator;
 
 //circa 108 righe
 
-public class PlayerType1 extends ACharacterPlayable {
+public class Player extends ACharacterPlayable {
     //per lo sprint
     protected double timeSprint;
     protected double timeReCharge;
@@ -22,9 +22,9 @@ public class PlayerType1 extends ACharacterPlayable {
     boolean attack_flag;
     double xDest, yDest;
 
-    private EnemyType1 enemyType1;
+    private Enemy enemy;
 
-    public PlayerType1(){
+    public Player(){
         x = IScreenSettings.screenWidth/2.0;
         y = IScreenSettings.screenHeight/2.0;
 
@@ -75,7 +75,7 @@ public class PlayerType1 extends ACharacterPlayable {
     }
 
 
-    public PlayerType1(AWeapon weapon){
+    public Player(AWeapon weapon){
         this.setWeapon(weapon);
         x = IScreenSettings.screenWidth/2.0;
         y = IScreenSettings.screenHeight/2.0;
@@ -182,7 +182,7 @@ public class PlayerType1 extends ACharacterPlayable {
             if (this.timeSprint <= 0) {
                 this.walk(deltatime);
                 this.isSprinting = false;
-                this.timeReCharge = PlayerType1.RECHARGE_TIME_DURATION;  // Inizia la ricarica
+                this.timeReCharge = Player.RECHARGE_TIME_DURATION;  // Inizia la ricarica
                 System.out.println("Sprint finito! Inizia la ricarica.");
             }
         }
@@ -227,7 +227,7 @@ public class PlayerType1 extends ACharacterPlayable {
         this.root = root;
     }
 
-    protected void setEnemy(EnemyType1 enemyType1){this.enemyType1 = enemyType1;}
+    protected void setEnemy(Enemy enemy){this.enemy = enemy;}
 
     protected void shot(double deltaTime){
 
@@ -246,14 +246,14 @@ public class PlayerType1 extends ACharacterPlayable {
 
                 iterator.remove();
 
-            }else if ((enemyType1 != null) && (enemyType1.cld.ret != null) ) {
-                if ( p.cld.ret.intersects(enemyType1.cld.ret.getBoundsInLocal())) {  //se colpisce il nemico
-                    if (enemyType1.health > 1) {  //perchè non so il perchè non va negativo e si ferma a circa 1e-13
-                        enemyType1.speed += 0.2;
-                        enemyType1.health -= (enemyType1.initial_Health * p.normal_damage);
+            }else if ((enemy != null) && (enemy.cld.ret != null) ) {
+                if ( p.cld.ret.intersects(enemy.cld.ret.getBoundsInLocal())) {  //se colpisce il nemico
+                    if (enemy.health > 1) {  //perchè non so il perchè non va negativo e si ferma a circa 1e-13
+                        enemy.speed += 0.2;
+                        enemy.health -= (enemy.initial_Health * p.normal_damage);
                         //System.out.println(enemy.health);
                         Platform.runLater(() -> {
-                            enemyType1.progressBar.setProgress(enemyType1.progressBar.getProgress() - p.normal_damage);
+                            enemy.progressBar.setProgress(enemy.progressBar.getProgress() - p.normal_damage);
                         });
                     }
 
@@ -264,7 +264,7 @@ public class PlayerType1 extends ACharacterPlayable {
                     iterator.remove();
 //                    enemy.p.cld.ret.getBoundsInLocal())
                     //DA MODIFICARE
-                } else if(p.cld.ret.intersects( ((AFireWeapon) enemyType1.getWeapon()).getProjectiles().getFirst().cld.ret.getBoundsInLocal() ) ){    // se colpisce il proiettile del nemico
+                } else if(p.cld.ret.intersects( ((AFireWeapon) enemy.getWeapon()).getProjectiles().getFirst().cld.ret.getBoundsInLocal() ) ){    // se colpisce il proiettile del nemico
                     Platform.runLater(() -> {
                         root.getChildren().removeAll(p.cld.ret, p.imgView);
                     });

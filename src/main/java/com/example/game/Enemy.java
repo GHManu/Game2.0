@@ -11,9 +11,9 @@ import javafx.scene.shape.Rectangle;
 
 //94 righe
 
-public class EnemyType1 extends ACharacterEnemy {
+public class Enemy extends ACharacterEnemy {
 
-    public EnemyType1(){
+    public Enemy(){
         goingDown = true;
 
         this.x = (IScreenSettings.screenWidth/2.0) + 150.0;
@@ -56,7 +56,7 @@ public class EnemyType1 extends ACharacterEnemy {
 
     }
 
-    public EnemyType1(AWeapon weapon){
+    public Enemy(AWeapon weapon){
         setWeapon(weapon);
 
         goingDown = true;
@@ -100,19 +100,29 @@ public class EnemyType1 extends ACharacterEnemy {
         attack_flag = true;
 
     }
+    protected void select_attack(double deltatime, ACharacterPlayable plr, ACharacterEnemy enemy){
+        if(this.getWeapon() instanceof AFireWeapon fireWeapon){
+            this.initialize_attack(deltatime, plr, enemy);
+            this.shot(deltatime,plr, enemy);
+        }
+    }
 
-    public void attack(double deltatime, ACharacterPlayable plr, ACharacterEnemy enemy){
+    public void initialize_attack(double deltatime, ACharacterPlayable plr, ACharacterEnemy enemy){
         if(enemy.attack_flag && plr.progressBar.getProgress() > 0.1 && enemy.progressBar.getProgress() > 0.1) {
 
             this.attack_flag = false;
 
-            Projectile p = new NormalProjectile(EGameImages.ProvaAttaccoEnemy.getImage(), enemy.x, enemy.y, plr.x, plr.y);
-            Platform.runLater(() -> {
-                plr.root.getChildren().addAll(p.cld.ret, p.imgView);
-            });
-            ((AFireWeapon) this.getWeapon()).getProjectiles().set(0, p);
+            if(this.getWeapon() instanceof AFireWeapon){
+                Projectile p = new NormalProjectile(EGameImages.ProvaAttaccoEnemy.getImage(), enemy.x, enemy.y, plr.x, plr.y);
+                Platform.runLater(() -> {
+                    plr.root.getChildren().addAll(p.cld.ret, p.imgView);
+                });
+                ((AFireWeapon) this.getWeapon()).getProjectiles().set(0, p);
+            }
         }
     }
+
+
     protected void shot(double deltatime, ACharacterPlayable plr, ACharacterEnemy enemy){
         AFireWeapon fireWeapon = ((AFireWeapon)this.getWeapon());
 
@@ -134,7 +144,7 @@ public class EnemyType1 extends ACharacterEnemy {
         Rectangle projret = projcld.ret;
 
 
-        if(enemyprogbar.getProgress() > 0.1 )   movement(deltatime, plr, fireWeapon.p, enemy);
+        if(enemyprogbar.getProgress() > 0.1 )    this.getMovementStrategy().movement(deltatime, plr, enemy);
 
         if(enemyprogbar.getProgress() > 0.1 && !enemy.attack_flag && plrprogbar.getProgress() > 0.1) {  //finchè è in vita
 
@@ -193,40 +203,6 @@ public class EnemyType1 extends ACharacterEnemy {
             ret.setLayoutX(ret.getLayoutX() - (speed * enemyrebound));
             progbar.setTranslateX(progbar.getTranslateX() + (speed * enemyrebound* 0.4));
             vBox.setTranslateX(vBox.getTranslateX() + (speed * enemyrebound* 0.4));
-        });
-    }
-
-
-    void movement(double deltaTime, ACharacterPlayable plr, Projectile p, ACharacterEnemy enemy) {
-
-        double maxDestY = IScreenSettings.screenHeight - IScreenSettings.sizeTile;
-        double minDestY = 0; // oppure un valore di partenza
-
-        if (enemy.goingDown) {
-            Platform.runLater(() -> {
-                enemy.changeImage(EGameImages.Front_Enemy_c.getImage());
-            });
-            enemy.y += enemy.speed * deltaTime;
-            if (enemy.y >= maxDestY) {
-                enemy.y = maxDestY;
-                enemy.goingDown = false;
-            }
-        } else {
-            Platform.runLater(() -> {
-                enemy.changeImage(EGameImages.Back_Enemy_c.getImage());
-            });
-            enemy.y -= enemy.speed * deltaTime;
-            if (enemy.y <= minDestY) {
-                enemy.y = minDestY;
-                enemy.goingDown = true;
-            }
-        }
-
-        double finalY = enemy.y;
-        Platform.runLater(() -> {
-            enemy.imgView.setLayoutY(finalY);
-            enemy.cld.ret.setY(finalY);
-            enemy.vBox.setLayoutY(finalY - 20);
         });
     }
 
