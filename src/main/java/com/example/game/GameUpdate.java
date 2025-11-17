@@ -19,8 +19,8 @@ public class GameUpdate implements Runnable{
     private Enemy enemy;
 
     AWeaponFactory weaponFactory;
-    ACharacterEnemy enemyType2;
-    ACharacterPlayable playerType1;
+//    ACharacterEnemy enemyType2;
+//    ACharacterPlayable playerType1;
 
     private volatile static GameUpdate uniqueInstance;
 
@@ -150,11 +150,6 @@ public class GameUpdate implements Runnable{
     }
 
     private void gameMethodAttackHandler(double deltatime){
-
-//             if(mouseButtons.contains(MouseButton.PRIMARY) && !plr.attack_flag){
-//                 plr.normal_attack(deltatime);
-//
-//             }
 
              if(plr.progressBar.getProgress() > 5.551115123125783E-17) {
                  gameScene.setOnMouseClicked(new EventHandler<MouseEvent>() {
