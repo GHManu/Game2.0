@@ -21,7 +21,7 @@ public class Player extends ACharacterPlayable {
     boolean attack_flag;
     double xDest, yDest;
 
-    private Enemy enemy;
+    private ACharacterEnemy enemy;
 
     public Player(){
         x = IScreenSettings.screenWidth/2.0;
@@ -195,11 +195,8 @@ public class Player extends ACharacterPlayable {
         this.yDest = yDest;
     }
 
-    protected void setRoot(Group root){
-        this.root = root;
-    }
 
-    protected void setEnemy(Enemy enemy){this.enemy = enemy;}
+    protected void setEnemy(ACharacterEnemy enemy){this.enemy = enemy;}
 
     private void shot(double deltaTime){
 

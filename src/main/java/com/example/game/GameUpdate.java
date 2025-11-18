@@ -13,11 +13,11 @@ import java.util.*;
 //implementa l'interfaccia per far si che il processo sia eseguibile
 public class GameUpdate implements Runnable{
     private Player plr;
-    private Thread currentThread;   //per tenere conto del tempo del processo
+    private Thread currentThread;
     private GameScene gameScene;
-    private final float FPS = 60; //Frame Per Second
-    private Enemy enemy;
-
+    private final float FPS = 60;
+    private ACharacterEnemy enemy;
+    ACharacterEnemyFactory characterEnemyFactory;
     AWeaponFactory weaponFactory;
 //    ACharacterEnemy enemyType2;
 //    ACharacterPlayable playerType1;
@@ -30,7 +30,11 @@ public class GameUpdate implements Runnable{
 
 
         plr = new Player(weaponFactory.createWeapon("pistol"));
-        enemy = new Enemy(weaponFactory.createWeapon("pistol"));
+
+
+        characterEnemyFactory = new EnemyFactory();
+        enemy = characterEnemyFactory.createEnemy("fireweapon", "pistol", "withoutinput", "oneway");
+
     }
 
     public static GameUpdate getInstance(Group root){
@@ -43,16 +47,15 @@ public class GameUpdate implements Runnable{
     }
 
 
-    //inizializzare le varie cose
+
     public void startGameLoop(GameScene gameScene, Group root){
         plr.setRoot(root);
 
         root.getChildren().addAll(plr.vBox,plr.cld.ret, plr.imgView); //per far si che l'immagine stia sopra al rettangolo
         this.gameScene = gameScene;
         root.getChildren().addAll(enemy.vBox, enemy.cld.ret, enemy.imgView);
-        currentThread.start(); //chiama implicitamente run, eseguo il processo
+        currentThread.start();
         plr.setEnemy(enemy);
-        enemy.setMovementStrategyWithoutInput(new OneWayMovementWithoutInput());
         plr.setMovementStrategyWithInput(new EightWaySmoothlyMovementWithoutInput());
     }
 
