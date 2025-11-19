@@ -102,7 +102,7 @@ public class Enemy extends ACharacterEnemy {
     }
     @Override
     protected void select_attack(double deltatime, ACharacterPlayable plr, ACharacterEnemy enemy){
-        if(this.getWeapon() instanceof AFireWeapon fireWeapon){
+        if(this.getWeapon() instanceof AFireWeapon){
             this.initialize_attack(deltatime, plr, enemy);
             this.shot(deltatime,plr,enemy);
         }
@@ -118,7 +118,7 @@ public class Enemy extends ACharacterEnemy {
                 Platform.runLater(() -> {
                     plr.root.getChildren().addAll(p.cld.ret, p.imgView);
                 });
-                ((AFireWeapon) this.getWeapon()).getProjectiles().set(0, p);
+                ((AFireWeapon) this.getWeapon()).getMag().set(0, p);
             }
         }
     }
@@ -149,7 +149,7 @@ public class Enemy extends ACharacterEnemy {
 
         if(enemyprogbar.getProgress() > 0.1 && !enemy.attack_flag && plrprogbar.getProgress() > 0.1) {  //finchè è in vita
 
-            fireWeapon.p =  fireWeapon.getProjectiles().getFirst();
+            fireWeapon.p =  fireWeapon.getMag().getFirst();
             this.getWeapon().fight(deltatime);
 
             plrcld.collision_Detected(projret, false);

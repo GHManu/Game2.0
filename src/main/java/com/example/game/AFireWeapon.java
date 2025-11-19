@@ -5,7 +5,7 @@ import java.util.List;
 
 public abstract class AFireWeapon extends AWeapon{
     Projectile p;
-    List<Projectile> projectiles;
+    List<Projectile> mag;
 
 
     public AFireWeapon(){
@@ -13,12 +13,12 @@ public abstract class AFireWeapon extends AWeapon{
 
     }
 
-    public List<Projectile> getProjectiles() {
-        return projectiles;
+    public List<Projectile> getMag() {
+        return mag;
     }
 
-    public void setProjectiles(List<Projectile> projectiles) {
-        this.projectiles = projectiles;
+    public void setMag(List<Projectile> mag) {
+        this.mag = mag;
     }
 
     abstract void shot(double deltatime);

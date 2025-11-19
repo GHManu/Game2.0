@@ -1,7 +1,6 @@
 package com.example.game;
 
 import javafx.application.Platform;
-import javafx.scene.Group;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
@@ -183,7 +182,7 @@ public class Player extends ACharacterPlayable {
 
             this.attack_flag = true;
 
-            fireWeapon.getProjectiles().add(p);
+            fireWeapon.getMag().add(p);
             Platform.runLater(() -> {
                 root.getChildren().addAll(p.cld.ret, p.imgView);
             });
@@ -201,9 +200,10 @@ public class Player extends ACharacterPlayable {
     private void shot(double deltaTime){
 
         AFireWeapon fireWeapon = (AFireWeapon) this.getWeapon();
-        Iterator<Projectile> iterator = fireWeapon.getProjectiles().iterator();
-        while(iterator.hasNext()){
-            NormalProjectile p = (NormalProjectile) iterator.next();
+        ProjectileIterator projectileIterator = new ProjectileIterator(fireWeapon.getMag());
+        //Iterator<Projectile> iterator = fireWeapon.getMag().iterator();
+        while(projectileIterator.hasNext()){
+            NormalProjectile p = (NormalProjectile) projectileIterator.next();
             fireWeapon.p = p;
             this.getWeapon().fight(deltaTime);
             //fireWeapon.shot(deltaTime,p,this, enemy);
@@ -213,7 +213,7 @@ public class Player extends ACharacterPlayable {
                     root.getChildren().removeAll(p.cld.ret, p.imgView);
                 });
 
-                iterator.remove();
+                projectileIterator.remove();
 
             }else if ((enemy != null) && (enemy.cld.ret != null) ) {
                 if ( p.cld.ret.intersects(enemy.cld.ret.getBoundsInLocal())) {  //se colpisce il nemico
@@ -230,20 +230,20 @@ public class Player extends ACharacterPlayable {
                         root.getChildren().removeAll(p.cld.ret, p.imgView);
                     });
 
-                    iterator.remove();
+                    projectileIterator.remove();
 //                    enemy.p.cld.ret.getBoundsInLocal())
                     //DA MODIFICARE
-                } else if(p.cld.ret.intersects( ((AFireWeapon) enemy.getWeapon()).getProjectiles().getFirst().cld.ret.getBoundsInLocal() ) ){    // se colpisce il proiettile del nemico
+                } else if(p.cld.ret.intersects( ((AFireWeapon) enemy.getWeapon()).getMag().getFirst().cld.ret.getBoundsInLocal() ) ){    // se colpisce il proiettile del nemico
                     Platform.runLater(() -> {
                         root.getChildren().removeAll(p.cld.ret, p.imgView);
                     });
 
-                    iterator.remove();
+                    projectileIterator.remove();
                 }
             }
         }
 
-        if(fireWeapon.getProjectiles().isEmpty())   attack_flag = false;    //così ne posso sparare di più
+        if(fireWeapon.getMag().isEmpty())   attack_flag = false;    //così ne posso sparare di più
 
 
     }
