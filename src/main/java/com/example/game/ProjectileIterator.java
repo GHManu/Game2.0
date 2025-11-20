@@ -3,30 +3,37 @@ package com.example.game;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 public class ProjectileIterator implements Iterator<Projectile> {
-    List<Projectile> projectilesList;
-    int position = 0;
+    private final List<Projectile> projectilesList;
+    private int position = 0, lastReturnedIndex = -1;
 
-    public ProjectileIterator(List<Projectile> original_projectiles_list){
-        this.projectilesList = original_projectiles_list;
+    public ProjectileIterator(List<Projectile> projectilesList) {
+        this.projectilesList = projectilesList;
     }
 
     @Override
     public boolean hasNext() {
-        return position != this.projectilesList.size();
+        return position < projectilesList.size();
     }
 
     @Override
     public Projectile next() {
-        Projectile projectile = projectilesList.get(position);
-        position += 1;
-        return projectile;
+        if (!hasNext()) {
+            throw new NoSuchElementException("No more projectiles");
+        }
+        lastReturnedIndex = position; // salva l’indice dell’elemento che stiamo restituendo
+        return projectilesList.get(position++);
     }
 
     @Override
     public void remove() {
-        if(!projectilesList.isEmpty() && projectilesList.get(position) != null)
-            projectilesList.set(position, null);
+        if (lastReturnedIndex < 0) {
+            throw new IllegalStateException("next() must be called before remove()");
+        }
+        projectilesList.remove(lastReturnedIndex);
+        position = lastReturnedIndex;   // riportiamo position al punto giusto
+        lastReturnedIndex = -1;         // reset per evitare doppie remove
     }
 }
