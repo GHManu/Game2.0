@@ -11,7 +11,7 @@ public abstract class ACharacter extends AEntity{
     //caratteristiche
     protected ProgressBar progressBar;
     protected VBox vBox;
-    protected final double initial_Health = 2450.431;
+    protected double initial_Health = 2450.431;
     protected double health;
     protected double strength;
     protected double speed;

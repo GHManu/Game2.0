@@ -1,6 +1,6 @@
 package com.example.game;
 
-
 public interface IFightStrategy {
-    void fight(double deltatime);
+    void attack(double deltatime, ACharacterEnemy subject, ACharacterPlayable target);
 }
+
