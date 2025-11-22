@@ -8,31 +8,35 @@ public class OneWayMovementWithoutInput implements IMovementStrategyWithoutInput
         double maxDestY = IScreenSettings.screenHeight - IScreenSettings.sizeTile;
         double minDestY = 0; // oppure un valore di partenza
 
-        if (enemy.goingDown) {
+        if (enemy.isGoingDown()) {
             Platform.runLater(() -> {
                 enemy.changeImage(EGameImages.Front_Enemy_c.getImage());
             });
-            enemy.y += enemy.speed * deltatime;
-            if (enemy.y >= maxDestY) {
-                enemy.y = maxDestY;
-                enemy.goingDown = false;
+            double y = enemy.getY();
+            y += enemy.getSpeed() * deltatime;
+            enemy.setY(y);
+            if (enemy.getY() >= maxDestY) {
+                enemy.setY(maxDestY);
+                enemy.setGoingDown(false);
             }
         } else {
             Platform.runLater(() -> {
                 enemy.changeImage(EGameImages.Back_Enemy_c.getImage());
             });
-            enemy.y -= enemy.speed * deltatime;
-            if (enemy.y <= minDestY) {
-                enemy.y = minDestY;
-                enemy.goingDown = true;
+            double y = enemy.getY();
+            y -= enemy.getSpeed() * deltatime;
+            enemy.setY(y);
+            if (enemy.getY() <= minDestY) {
+                enemy.setY(minDestY);
+                enemy.setGoingDown(true);
             }
         }
 
-        double finalY = enemy.y;
+        double finalY = enemy.getY();
         Platform.runLater(() -> {
-            enemy.imgView.setLayoutY(finalY);
-            enemy.cld.ret.setY(finalY);
-            enemy.vBox.setLayoutY(finalY - 20);
+            enemy.getImgView().setLayoutY(finalY);
+            enemy.getCld().ret.setY(finalY);
+            enemy.getvBox().setLayoutY(finalY - 20);
         });
     }
 }

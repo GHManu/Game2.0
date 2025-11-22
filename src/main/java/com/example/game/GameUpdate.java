@@ -19,8 +19,7 @@ public class GameUpdate implements Runnable{
     private ACharacterEnemy enemy;
     ACharacterEnemyFactory characterEnemyFactory;
     AWeaponFactory weaponFactory;
-//    ACharacterEnemy enemyType2;
-//    ACharacterPlayable playerType1;
+
 
     private volatile static GameUpdate uniqueInstance;
 
@@ -51,9 +50,9 @@ public class GameUpdate implements Runnable{
     public void startGameLoop(GameScene gameScene, Group root){
         plr.setRoot(root);
 
-        root.getChildren().addAll(plr.vBox,plr.cld.ret, plr.imgView); //per far si che l'immagine stia sopra al rettangolo
+        root.getChildren().addAll(plr.getvBox(),plr.getCld().ret, plr.getImgView());
         this.gameScene = gameScene;
-        root.getChildren().addAll(enemy.vBox, enemy.cld.ret, enemy.imgView);
+        root.getChildren().addAll(enemy.getvBox(), enemy.getCld().ret, enemy.getImgView());
         currentThread.start();
         plr.setEnemy(enemy);
         plr.setMovementStrategyWithInput(new EightWaySmoothlyMovementWithoutInput());
@@ -68,8 +67,8 @@ public class GameUpdate implements Runnable{
         //creo un Set di KeyCode, per salvare tutti gli eventi relativi all'input da tastiera
         Set<KeyCode> keysPressed = new HashSet<>();
 
-        if(plr.progressBar.getProgress() > 0.1) gameScene.setOnKeyPressed((event) -> keysPressed.add(event.getCode()));
-        if(plr.progressBar.getProgress() > 0.1) gameScene.setOnKeyReleased(event -> keysPressed.remove(event.getCode()));
+        if(plr.getProgressBar().getProgress() > 0.1) gameScene.setOnKeyPressed((event) -> keysPressed.add(event.getCode()));
+        if(plr.getProgressBar().getProgress() > 0.1) gameScene.setOnKeyReleased(event -> keysPressed.remove(event.getCode()));
 
 
         //gameLoop
@@ -81,11 +80,11 @@ public class GameUpdate implements Runnable{
 
             if(deltatime >= 1){
 
-                if(plr.progressBar.getProgress() > 0.1) gameMethodMovementHandler(deltatime, keysPressed);
-                if(plr.progressBar.getProgress() > 5.551115123125783E-17) gameMethodAttackHandler(deltatime);
-                if(enemy != null && enemy.progressBar.getProgress() <= 0.1) {   kill_Enemy(); }//perchè è 1.1368683772161603E-13
+                if(plr.getProgressBar().getProgress() > 0.1) gameMethodMovementHandler(deltatime, keysPressed);
+                if(plr.getProgressBar().getProgress() > 5.551115123125783E-17) gameMethodAttackHandler(deltatime);
+                if(enemy != null && enemy.getProgressBar().getProgress() <= 0.1) {   kill_Character(enemy); }//perchè è 1.1368683772161603E-13
 
-                if(plr != null && plr.progressBar.getProgress() <= 0.1)    player_Died();
+                if(plr != null && plr.getProgressBar().getProgress() <= 0.1)    kill_Character(plr);
 
                 if (enemy != null) {
                     enemy.select_attack(deltatime, plr , enemy);
@@ -96,48 +95,30 @@ public class GameUpdate implements Runnable{
 
     }
 
-    private void kill_Enemy(){
-        if(this.enemy != null && this.enemy.cld.ret != null) {
+    private void kill_Character(ACharacter character){
+        if(character != null && character.getCld().ret != null) {
             Platform.runLater(() -> {
-                plr.root.getChildren().remove(enemy.vBox);
-                enemy.vBox = null;
+                plr.root.getChildren().remove(character.getvBox());
+                character.setvBox(null);
             });
             Platform.runLater(() -> {
-                plr.root.getChildren().remove(enemy.cld.ret);
-                enemy.cld.ret = null;
+                plr.root.getChildren().remove(character.getCld().ret);
+                character.getCld().ret = null;
             });
            Platform.runLater(() -> {
-                plr.root.getChildren().remove(enemy.imgView);
-                enemy.imgView = null;
+                plr.root.getChildren().remove(character.getImgView());
+                character.setImgView(null);
             });
            System.gc(); //richiama il garbage collector
         }
 
     }
 
-    private void player_Died(){
-        if(this.plr != null && this.plr.cld.ret != null) {
-            Platform.runLater(() -> {
-                plr.root.getChildren().remove(plr.vBox);
-                plr.vBox = null;
-            });
-            Platform.runLater(() -> {
-                plr.root.getChildren().remove(plr.cld.ret);
-                plr.cld.ret = null;
-            });
-            Platform.runLater(() -> {
-                plr.root.getChildren().remove(plr.imgView);
-                plr.imgView = null;
-            });
-            System.gc(); //richiama il garbage collector
-        }
-    }
-
 
     private void gameMethodMovementHandler(double deltaTime, Set<KeyCode> keysPressed) {
 
-            if(enemy != null && plr != null && plr.cld != null && enemy.cld != null)   plr.cld.collision_Detected(enemy.cld.ret, true);
-            //gestisco l'evento, la penultima condizione degli if è per non far andare fuori mappa, l'ultima condizione è per la collisione
+            if(enemy != null && plr != null && plr.getCld() != null && enemy.getCld() != null)   plr.getCld().collision_Detected(enemy.getCld().ret, true);
+
 
             assert plr != null;
             plr.getMovementStrategyWithInput().movement(deltaTime, plr, keysPressed);
@@ -154,7 +135,7 @@ public class GameUpdate implements Runnable{
 
     private void gameMethodAttackHandler(double deltatime){
 
-             if(plr.progressBar.getProgress() > 5.551115123125783E-17) {
+             if(plr.getProgressBar().getProgress() > 5.551115123125783E-17) {
                  gameScene.setOnMouseClicked(new EventHandler<MouseEvent>() {
                      @Override
                      public void handle(MouseEvent mouseEvent) {
@@ -166,7 +147,7 @@ public class GameUpdate implements Runnable{
                  });
              }
 
-        if(plr.attack_flag && plr.progressBar.getProgress() > 0.1){
+        if(plr.attack_flag && plr.getProgressBar().getProgress() > 0.1){
             plr.select_attack(deltatime, plr, enemy);
         }
 

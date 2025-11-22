@@ -8,27 +8,26 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.Rectangle;
 
-public class AttackFireWeapon implements IFightStrategy{
-
+public class AttackFireWeaponEnemy implements IFightStrategy{
     @Override
     public void attack(double deltatime, ACharacterEnemy subject, ACharacterPlayable target) {
 
         AFireWeapon fireWeapon = ((AFireWeapon)subject.getWeapon());
-        this.initialize_attack(deltatime, subject, target);
+        this.initializeAttack(deltatime, subject, target);
 
         //Player
-        Collider target_cld = target.cld;
+        Collider target_cld = target.getCld();
         Rectangle ret = target_cld.ret;
-        ImageView target_img_view = target.imgView;
-        ProgressBar target_prog_bar = target.progressBar;
-        VBox target_vbox = target.vBox;
+        ImageView target_img_view = target.getImgView();
+        ProgressBar target_prog_bar = target.getProgressBar();
+        VBox target_vbox = target.getvBox();
         ObservableList<Node> target_root_children = target.root.getChildren();
 
         //Enemy
-        ProgressBar subject_prog_bar = subject.progressBar;
+        ProgressBar subject_prog_bar = subject.getProgressBar();
 
         //Projectile
-        Collider projectile_cld = fireWeapon.p.cld;
+        Collider projectile_cld = fireWeapon.p.getCld();
         Rectangle projectile_cld_ret = projectile_cld.ret;
 
 
@@ -41,28 +40,28 @@ public class AttackFireWeapon implements IFightStrategy{
 
             projectile_cld.collision_Detected(projectile_cld_ret, false);
 
-            if (fireWeapon.p.isArrived(target.x, target.y)) {
-                Platform.runLater(() -> { target_root_children.removeAll(projectile_cld_ret, fireWeapon.p.imgView); } );
+            if (fireWeapon.p.isArrived(target.getX(), target.getY())) {
+                Platform.runLater(() -> { target_root_children.removeAll(projectile_cld_ret, fireWeapon.p.getImgView()); } );
                 subject.attack_flag = true;
             }
             if(projectile_cld_ret.intersects(ret.getBoundsInLocal())){
 
-                if(target_cld.dx && target.x > 0){
-                    setPlrCollisionX(target_img_view, ret, target_prog_bar, target_vbox, -target.speed, subject.REBOUND);
+                if(target_cld.dx && target.getX() > 0){
+                    setPlrCollisionX(target_img_view, ret, target_prog_bar, target_vbox, -target.getSpeed(), subject.getREBOUND());
                 }
 
-                if(target_cld.sx && target.x < (IScreenSettings.screenWidth- IScreenSettings.sizeTile)){
-                    setPlrCollisionX(target_img_view, ret, target_prog_bar, target_vbox, target.speed, subject.REBOUND);
+                if(target_cld.sx && target.getX() < (IScreenSettings.screenWidth- IScreenSettings.sizeTile)){
+                    setPlrCollisionX(target_img_view, ret, target_prog_bar, target_vbox, target.getSpeed(), subject.getREBOUND());
                 }
 
-                if(target_cld.br && target.y < (IScreenSettings.screenHeight- IScreenSettings.sizeTile)){
-                    setPlrCollisionY(target_img_view, ret, target_prog_bar, target_vbox, target.speed, subject.REBOUND);
+                if(target_cld.br && target.getY() < (IScreenSettings.screenHeight- IScreenSettings.sizeTile)){
+                    setPlrCollisionY(target_img_view, ret, target_prog_bar, target_vbox, target.getSpeed(), subject.getREBOUND());
                 }
-                if(target_cld.fr && target.y >0){
-                    setPlrCollisionY(target_img_view, ret, target_prog_bar, target_vbox, -target.speed, subject.REBOUND);
+                if(target_cld.fr && target.getY() >0){
+                    setPlrCollisionY(target_img_view, ret, target_prog_bar, target_vbox, -target.getSpeed(), subject.getREBOUND());
                 }
 
-                Platform.runLater(() -> { target_root_children.removeAll(projectile_cld_ret, fireWeapon.p.imgView); } );
+                Platform.runLater(() -> { target_root_children.removeAll(projectile_cld_ret, fireWeapon.p.getImgView()); } );
                 Platform.runLater(() -> {  target_prog_bar.setProgress(target_prog_bar.getProgress() - 0.2); });
                 subject.attack_flag = true;
             }
@@ -70,22 +69,22 @@ public class AttackFireWeapon implements IFightStrategy{
         }
 
 
-        if(subject_prog_bar.getProgress() < 0.1 && !fireWeapon.p.isArrived(target.x, target.y)){
-            Platform.runLater(() -> { target_root_children.removeAll(projectile_cld_ret, fireWeapon.p.imgView); } );
+        if(subject_prog_bar.getProgress() < 0.1 && !fireWeapon.p.isArrived(target.getX(), target.getY())){
+            Platform.runLater(() -> { target_root_children.removeAll(projectile_cld_ret, fireWeapon.p.getImgView()); } );
         }
 
     }
 
 
-    protected void initialize_attack(double deltatime, ACharacterEnemy subject,  ACharacterPlayable target) {
-        if (subject.attack_flag && target.progressBar.getProgress() > 0.1 && subject.progressBar.getProgress() > 0.1) {
+    protected void initializeAttack(double deltatime, ACharacterEnemy subject, ACharacterPlayable target) {
+        if (subject.attack_flag && target.getProgressBar().getProgress() > 0.1 && subject.getProgressBar().getProgress() > 0.1) {
 
             subject.attack_flag = false;
 
 
-            Projectile p = new NormalProjectile(EGameImages.ProvaAttaccoEnemy.getImage(), subject.x, subject.y, target.x, target.y);
+            Projectile p = new NormalProjectile(EGameImages.ProvaAttaccoEnemy.getImage(), subject.getX(), subject.getY(), target.getX(), target.getY());
             Platform.runLater(() -> {
-                target.root.getChildren().addAll(p.cld.ret, p.imgView);
+                target.root.getChildren().addAll(p.getCld().ret, p.getImgView());
             });
             ((AFireWeapon) subject.getWeapon()).getMag().set(0, p);
 

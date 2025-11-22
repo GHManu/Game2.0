@@ -9,8 +9,8 @@ public abstract class Projectile extends AEntity{
 
     protected abstract void journey(double deltaTime, double speed);
     public final boolean isArrived(double xDest, double yDest){
-        double dx = this.xDest - x;
-        double dy = this.yDest - y;
+        double dx = this.xDest - getX();
+        double dy = this.yDest - getY();
         return Math.sqrt(dx * dx + dy * dy) <= margine;
     }
 }

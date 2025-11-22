@@ -1,111 +1,64 @@
 package com.example.game;
 
-import javafx.application.Platform;
-import javafx.collections.ObservableList;
-import javafx.scene.Node;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
-import javafx.scene.shape.Rectangle;
 
-
-//94 righe
 
 public class Enemy extends ACharacterEnemy {
 
     public Enemy(){
-        goingDown = true;
+        setGoingDown(true);
 
-        this.x = (IScreenSettings.screenWidth/2.0) + 150.0;
-        this.y = (IScreenSettings.screenHeight/2.0) - 120.0;
+        setX( (IScreenSettings.screenWidth/2.0) + 150.0);
+        setY((IScreenSettings.screenHeight/2.0) - 120.0);
 
-        progressBar = new ProgressBar(1.0);   //1 = 100%, 0.5 = 50%
-        vBox = new VBox(progressBar);
-        vBox.setSpacing(10);
-        vBox.setLayoutX(this.x);
-        vBox.setLayoutY(this.y - 20);
+        setProgressBar(new ProgressBar(1.0));
+        setvBox(new VBox(getProgressBar()));
+
+        getvBox().setSpacing(10);
+        getvBox().setLayoutX(getX());
+        getvBox().setLayoutY(getY() - 20);
 
 
-        dir_forward = false;
-        dir_backward = false;
-        dir_rightward = false;
-        dir_leftward = false;
-        dir_forward_oblq_right = false;
-        dir_forward_oblq_left = false;
-        dir_backward_oblq_right = false;
-        dir_backward_oblq_left = false;
+        setDir_forward(false);
+        setDir_backward(false);
+        setDir_rightward(false);
+        setDir_leftward(false);
+        setDir_forward_oblq_right(false);
+        setDir_forward_oblq_left(false);
+        setDir_backward_oblq_right(false);
+        setDir_backward_oblq_left(false);
 
-        this.health = this.initial_Health;
-        speed = 1.5;
-        strength = 4;
+         this.setHealth(this.getInitial_Health());
+        setSpeed(1.5);
+        setStrength(4);
 
-        img = EGameImages.Front_Enemy_c.getImage();
+        setImg( EGameImages.Front_Enemy_c.getImage());
 
-        imgView = new ImageView(img);
+        setImgView(new ImageView(getImg()));
 
         //imposto la grandezza dell'immagine
-        imgView.setFitWidth(IScreenSettings.sizeTile);
-        imgView.setFitHeight(IScreenSettings.sizeTile);
+        getImgView().setFitWidth(IScreenSettings.sizeTile);
+        getImgView().setFitHeight(IScreenSettings.sizeTile);
 
-        imgView.setLayoutX(x);
-        imgView.setLayoutY(y);
+        getImgView().setLayoutX(getX());
+        getImgView().setLayoutY(getY());
 
-        cld = new Collider(x, y, IScreenSettings.sizeTile, IScreenSettings.sizeTile);
+        setCld(new Collider(getX(), getY(), IScreenSettings.sizeTile, IScreenSettings.sizeTile));
 
         attack_flag = true;
 
     }
 
     public Enemy(AWeapon weapon){
+        this();
         setWeapon(weapon);
-
-        goingDown = true;
-
-        this.x = (IScreenSettings.screenWidth/2.0) + 150.0;
-        this.y = (IScreenSettings.screenHeight/2.0) - 120.0;
-
-        progressBar = new ProgressBar(1.0);   //1 = 100%, 0.5 = 50%
-        vBox = new VBox(progressBar);
-        vBox.setSpacing(10);
-        vBox.setLayoutX(this.x);
-        vBox.setLayoutY(this.y - 20);
-
-
-        dir_forward = false;
-        dir_backward = false;
-        dir_rightward = false;
-        dir_leftward = false;
-        dir_forward_oblq_right = false;
-        dir_forward_oblq_left = false;
-        dir_backward_oblq_right = false;
-        dir_backward_oblq_left = false;
-
-        this.health = this.initial_Health;
-        speed = 1.5;
-        strength = 4;
-
-        img = EGameImages.Front_Enemy_c.getImage();
-        
-        imgView = new ImageView(img);
-
-        //imposto la grandezza dell'immagine
-        imgView.setFitWidth(IScreenSettings.sizeTile);
-        imgView.setFitHeight(IScreenSettings.sizeTile);
-
-        imgView.setLayoutX(x);
-        imgView.setLayoutY(y);
-
-        cld = new Collider(x, y, IScreenSettings.sizeTile, IScreenSettings.sizeTile);
-
-        attack_flag = true;
-
     }
     @Override
     protected void select_attack(double deltatime, ACharacterPlayable plr, ACharacterEnemy enemy){
-        if(this.getWeapon() instanceof AFireWeapon){
-            this.getFightStrategy().attack(deltatime, enemy, plr);
+        this.getFightStrategy().attack(deltatime, enemy, plr);
 
-        }
     }
 
 

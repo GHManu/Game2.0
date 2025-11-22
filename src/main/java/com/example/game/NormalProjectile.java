@@ -9,14 +9,14 @@ public class NormalProjectile extends Projectile {
 
 
     public NormalProjectile(Image img, double x, double y, double xDest, double yDest) {
-            this.imgView = new ImageView(img);
-            this.imgView.setFitWidth(IScreenSettings.sizeTile);
-            this.imgView.setFitHeight(IScreenSettings.sizeTile);
+            setImgView(new ImageView(img));
+            getImgView().setFitWidth(IScreenSettings.sizeTile);
+            getImgView().setFitHeight(IScreenSettings.sizeTile);
 
-            this.x = x;
-            this.y = y;
-            this.imgView.setLayoutX(this.x);
-            this.imgView.setLayoutY(this.y);
+            setX(x);
+            setY(y);
+            this.getImgView().setLayoutX(this.getX());
+            this.getImgView().setLayoutY(this.getY());
 
 
 
@@ -33,19 +33,22 @@ public class NormalProjectile extends Projectile {
             directionY = dy / distance;
         }
 
-        cld = new Collider(this.x, this.y, IScreenSettings.sizeTile, IScreenSettings.sizeTile);
+        setCld( new Collider(getX(), getY(), IScreenSettings.sizeTile, IScreenSettings.sizeTile));
     }
 
     protected void journey(double deltaTime, double speed){
 
+        double x = getX(), y = getY();
         x += deltaTime * speed * directionX;
+        setX(x);
         y +=  deltaTime * speed * directionY;
+        setY(y);
 
         Platform.runLater(() -> {
-            imgView.setLayoutX(x);
-            imgView.setLayoutY(y);
-            cld.ret.setX(x);
-            cld.ret.setY(y);
+            this.getImgView().setLayoutX(this.getX());
+            this.getImgView().setLayoutY(this.getY());
+            this.getCld().ret.setX(this.getX());
+            this.getCld().ret.setY(this.getY());
 
         });
 

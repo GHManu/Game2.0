@@ -8,8 +8,6 @@ import javafx.stage.Stage;
 
 public class GameApplication extends Application {
 
-//8 righe
-
     @Override
     public void start(Stage stage) throws Exception {
         Group root = new Group();
@@ -18,13 +16,13 @@ public class GameApplication extends Application {
         stage.setScene(gameScene);
         stage.show();
         GameUpdate gameUpdate = GameUpdate.getInstance(root);
-        gameUpdate.startGameLoop(gameScene, root); //corpo del giocod
+        gameUpdate.startGameLoop(gameScene, root);
         stage.setResizable(false);
         stage.setOnCloseRequest(event -> System.exit(0));
     }
 
     public static void main(String[] args){
-        launch();   //lavora con i thread
+        launch();
     }
 
 

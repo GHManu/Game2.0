@@ -4,8 +4,8 @@ import javafx.scene.image.Image;
 
 public abstract class ACharacterEnemy extends ACharacter{
 
-    boolean attack_flag;
-    final double REBOUND = 2.56784;
+    protected boolean attack_flag;
+    private final double REBOUND = 2.56784;
 
     IFightStrategy fightStrategy;
 
@@ -21,5 +21,9 @@ public abstract class ACharacterEnemy extends ACharacter{
 
     public void setFightStrategy(IFightStrategy fightStrategy) {
         this.fightStrategy = fightStrategy;
+    }
+
+    public double getREBOUND() {
+        return REBOUND;
     }
 }

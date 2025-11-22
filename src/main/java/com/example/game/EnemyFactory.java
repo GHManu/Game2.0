@@ -11,7 +11,7 @@ public class EnemyFactory extends ACharacterEnemyFactory{
                 weapon_factory = new FireWeaponFactory();
                 AWeapon weapon_selected = weapon_factory.createWeapon(concreteWeapon);
                 enemy.setWeapon(weapon_selected);
-                enemy.setFightStrategy(new AttackFireWeapon());
+                enemy.setFightStrategy(new AttackFireWeaponEnemy());
                 break;
 
             default:
