@@ -16,7 +16,9 @@ public enum EGameImages {
     Right_Side_Enemy_c("Images/Right_Enemy_c.png"),
     Right_Side_Pg("Images/Right_Side_Pg.png"),
     ProvaAttacco("Images/ProvaAttacco.png"),
-    ProvaAttaccoEnemy("Images/ProvaAttaccoEnemy.png");
+    ProvaAttaccoEnemy("Images/ProvaAttaccoEnemy.png"),
+    Grass("Images/grass.png"),
+    Wall("Images/wall.png");
 
     private final Image image;
     private final String path;

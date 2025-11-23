@@ -12,6 +12,7 @@ import java.util.*;
 
 //implementa l'interfaccia per far si che il processo sia eseguibile
 public class GameUpdate implements Runnable{
+    private Group world;
     private Player plr;
     private Thread currentThread;
     private GameScene gameScene;
@@ -23,10 +24,10 @@ public class GameUpdate implements Runnable{
 
     private volatile static GameUpdate uniqueInstance;
 
-    private GameUpdate(Group root){
+    private GameUpdate(Group world){
         currentThread = new Thread(this);
         weaponFactory = new FireWeaponFactory();
-
+        this.world = world;
 
         plr = new Player(weaponFactory.createWeapon("pistol"));
 
@@ -80,6 +81,8 @@ public class GameUpdate implements Runnable{
 
             if(deltatime >= 1){
 
+                updateCamera();
+
                 if(plr.getProgressBar().getProgress() > 0.1) gameMethodMovementHandler(deltatime, keysPressed);
                 if(plr.getProgressBar().getProgress() > 5.551115123125783E-17) gameMethodAttackHandler(deltatime);
                 if(enemy != null && enemy.getProgressBar().getProgress() <= 0.1) {   kill_Character(enemy); }//perchè è 1.1368683772161603E-13
@@ -112,6 +115,20 @@ public class GameUpdate implements Runnable{
            System.gc(); //richiama il garbage collector
         }
 
+    }
+
+    private void updateCamera() {
+        double targetX = gameScene.getWidth() / 2 - (plr.getX() + plr.getImg().getWidth() / 2);
+        double targetY = gameScene.getHeight() / 2 - (plr.getY() + plr.getImg().getHeight() / 2);
+
+        // Fattore di interpolazione (0.1 = segue lentamente, 1 = istantaneo)
+        double lerpFactor = 1;
+
+        double newX = world.getLayoutX() + (targetX - world.getLayoutX()) * lerpFactor;
+        double newY = world.getLayoutY() + (targetY - world.getLayoutY()) * lerpFactor;
+
+        world.setLayoutX(newX);
+        world.setLayoutY(newY);
     }
 
 
