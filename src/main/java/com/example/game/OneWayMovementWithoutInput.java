@@ -5,8 +5,8 @@ import javafx.application.Platform;
 public class OneWayMovementWithoutInput implements IMovementStrategyWithoutInput {
     @Override
     public void movement(double deltatime, ACharacterPlayable target, ACharacter enemy) {
-        double maxDestY = IScreenSettings.screenHeight - IScreenSettings.sizeTile;
-        double minDestY = 0; // oppure un valore di partenza
+        double maxDestY = IScreenSettings.screenHeight - IScreenSettings.sizeTile*2;
+        double minDestY = IScreenSettings.sizeTile;
 
         if (enemy.isGoingDown()) {
             Platform.runLater(() -> {

@@ -135,7 +135,7 @@ public class Player extends ACharacterPlayable {
 
             fireWeapon.getMag().add(p);
             Platform.runLater(() -> {
-                root.getChildren().addAll(p.getCld().ret, p.getImgView());
+                root.getChildren().add( p.getImgView());
             });
         }
     }
@@ -162,7 +162,7 @@ public class Player extends ACharacterPlayable {
             if(p.isArrived(xDest, yDest)){
 
                 Platform.runLater(() -> {
-                    root.getChildren().removeAll(p.getCld().ret, p.getImgView());
+                    root.getChildren().remove( p.getImgView());
                 });
 
                 projectileIterator.remove();
@@ -182,14 +182,14 @@ public class Player extends ACharacterPlayable {
                     }
 
                     Platform.runLater(() -> {
-                        root.getChildren().removeAll(p.getCld().ret, p.getImgView());
+                        root.getChildren().remove(p.getImgView());
                     });
 
                     projectileIterator.remove();
                     //DA MODIFICARE
                 } else if(p.getCld().ret.intersects( fireWeapon_enemy.getMag().getFirst().getCld().ret.getBoundsInLocal() ) ){
                     Platform.runLater(() -> {
-                        root.getChildren().removeAll(p.getCld().ret, p.getImgView());
+                        root.getChildren().remove(p.getImgView());
                     });
 
                     projectileIterator.remove();

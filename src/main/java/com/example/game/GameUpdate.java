@@ -5,6 +5,7 @@ import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.VBox;
 
 import java.util.*;
 
@@ -18,8 +19,9 @@ public class GameUpdate implements Runnable{
     private GameScene gameScene;
     private final float FPS = 60;
     private ACharacterEnemy enemy;
-    ACharacterEnemyFactory characterEnemyFactory;
-    AWeaponFactory weaponFactory;
+    private ACharacterEnemyFactory characterEnemyFactory;
+    private AWeaponFactory weaponFactory;
+    private Map world_map;
 
 
     private volatile static GameUpdate uniqueInstance;
@@ -28,7 +30,7 @@ public class GameUpdate implements Runnable{
         currentThread = new Thread(this);
         weaponFactory = new FireWeaponFactory();
         this.world = world;
-
+        world_map = new Map();
         plr = new Player(weaponFactory.createWeapon("pistol"));
 
 
@@ -50,12 +52,18 @@ public class GameUpdate implements Runnable{
 
     public void startGameLoop(GameScene gameScene, Group root){
         plr.setRoot(root);
-
-        root.getChildren().addAll(plr.getvBox(),plr.getCld().ret, plr.getImgView());
-        this.gameScene = gameScene;
-        root.getChildren().addAll(enemy.getvBox(), enemy.getCld().ret, enemy.getImgView());
-        currentThread.start();
         plr.setEnemy(enemy);
+        this.gameScene = gameScene;
+
+
+        world_map.drawMap(root);
+
+        root.getChildren().addLast(plr.getvBox());
+        root.getChildren().addLast(plr.getImgView());
+        root.getChildren().addLast(enemy.getvBox());
+        root.getChildren().addLast(enemy.getImgView());
+
+        currentThread.start();
         plr.setMovementStrategyWithInput(new EightWaySmoothlyMovementWithoutInput());
     }
 
@@ -81,7 +89,7 @@ public class GameUpdate implements Runnable{
 
             if(deltatime >= 1){
 
-                updateCamera();
+                Platform.runLater(this::updateCamera);
 
                 if(plr.getProgressBar().getProgress() > 0.1) gameMethodMovementHandler(deltatime, keysPressed);
                 if(plr.getProgressBar().getProgress() > 5.551115123125783E-17) gameMethodAttackHandler(deltatime);

@@ -41,7 +41,7 @@ public class AttackFireWeaponEnemy implements IFightStrategy{
             projectile_cld.collision_Detected(projectile_cld_ret, false);
 
             if (fireWeapon.p.isArrived(target.getX(), target.getY())) {
-                Platform.runLater(() -> { target_root_children.removeAll(projectile_cld_ret, fireWeapon.p.getImgView()); } );
+                Platform.runLater(() -> { target_root_children.remove( fireWeapon.p.getImgView()); } );
                 subject.attack_flag = true;
             }
             if(projectile_cld_ret.intersects(ret.getBoundsInLocal())){
@@ -84,11 +84,13 @@ public class AttackFireWeaponEnemy implements IFightStrategy{
 
             Projectile p = new NormalProjectile(EGameImages.ProvaAttaccoEnemy.getImage(), subject.getX(), subject.getY(), target.getX(), target.getY());
             Platform.runLater(() -> {
-                target.root.getChildren().addAll(p.getCld().ret, p.getImgView());
+                target.root.getChildren().add(p.getImgView());
             });
             ((AFireWeapon) subject.getWeapon()).getMag().set(0, p);
 
         }
+
+
     }
 
     private void setPlrCollisionY(ImageView imageView, Rectangle ret, ProgressBar progbar, VBox vBox, double speed, double enemyrebound){
