@@ -1,6 +1,6 @@
 package com.example.game;
 
-public abstract class Projectile extends AEntity{
+public abstract class Projectile extends AEntity {
     double directionX, directionY;
     double xDest, yDest;
     protected static final double margine = 2.0;

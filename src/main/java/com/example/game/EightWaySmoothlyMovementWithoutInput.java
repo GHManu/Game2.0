@@ -5,10 +5,11 @@ import javafx.scene.input.KeyCode;
 
 import java.util.Set;
 
-public class EightWaySmoothlyMovementWithoutInput implements IMovementStrategyWithInput {
+public class EightWaySmoothlyMovementWithoutInput extends IMovementStrategyWithInput {
+
     @Override
-    public void movement(double deltatime,  ACharacter target, Set<KeyCode> keysPressed) {
-        if ( (keysPressed.contains(AInputCommands.forward) || keysPressed.contains(AInputCommands.forwardArrow)) && target.getY() >IScreenSettings.sizeTile
+    public void movement(double deltatime,  ACharacter target) {
+        if ( (this.getKeysPressed().contains(AInputCommands.forward) || this.getKeysPressed().contains(AInputCommands.forwardArrow)) && target.getY() >IScreenSettings.sizeTile
         ) {
             target.setDir_backward(true);
 
@@ -19,7 +20,7 @@ public class EightWaySmoothlyMovementWithoutInput implements IMovementStrategyWi
             target.setDir_forward(false);
         }
 
-        if ( (keysPressed.contains( AInputCommands.backward) || keysPressed.contains(AInputCommands.backwardArrow)) &&  target.getY() < (IScreenSettings.screenHeight- IScreenSettings.sizeTile*2)
+        if ( (this.getKeysPressed().contains( AInputCommands.backward) || this.getKeysPressed().contains(AInputCommands.backwardArrow)) &&  target.getY() < (IScreenSettings.screenHeight- IScreenSettings.sizeTile*2)
         ) {
             target.setDir_forward(true);
 
@@ -30,7 +31,7 @@ public class EightWaySmoothlyMovementWithoutInput implements IMovementStrategyWi
             target.setDir_backward(false);
         }
 
-        if ( (keysPressed.contains(AInputCommands.leftward) || keysPressed.contains(AInputCommands.leftwardArrow)) &&  target.getX() > IScreenSettings.sizeTile
+        if ( (this.getKeysPressed().contains(AInputCommands.leftward) || this.getKeysPressed().contains(AInputCommands.leftwardArrow)) &&  target.getX() > IScreenSettings.sizeTile
         ) {
             target.setDir_leftward(true);
 
@@ -42,7 +43,7 @@ public class EightWaySmoothlyMovementWithoutInput implements IMovementStrategyWi
             target.setDir_leftward(false);
         }
 
-        if ( (keysPressed.contains(AInputCommands.rightward) || keysPressed.contains(AInputCommands.rightwardArrow)) && target.getX() < (IScreenSettings.screenWidth- IScreenSettings.sizeTile*2)
+        if ( (this.getKeysPressed().contains(AInputCommands.rightward) || this.getKeysPressed().contains(AInputCommands.rightwardArrow)) && target.getX() < (IScreenSettings.screenWidth- IScreenSettings.sizeTile*2)
         ) {
             target.setDir_rightward(true);
 

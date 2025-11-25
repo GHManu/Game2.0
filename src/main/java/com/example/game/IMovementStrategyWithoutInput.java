@@ -1,5 +1,13 @@
 package com.example.game;
 
-public interface IMovementStrategyWithoutInput{
-    void movement(double deltatime, ACharacterPlayable target, ACharacter subject);
+public abstract class IMovementStrategyWithoutInput implements IMovementStrategy{
+    private ACharacter target;
+
+    public ACharacter getTarget() {
+        return target;
+    }
+
+    public void setTarget(ACharacter target) {
+        this.target = target;
+    }
 }

@@ -2,7 +2,7 @@ package com.example.game;
 
 import javafx.scene.image.ImageView;
 
-public class Wall extends AEntity{
+public class Wall extends ANonInterableObjects{
 
     public Wall(int pos_x, int pos_y){
         this.setX(pos_x * IScreenSettings.sizeTile);

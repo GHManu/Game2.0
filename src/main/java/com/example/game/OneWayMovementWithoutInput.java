@@ -2,9 +2,10 @@ package com.example.game;
 
 import javafx.application.Platform;
 
-public class OneWayMovementWithoutInput implements IMovementStrategyWithoutInput {
+public class OneWayMovementWithoutInput extends IMovementStrategyWithoutInput {
+
     @Override
-    public void movement(double deltatime, ACharacterPlayable target, ACharacter enemy) {
+    public void movement(double deltatime, ACharacter enemy) {
         double maxDestY = IScreenSettings.screenHeight - IScreenSettings.sizeTile*2;
         double minDestY = IScreenSettings.sizeTile;
 

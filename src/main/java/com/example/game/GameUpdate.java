@@ -5,13 +5,10 @@ import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.VBox;
 
 import java.util.*;
 
-//circa 89 righe
 
-//implementa l'interfaccia per far si che il processo sia eseguibile
 public class GameUpdate implements Runnable{
     private Group world;
     private Player plr;
@@ -50,21 +47,21 @@ public class GameUpdate implements Runnable{
 
 
 
-    public void startGameLoop(GameScene gameScene, Group root){
-        plr.setRoot(root);
+    public void startGameLoop(GameScene gameScene){
+        plr.setRoot(world);
         plr.setEnemy(enemy);
         this.gameScene = gameScene;
 
 
-        world_map.drawMap(root);
+        world_map.drawMap(world);
 
-        root.getChildren().addLast(plr.getvBox());
-        root.getChildren().addLast(plr.getImgView());
-        root.getChildren().addLast(enemy.getvBox());
-        root.getChildren().addLast(enemy.getImgView());
+        world.getChildren().addLast(plr.getvBox());
+        world.getChildren().addLast(plr.getImgView());
+        world.getChildren().addLast(enemy.getvBox());
+        world.getChildren().addLast(enemy.getImgView());
 
         currentThread.start();
-        plr.setMovementStrategyWithInput(new EightWaySmoothlyMovementWithoutInput());
+        plr.setMovementStrategy(new EightWaySmoothlyMovementWithoutInput());
     }
 
     @Override
@@ -146,7 +143,8 @@ public class GameUpdate implements Runnable{
 
 
             assert plr != null;
-            plr.getMovementStrategyWithInput().movement(deltaTime, plr, keysPressed);
+            ((IMovementStrategyWithInput)plr.getMovementStrategy()).setKeysPressed(keysPressed);
+            plr.getMovementStrategy().movement(deltaTime, plr);
 
             // Sprint
             if (keysPressed.contains(AInputCommands.sprint)) {

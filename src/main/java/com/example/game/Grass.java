@@ -2,7 +2,7 @@ package com.example.game;
 
 import javafx.scene.image.ImageView;
 
-public class Grass extends AEntity{
+public class Grass extends ANonInterableObjects{
     public Grass(int pos_x, int pos_y){
         this.setX(pos_x * IScreenSettings.sizeTile);
         this.setY(pos_y * IScreenSettings.sizeTile);

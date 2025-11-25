@@ -127,7 +127,6 @@ public class Player extends ACharacterPlayable {
 
     protected void normal_attack(double deltatime) {
         if(this.getProgressBar().getProgress() > 5.551115123125783E-17) {
-            System.out.println("Normal Attack");
             AFireWeapon fireWeapon = (AFireWeapon) this.getWeapon();
             NormalProjectile p = new NormalProjectile(EGameImages.ProvaAttacco.getImage(), this.getImgView().getLayoutX(), this.getImgView().getLayoutY(), xDest, yDest);
 

@@ -31,7 +31,7 @@ public class AttackFireWeaponEnemy implements IFightStrategy{
         Rectangle projectile_cld_ret = projectile_cld.ret;
 
 
-        if(subject_prog_bar.getProgress() > 0.1 && target_prog_bar.getProgress() > 0.1)    subject.getMovementStrategyWithoutInput().movement(deltatime, target, subject);
+        if(subject_prog_bar.getProgress() > 0.1 && target_prog_bar.getProgress() > 0.1)    subject.getMovementStrategy().movement(deltatime, subject);
 
         if(subject_prog_bar.getProgress() > 0.1 && !subject.attack_flag && target_prog_bar.getProgress() > 0.1) {  //finchè è in vita
 

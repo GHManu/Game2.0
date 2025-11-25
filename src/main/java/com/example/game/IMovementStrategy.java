@@ -1,4 +1,5 @@
 package com.example.game;
 
-public class IMovementStrategy {
+public interface IMovementStrategy {
+    void movement(double deltatime, ACharacter target);
 }

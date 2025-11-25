@@ -21,7 +21,7 @@ public class EnemyFactory extends ACharacterEnemyFactory{
             case "withoutinput":
                 switch(concreteMovement.trim().toLowerCase()){
                     case "oneway":
-                        enemy.setMovementStrategyWithoutInput(new OneWayMovementWithoutInput());
+                        enemy.setMovementStrategy(new OneWayMovementWithoutInput());
                         break;
                 }
                 break;

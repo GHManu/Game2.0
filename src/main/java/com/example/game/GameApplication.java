@@ -16,7 +16,7 @@ public class GameApplication extends Application {
         stage.setScene(gameScene);
         stage.show();
         GameUpdate gameUpdate = GameUpdate.getInstance(root);
-        gameUpdate.startGameLoop(gameScene, root);
+        gameUpdate.startGameLoop(gameScene);
         stage.setResizable(false);
         stage.setOnCloseRequest(event -> System.exit(0));
     }
