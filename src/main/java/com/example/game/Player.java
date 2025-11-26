@@ -14,8 +14,8 @@ public class Player extends ACharacterPlayable {
     protected static final double RECHARGE_TIME_DURATION = 400.0;
     protected boolean isSprinting;
 
-    boolean attack_flag;
-    double xDest, yDest;
+
+
 
     private ACharacterEnemy enemy;
 
@@ -31,11 +31,10 @@ public class Player extends ACharacterPlayable {
         getvBox().setLayoutX(getX());
         getvBox().setLayoutY(getY() - 20);
 
+        this.setxDest(0);
+        this.setyDest(0);
 
-        attack_flag = false;
-
-        xDest = 0;
-        yDest = 0;
+        this.setAttack_flag(false);
 
         timeSprint = 0.0;
         timeReCharge = 0.0;
@@ -120,7 +119,7 @@ public class Player extends ACharacterPlayable {
     @Override
     protected void select_attack(double deltatime, ACharacterPlayable plr, ACharacterEnemy enemy) {
         if(this.getWeapon() instanceof AFireWeapon fireWeapon) {
-            this.shot(deltatime);
+            this.getFightStrategy().attack(deltatime, enemy, plr);
         }
     }
 
@@ -128,9 +127,9 @@ public class Player extends ACharacterPlayable {
     protected void normal_attack(double deltatime) {
         if(this.getProgressBar().getProgress() > 5.551115123125783E-17) {
             AFireWeapon fireWeapon = (AFireWeapon) this.getWeapon();
-            NormalProjectile p = new NormalProjectile(EGameImages.ProvaAttacco.getImage(), this.getImgView().getLayoutX(), this.getImgView().getLayoutY(), xDest, yDest);
+            NormalProjectile p = new NormalProjectile(EGameImages.ProvaAttacco.getImage(), this.getImgView().getLayoutX(), this.getImgView().getLayoutY(), this.getxDest(), this.getyDest());
 
-            this.attack_flag = true;
+            this.setAttack_flag(true);
 
             fireWeapon.getMag().add(p);
             Platform.runLater(() -> {
@@ -139,66 +138,7 @@ public class Player extends ACharacterPlayable {
         }
     }
 
-    protected void setDestinationAttack(double xDest, double yDest){
-        this.xDest = xDest;
-        this.yDest = yDest;
-    }
-
-
     protected void setEnemy(ACharacterEnemy enemy){this.enemy = enemy;}
 
-    private void shot(double deltaTime){
-
-        AFireWeapon fireWeapon = (AFireWeapon) this.getWeapon();
-        AFireWeapon fireWeapon_enemy = (AFireWeapon) enemy.getWeapon();
-        ProjectileIterator projectileIterator = new ProjectileIterator(fireWeapon.getMag());
-
-        while(projectileIterator.hasNext()){
-            NormalProjectile p = (NormalProjectile) projectileIterator.next();
-            fireWeapon.p = p;
-            this.getWeapon().fight(deltaTime);
-
-            if(p.isArrived(xDest, yDest)){
-
-                Platform.runLater(() -> {
-                    root.getChildren().remove( p.getImgView());
-                });
-
-                projectileIterator.remove();
-
-            }else if ((enemy != null) && (enemy.getCld().ret != null) ) {
-                if ( p.getCld().ret.intersects(enemy.getCld().ret.getBoundsInLocal())) {
-                    if (enemy.getHealth() > 1) {
-                        double speed = enemy.getSpeed(), health = enemy.getHealth();
-                        speed += 0.2;
-                        enemy.setSpeed(speed);
-                        health -= (enemy.getInitial_Health() * p.normal_damage);
-                        enemy.setHealth(health);
-
-                        Platform.runLater(() -> {
-                            enemy.getProgressBar().setProgress(enemy.getProgressBar().getProgress() - p.normal_damage);
-                        });
-                    }
-
-                    Platform.runLater(() -> {
-                        root.getChildren().remove(p.getImgView());
-                    });
-
-                    projectileIterator.remove();
-                    //DA MODIFICARE
-                } else if(p.getCld().ret.intersects( fireWeapon_enemy.getMag().getFirst().getCld().ret.getBoundsInLocal() ) ){
-                    Platform.runLater(() -> {
-                        root.getChildren().remove(p.getImgView());
-                    });
-
-                    projectileIterator.remove();
-                }
-            }
-        }
-
-        if(fireWeapon.getMag().isEmpty())   attack_flag = false;    //così ne posso sparare di più
-
-
-    }
 
 }

@@ -7,6 +7,42 @@ import javafx.scene.input.KeyCode;
 
 public abstract class ACharacterPlayable extends ACharacter {
     protected Group root;
+    private double xDest, yDest;
+    private boolean attack_flag;
+    private IFightStrategy fightStrategy;
+
+
+    public IFightStrategy getFightStrategy() {
+        return fightStrategy;
+    }
+
+    public void setFightStrategy(IFightStrategy fightStrategy) {
+        this.fightStrategy = fightStrategy;
+    }
+
+    public boolean isAttack_flag() {
+        return attack_flag;
+    }
+
+    public void setAttack_flag(boolean attack_flag) {
+        this.attack_flag = attack_flag;
+    }
+
+    public double getxDest() {
+        return xDest;
+    }
+
+    public void setxDest(double xDest) {
+        this.xDest = xDest;
+    }
+
+    public double getyDest() {
+        return yDest;
+    }
+
+    public void setyDest(double yDest) {
+        this.yDest = yDest;
+    }
 
     protected final void setRoot(Group root){
         this.root = root;

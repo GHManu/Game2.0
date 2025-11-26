@@ -62,6 +62,7 @@ public class GameUpdate implements Runnable{
 
         currentThread.start();
         plr.setMovementStrategy(new EightWaySmoothlyMovementWithoutInput());
+        plr.setFightStrategy(new AttackFireWeaponPlayer());
     }
 
     @Override
@@ -164,13 +165,14 @@ public class GameUpdate implements Runnable{
                      public void handle(MouseEvent mouseEvent) {
                          double getSceneX = mouseEvent.getSceneX();
                          double getSceneY = mouseEvent.getSceneY();
-                         plr.setDestinationAttack(getSceneX, getSceneY);
+                         plr.setxDest(getSceneX);
+                         plr.setyDest(getSceneY);
                          plr.normal_attack(deltatime);
                      }
                  });
              }
 
-        if(plr.attack_flag && plr.getProgressBar().getProgress() > 0.1){
+        if(plr.isAttack_flag() && plr.getProgressBar().getProgress() > 0.1){
             plr.select_attack(deltatime, plr, enemy);
         }
 
