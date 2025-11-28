@@ -22,7 +22,7 @@ public class ProjectileIterator implements Iterator<Projectile> {
         if (!hasNext()) {
             throw new NoSuchElementException("No more projectiles");
         }
-        lastReturnedIndex = position; // salva l’indice dell’elemento che stiamo restituendo
+        lastReturnedIndex = position;
         return projectilesList.get(position++);
     }
 
@@ -32,7 +32,7 @@ public class ProjectileIterator implements Iterator<Projectile> {
             throw new IllegalStateException("next() must be called before remove()");
         }
         projectilesList.remove(lastReturnedIndex);
-        position = lastReturnedIndex;   // riportiamo position al punto giusto
-        lastReturnedIndex = -1;         // reset per evitare doppie remove
+        position = lastReturnedIndex;
+        lastReturnedIndex = -1;
     }
 }

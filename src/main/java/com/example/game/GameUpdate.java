@@ -32,7 +32,7 @@ public class GameUpdate implements Runnable{
 
 
         characterEnemyFactory = new EnemyFactory();
-        enemy = characterEnemyFactory.createEnemy("fireweapon", "pistol", "withoutinput", "oneway");
+        enemy = characterEnemyFactory.createEnemy("fire weapon", "pistol", "without input", "oneway");
 
     }
 
