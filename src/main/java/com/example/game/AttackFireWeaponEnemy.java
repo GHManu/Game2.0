@@ -10,7 +10,7 @@ import javafx.scene.shape.Rectangle;
 
 public class AttackFireWeaponEnemy implements IFightStrategy{
     @Override
-    public void attack(double deltatime, ACharacterEnemy subject, ACharacterPlayable target) {
+    public void normalAttack(double deltatime, ACharacterEnemy subject, ACharacterPlayable target) {
 
         AFireWeapon fireWeapon = ((AFireWeapon)subject.getWeapon());
         this.initializeAttack(deltatime, subject, target);

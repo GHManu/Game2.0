@@ -167,7 +167,9 @@ public class GameUpdate implements Runnable{
                          double getSceneY = mouseEvent.getSceneY();
                          plr.setxDest(getSceneX);
                          plr.setyDest(getSceneY);
-                         plr.normal_attack(deltatime);
+
+
+                         plr.initializeAttack(deltatime);
                      }
                  });
              }

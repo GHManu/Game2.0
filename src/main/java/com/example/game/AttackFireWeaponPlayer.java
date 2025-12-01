@@ -5,7 +5,8 @@ import javafx.application.Platform;
 public class AttackFireWeaponPlayer implements IFightStrategy{
 
     @Override
-    public void attack(double deltatime, ACharacterEnemy enemy, ACharacterPlayable player) {
+    public void normalAttack(double deltatime, ACharacterEnemy enemy, ACharacterPlayable player) {
+
         AFireWeapon fireWeapon = (AFireWeapon) player.getWeapon();
         AFireWeapon fireWeapon_enemy = (AFireWeapon) enemy.getWeapon();
         ProjectileIterator projectileIterator = new ProjectileIterator(fireWeapon.getMag());
@@ -56,4 +57,8 @@ public class AttackFireWeaponPlayer implements IFightStrategy{
         if(fireWeapon.getMag().isEmpty())   player.setAttack_flag(false);
 
     }
+
+
+
+
 }

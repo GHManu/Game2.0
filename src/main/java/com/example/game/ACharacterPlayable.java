@@ -52,6 +52,4 @@ public abstract class ACharacterPlayable extends ACharacter {
 
     protected abstract void select_attack(double deltatime, ACharacterPlayable plr, ACharacterEnemy enemy);
 
-    //protected abstract void normal_attack(double deltatime);
-
 }

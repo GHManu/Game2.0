@@ -119,22 +119,22 @@ public class Player extends ACharacterPlayable {
     @Override
     protected void select_attack(double deltatime, ACharacterPlayable plr, ACharacterEnemy enemy) {
         if(this.getWeapon() instanceof AFireWeapon fireWeapon) {
-            this.getFightStrategy().attack(deltatime, enemy, plr);
+            this.getFightStrategy().normalAttack(deltatime, enemy, plr);
         }
     }
-
-
-    protected void normal_attack(double deltatime) {
+    protected void initializeAttack(double deltatime) {
         if(this.getProgressBar().getProgress() > 5.551115123125783E-17) {
-            AFireWeapon fireWeapon = (AFireWeapon) this.getWeapon();
-            NormalProjectile p = new NormalProjectile(EGameImages.ProvaAttacco.getImage(), this.getImgView().getLayoutX(), this.getImgView().getLayoutY(), this.getxDest(), this.getyDest());
+            if(this.getWeapon() instanceof AFireWeapon fireWeapon) {
+                NormalProjectile p = new NormalProjectile(EGameImages.ProvaAttacco.getImage(), this.getImgView().getLayoutX(), this.getImgView().getLayoutY(), this.getxDest(), this.getyDest());
 
-            this.setAttack_flag(true);
+                this.setAttack_flag(true);
 
-            fireWeapon.getMag().add(p);
-            Platform.runLater(() -> {
-                root.getChildren().add( p.getImgView());
-            });
+
+                fireWeapon.getMag().add(p);
+                Platform.runLater(() -> {
+                    this.root.getChildren().add(p.getImgView());
+                });
+            }
         }
     }
 

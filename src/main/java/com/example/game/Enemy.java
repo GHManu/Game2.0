@@ -57,7 +57,7 @@ public class Enemy extends ACharacterEnemy {
     }
     @Override
     protected void select_attack(double deltatime, ACharacterPlayable plr, ACharacterEnemy enemy){
-        this.getFightStrategy().attack(deltatime, enemy, plr);
+        this.getFightStrategy().normalAttack(deltatime, enemy, plr);
 
     }
 
