@@ -23,6 +23,9 @@
 - Dato che voglio fare in modo che ogni personaggio possa avere più armi e quindi avere più attacchi, creo solo un Enemy e un Player, che però modificano
 il movimento e l'attacco in base al movimento e all'arma e cerco di implementare le armi e il movimento affinchè siano il più generiche possibile per poterle usare anche per il player
 
+- Ovviamente le armi anno un loro attacco standard, però l'implementazione del Player e dell'Enemy sono diverse, perciò creerò due classi per implementare l'attacco; 
+
+- Faccio un Decorator per il movimento così posso aggiungere funzionalità, ad esempio lo sprint
 ### UML (Class Diagram)
 ```mermaid
 

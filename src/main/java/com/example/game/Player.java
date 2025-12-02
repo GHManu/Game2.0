@@ -34,6 +34,7 @@ public class Player extends ACharacterPlayable {
         this.setxDest(0);
         this.setyDest(0);
 
+        this.setInit_attack_flag(false);
         this.setAttack_flag(false);
 
         timeSprint = 0.0;
@@ -118,26 +119,8 @@ public class Player extends ACharacterPlayable {
 
     @Override
     protected void select_attack(double deltatime, ACharacterPlayable plr, ACharacterEnemy enemy) {
-        if(this.getWeapon() instanceof AFireWeapon fireWeapon) {
             this.getFightStrategy().normalAttack(deltatime, enemy, plr);
-        }
     }
-    protected void initializeAttack(double deltatime) {
-        if(this.getProgressBar().getProgress() > 5.551115123125783E-17) {
-            if(this.getWeapon() instanceof AFireWeapon fireWeapon) {
-                NormalProjectile p = new NormalProjectile(EGameImages.ProvaAttacco.getImage(), this.getImgView().getLayoutX(), this.getImgView().getLayoutY(), this.getxDest(), this.getyDest());
-
-                this.setAttack_flag(true);
-
-
-                fireWeapon.getMag().add(p);
-                Platform.runLater(() -> {
-                    this.root.getChildren().add(p.getImgView());
-                });
-            }
-        }
-    }
-
     protected void setEnemy(ACharacterEnemy enemy){this.enemy = enemy;}
 
 

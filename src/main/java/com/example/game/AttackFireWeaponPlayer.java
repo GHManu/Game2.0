@@ -4,8 +4,12 @@ import javafx.application.Platform;
 
 public class AttackFireWeaponPlayer implements IFightStrategy{
 
+
+
     @Override
     public void normalAttack(double deltatime, ACharacterEnemy enemy, ACharacterPlayable player) {
+
+        this.initAttack(deltatime, enemy, player);
 
         AFireWeapon fireWeapon = (AFireWeapon) player.getWeapon();
         AFireWeapon fireWeapon_enemy = (AFireWeapon) enemy.getWeapon();
@@ -43,7 +47,7 @@ public class AttackFireWeaponPlayer implements IFightStrategy{
                     });
 
                     projectileIterator.remove();
-                    //DA MODIFICARE
+
                 } else if(p.getCld().ret.intersects( fireWeapon_enemy.getMag().getFirst().getCld().ret.getBoundsInLocal() ) ){
                     Platform.runLater(() -> {
                         player.root.getChildren().remove(p.getImgView());
@@ -58,7 +62,26 @@ public class AttackFireWeaponPlayer implements IFightStrategy{
 
     }
 
+    @Override
+    public void initAttack(double deltatime, ACharacterEnemy enemy, ACharacterPlayable player) {
+        if(player.getProgressBar().getProgress() > 5.551115123125783E-17) {
+            if(player.isInit_attack_flag()){
+                if(player.getWeapon() instanceof AFireWeapon fireWeapon) {
+                    NormalProjectile p = new NormalProjectile(EGameImages.ProvaAttacco.getImage(), player.getImgView().getLayoutX(), player.getImgView().getLayoutY(), player.getxDest(), player.getyDest());
 
+                    player.setAttack_flag(true);
+
+
+                    fireWeapon.getMag().add(p);
+                    Platform.runLater(() -> {
+                        player.root.getChildren().add(p.getImgView());
+                    });
+                }
+            }
+            player.setInit_attack_flag(false);
+
+        }
+    }
 
 
 }

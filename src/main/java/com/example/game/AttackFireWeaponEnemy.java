@@ -9,13 +9,14 @@ import javafx.scene.layout.VBox;
 import javafx.scene.shape.Rectangle;
 
 public class AttackFireWeaponEnemy implements IFightStrategy{
+
+
     @Override
     public void normalAttack(double deltatime, ACharacterEnemy subject, ACharacterPlayable target) {
 
         AFireWeapon fireWeapon = ((AFireWeapon)subject.getWeapon());
-        this.initializeAttack(deltatime, subject, target);
+        this.initAttack(deltatime, subject, target);
 
-        //Player
         Collider target_cld = target.getCld();
         Rectangle ret = target_cld.ret;
         ImageView target_img_view = target.getImgView();
@@ -23,10 +24,10 @@ public class AttackFireWeaponEnemy implements IFightStrategy{
         VBox target_vbox = target.getvBox();
         ObservableList<Node> target_root_children = target.root.getChildren();
 
-        //Enemy
+
         ProgressBar subject_prog_bar = subject.getProgressBar();
 
-        //Projectile
+
         Collider projectile_cld = fireWeapon.p.getCld();
         Rectangle projectile_cld_ret = projectile_cld.ret;
 
@@ -74,19 +75,18 @@ public class AttackFireWeaponEnemy implements IFightStrategy{
         }
 
     }
+    @Override
+    public void initAttack(double deltatime, ACharacterEnemy enemy, ACharacterPlayable player) {
+        if (enemy.attack_flag && player.getProgressBar().getProgress() > 0.1 && enemy.getProgressBar().getProgress() > 0.1) {
+
+            enemy.attack_flag = false;
 
 
-    protected void initializeAttack(double deltatime, ACharacterEnemy subject, ACharacterPlayable target) {
-        if (subject.attack_flag && target.getProgressBar().getProgress() > 0.1 && subject.getProgressBar().getProgress() > 0.1) {
-
-            subject.attack_flag = false;
-
-
-            Projectile p = new NormalProjectile(EGameImages.ProvaAttaccoEnemy.getImage(), subject.getX(), subject.getY(), target.getX(), target.getY());
+            Projectile p = new NormalProjectile(EGameImages.ProvaAttaccoEnemy.getImage(), enemy.getX(), enemy.getY(), player.getX(), player.getY());
             Platform.runLater(() -> {
-                target.root.getChildren().add(p.getImgView());
+                player.root.getChildren().add(p.getImgView());
             });
-            ((AFireWeapon) subject.getWeapon()).getMag().set(0, p);
+            ((AFireWeapon) enemy.getWeapon()).getMag().set(0, p);
 
         }
 

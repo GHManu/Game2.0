@@ -8,7 +8,7 @@ import javafx.scene.layout.VBox;
 //17 righe
 
 public abstract class ACharacter extends AEntity{
-    //caratteristiche
+
     private ProgressBar progressBar;
     private VBox vBox;
     private double initial_Health = 2450.431;
@@ -16,7 +16,7 @@ public abstract class ACharacter extends AEntity{
     private double strength;
     private double speed;
 
-    //direzioni: 8 totali
+
     private boolean dir_forward;
     private boolean dir_backward;
     private boolean dir_rightward;
@@ -27,10 +27,13 @@ public abstract class ACharacter extends AEntity{
     private boolean dir_backward_oblq_left;
     private boolean goingDown; //per adesso per l'enemy
 
+    protected boolean init_attack_flag;
+    protected boolean attack_flag;
+
     private IMovementStrategy movementStrategy;
-
-
+    private IFightStrategy fightStrategy;
     private AWeapon weapon;
+
 
     public AWeapon getWeapon() {
 
@@ -181,4 +184,28 @@ public abstract class ACharacter extends AEntity{
     public void setGoingDown(boolean goingDown) {
         this.goingDown = goingDown;
     }
+
+    public boolean isAttack_flag() {
+        return attack_flag;
+    }
+
+    public void setAttack_flag(boolean attack_flag) {
+        this.attack_flag = attack_flag;
+    }
+
+    public boolean isInit_attack_flag() {
+        return init_attack_flag;
+    }
+
+    public void setInit_attack_flag(boolean init_attack_flag) {
+        this.init_attack_flag = init_attack_flag;
+    }
+    public IFightStrategy getFightStrategy() {
+        return fightStrategy;
+    }
+
+    public void setFightStrategy(IFightStrategy fightStrategy) {
+        this.fightStrategy = fightStrategy;
+    }
+
 }

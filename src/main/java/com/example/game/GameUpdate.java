@@ -168,8 +168,9 @@ public class GameUpdate implements Runnable{
                          plr.setxDest(getSceneX);
                          plr.setyDest(getSceneY);
 
+                         plr.setInit_attack_flag(true);
+                         plr.setAttack_flag(true);
 
-                         plr.initializeAttack(deltatime);
                      }
                  });
              }
