@@ -3,7 +3,10 @@ package com.example.game;
 import javafx.application.Platform;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.VBox;
+
+import java.util.Set;
 
 
 public class Player extends ACharacterPlayable {
@@ -121,6 +124,13 @@ public class Player extends ACharacterPlayable {
     protected void select_attack(double deltatime, ACharacterPlayable plr, ACharacterEnemy enemy) {
             this.getFightStrategy().normalAttack(deltatime, enemy, plr);
     }
+
+    @Override
+    protected void movement(double deltatime, Set<KeyCode> keyCodes) {
+        ((IMovementStrategyWithInput)this.getMovementStrategy()).setKeysPressed(keyCodes);
+        this.getMovementStrategy().movement(deltatime, this);
+    }
+
     protected void setEnemy(ACharacterEnemy enemy){this.enemy = enemy;}
 
 

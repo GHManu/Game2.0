@@ -62,6 +62,7 @@ public class GameUpdate implements Runnable{
 
         currentThread.start();
         plr.setMovementStrategy(new EightWaySmoothlyMovementWithoutInput());
+
         plr.setFightStrategy(new AttackFireWeaponPlayer());
     }
 
@@ -144,8 +145,8 @@ public class GameUpdate implements Runnable{
 
 
             assert plr != null;
-            ((IMovementStrategyWithInput)plr.getMovementStrategy()).setKeysPressed(keysPressed);
-            plr.getMovementStrategy().movement(deltaTime, plr);
+
+            plr.movement(deltaTime, keysPressed);
 
             // Sprint
             if (keysPressed.contains(AInputCommands.sprint)) {

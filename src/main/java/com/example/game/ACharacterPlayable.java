@@ -3,6 +3,8 @@ package com.example.game;
 import javafx.scene.Group;
 import javafx.scene.input.KeyCode;
 
+import java.util.Set;
+
 //16 righe
 
 public abstract class ACharacterPlayable extends ACharacter {
@@ -32,5 +34,5 @@ public abstract class ACharacterPlayable extends ACharacter {
     protected void walk(double deltaTime){}
 
     protected abstract void select_attack(double deltatime, ACharacterPlayable plr, ACharacterEnemy enemy);
-
+    protected abstract void movement(double deltatime, Set<KeyCode> keyCodes);
 }
