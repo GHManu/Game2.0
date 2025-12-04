@@ -25,7 +25,6 @@ il movimento e l'attacco in base al movimento e all'arma e cerco di implementare
 
 - Ovviamente le armi anno un loro attacco standard, però l'implementazione del Player e dell'Enemy sono diverse, perciò creerò due classi per implementare l'attacco; 
 
-- Faccio un Decorator per il movimento così posso aggiungere funzionalità, ad esempio lo sprint
 ### UML (Class Diagram)
 ```mermaid
 

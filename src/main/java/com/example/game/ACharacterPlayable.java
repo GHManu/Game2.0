@@ -10,6 +10,15 @@ import java.util.Set;
 public abstract class ACharacterPlayable extends ACharacter {
     protected Group root;
     private double xDest, yDest;
+    private ACharacterEnemy enemy;
+
+    public ACharacterEnemy getEnemy() {
+        return enemy;
+    }
+
+    public void setEnemy(ACharacterEnemy enemy) {
+        this.enemy = enemy;
+    }
 
     public double getxDest() {
         return xDest;
@@ -27,11 +36,9 @@ public abstract class ACharacterPlayable extends ACharacter {
         this.yDest = yDest;
     }
 
-    protected final void setRoot(Group root){
+    protected void setRoot(Group root){
         this.root = root;
     }
-    protected void sprintStatus(double deltatime){}
-    protected void walk(double deltaTime){}
 
     protected abstract void select_attack(double deltatime, ACharacterPlayable plr, ACharacterEnemy enemy);
     protected abstract void movement(double deltatime, Set<KeyCode> keyCodes);

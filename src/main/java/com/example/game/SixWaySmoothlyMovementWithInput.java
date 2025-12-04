@@ -1,14 +1,16 @@
 package com.example.game;
 
 import javafx.application.Platform;
-import javafx.scene.input.KeyCode;
 
-import java.util.Set;
+public class SixWaySmoothlyMovementWithInput extends IMovementStrategyWithInput {
+    Sprint sprint = new Sprint();
 
-public class EightWaySmoothlyMovementWithoutInput extends IMovementStrategyWithInput {
 
     @Override
     public void movement(double deltatime,  ACharacter target) {
+
+        Platform.runLater(() -> { sprint.controlSprint(deltatime,this.getKeysPressed(),target); });
+
         if ( (this.getKeysPressed().contains(AInputCommands.forward) || this.getKeysPressed().contains(AInputCommands.forwardArrow)) && target.getY() >IScreenSettings.sizeTile
         ) {
             target.setDir_backward(true);
@@ -55,8 +57,6 @@ public class EightWaySmoothlyMovementWithoutInput extends IMovementStrategyWithI
         }
     }
 
-
-    //implementazione metodi movimento
 
     protected void moveUp(double deltaTime, ACharacter target) {
         double y = target.getY();

@@ -11,7 +11,7 @@ import java.util.*;
 
 public class GameUpdate implements Runnable{
     private Group world;
-    private Player plr;
+    private ACharacterPlayable plr;
     private Thread currentThread;
     private GameScene gameScene;
     private final float FPS = 60;
@@ -32,6 +32,8 @@ public class GameUpdate implements Runnable{
 
 
         characterEnemyFactory = new EnemyFactory();
+        plr.setMovementStrategy(new SixWaySmoothlyMovementWithInput());
+        plr.setFightStrategy(new AttackFireWeaponPlayer());
         enemy = characterEnemyFactory.createEnemy("fire weapon", "pistol", "without input", "oneway");
 
     }
@@ -61,9 +63,8 @@ public class GameUpdate implements Runnable{
         world.getChildren().addLast(enemy.getImgView());
 
         currentThread.start();
-        plr.setMovementStrategy(new EightWaySmoothlyMovementWithoutInput());
 
-        plr.setFightStrategy(new AttackFireWeaponPlayer());
+
     }
 
     @Override
@@ -147,14 +148,6 @@ public class GameUpdate implements Runnable{
             assert plr != null;
 
             plr.movement(deltaTime, keysPressed);
-
-            // Sprint
-            if (keysPressed.contains(AInputCommands.sprint)) {
-                plr.sprintStatus(deltaTime);  // Attiva o continua lo sprint
-                plr.sprint(deltaTime);
-            } else {
-                plr.walk(deltaTime);
-            }
 
     }
 

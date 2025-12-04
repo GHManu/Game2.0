@@ -20,7 +20,7 @@ public class Player extends ACharacterPlayable {
 
 
 
-    private ACharacterEnemy enemy;
+
 
     public Player(){
 
@@ -77,48 +77,6 @@ public class Player extends ACharacterPlayable {
         this.setWeapon(weapon);
     }
 
-    @Override
-    protected void sprintStatus(double deltatime){
-        if (!isSprinting && this.timeReCharge <= 0) {
-            // Se non stiamo sprintando e il tempo di ricarica è finito
-            isSprinting = true; //si attiva sprint
-            this.timeSprint = SPRINT_TIME_DURATION;
-            System.out.println("Sprint attivato! Durata: " + SPRINT_TIME_DURATION + " secondi.");
-        } else if (isSprinting) {
-            System.out.println("Già sprintando!");
-        } else if (this.timeReCharge > 0) {
-            System.out.println("Non puoi sprintare, il tempo di ricarica non è finito.");
-        }
-
-    }
-
-    protected void sprint(double deltatime){
-        if (this.isSprinting) {
-            setSpeed(4);
-            this.timeSprint -= deltatime;  // Diminuisci il tempo dello sprint
-            System.out.println(this.timeSprint);
-            if (this.timeSprint <= 0) {
-                this.walk(deltatime);
-                this.isSprinting = false;
-                this.timeReCharge = Player.RECHARGE_TIME_DURATION;  // Inizia la ricarica
-                System.out.println("Sprint finito! Inizia la ricarica.");
-            }
-        }
-    }
-
-
-    @Override
-    protected void walk(double deltaTime){
-        setSpeed(2.5);
-        // Se il tasto di sprint non è premuto, gestisci la ricarica
-        if (this.timeReCharge > 0) {
-            this.timeReCharge -= deltaTime;
-            System.out.println("Sto ricaricando");
-            if (this.timeReCharge <= 0) {
-                System.out.println("Ricarica completa. Puoi sprintare di nuovo!");
-            }
-        }
-    }
 
     @Override
     protected void select_attack(double deltatime, ACharacterPlayable plr, ACharacterEnemy enemy) {
@@ -131,7 +89,6 @@ public class Player extends ACharacterPlayable {
         this.getMovementStrategy().movement(deltatime, this);
     }
 
-    protected void setEnemy(ACharacterEnemy enemy){this.enemy = enemy;}
 
 
 }
