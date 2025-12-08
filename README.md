@@ -1,9 +1,9 @@
 # Game2.0
-*Gioco della [Repository](https://github.com/GHManu/Game), riscritto con le regole del corso di Ingegneria Del Software*
+*Gioco della [Repository](https://github.com/GHManu/Game) (Pokemon-like -> un RPG action adventure), riscritto con le regole del corso di Ingegneria Del Software*
+ 
 
 
 ## Analisi Dei Requisiti
-
 
 
 
@@ -24,6 +24,9 @@
 il movimento e l'attacco in base al movimento e all'arma e cerco di implementare le armi e il movimento affinchè siano il più generiche possibile per poterle usare anche per il player
 
 - Ovviamente le armi anno un loro attacco standard, però l'implementazione del Player e dell'Enemy sono diverse, perciò creerò due classi per implementare l'attacco; 
+
+- Uso il design patter MVC(Model View Controller) per separare logica, UI e interazione
+- Uso un HashMap per la mappa così riesco a riempire anche coordinate negative
 
 ### UML (Class Diagram)
 ```mermaid

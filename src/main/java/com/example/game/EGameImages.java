@@ -18,6 +18,7 @@ public enum EGameImages {
     ProvaAttacco("Images/ProvaAttacco.png"),
     ProvaAttaccoEnemy("Images/ProvaAttaccoEnemy.png"),
     Grass("Images/grass.png"),
+    Water("Images/Water.png"),
     Wall("Images/wall.png");
 
     private final Image image;

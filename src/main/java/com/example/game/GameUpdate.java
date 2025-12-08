@@ -10,15 +10,15 @@ import java.util.*;
 
 
 public class GameUpdate implements Runnable{
-    private Group world;
-    private ACharacterPlayable plr;
-    private Thread currentThread;
+    private final Group world;
+    private final ACharacterPlayable plr;
+    private final Thread currentThread;
     private GameScene gameScene;
     private final float FPS = 60;
     private ACharacterEnemy enemy;
     private ACharacterEnemyFactory characterEnemyFactory;
     private AWeaponFactory weaponFactory;
-    private Map world_map;
+    private final Map world_map;
 
 
     private volatile static GameUpdate uniqueInstance;
