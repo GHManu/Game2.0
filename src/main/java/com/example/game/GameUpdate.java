@@ -9,7 +9,7 @@ import javafx.scene.input.MouseEvent;
 import java.util.*;
 
 
-public class GameUpdate implements Runnable{
+public class GameUpdate implements Runnable, ISubject{
     private final Group world;
     private final ACharacterPlayable plr;
     private final Thread currentThread;
@@ -175,4 +175,18 @@ public class GameUpdate implements Runnable{
 
     }
 
+    @Override
+    public void addObserver(IObserver observer) {
+
+    }
+
+    @Override
+    public void removeObserver(IObserver observer) {
+
+    }
+
+    @Override
+    public void notifyObservers() {
+
+    }
 }

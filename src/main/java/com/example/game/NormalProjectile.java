@@ -55,5 +55,8 @@ public class NormalProjectile extends Projectile {
     }
 
 
+    @Override
+    public void update(AStatsObject statsObject) {
 
+    }
 }

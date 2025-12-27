@@ -62,4 +62,8 @@ public class Enemy extends ACharacterEnemy {
     }
 
 
+    @Override
+    public void update(AStatsObject statsObject) {
+
+    }
 }

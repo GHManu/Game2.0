@@ -12,4 +12,9 @@ public class NormalSword extends AMeleeWeapon{
     public void fight(double deltatime) {
 
     }
+
+    @Override
+    public void update(AStatsObject statsObject) {
+
+    }
 }

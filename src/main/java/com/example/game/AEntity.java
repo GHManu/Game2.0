@@ -5,7 +5,7 @@ import javafx.scene.image.ImageView;
 
 //5 righe
 
-public abstract class AEntity {
+public abstract class AEntity implements IObserver{
 
     //immagine
     private Image img;

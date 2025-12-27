@@ -90,5 +90,8 @@ public class Player extends ACharacterPlayable {
     }
 
 
+    @Override
+    public void update(AStatsObject statsObject) {
 
+    }
 }

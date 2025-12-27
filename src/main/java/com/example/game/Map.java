@@ -73,4 +73,8 @@ public class Map extends AEntity{
         }
     }
 
+    @Override
+    public void update(AStatsObject statsObject) {
+
+    }
 }
