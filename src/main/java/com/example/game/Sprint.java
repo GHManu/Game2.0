@@ -48,7 +48,7 @@ public class Sprint {
             if (this.timeSprint <= 0) {
                 this.walk(deltatime, plr);
                 this.isSprinting = false;
-                this.timeReCharge = Player.RECHARGE_TIME_DURATION;
+                this.timeReCharge = RECHARGE_TIME_DURATION;
                 System.out.println("Sprint finito! Inizia la ricarica.");
             }
         }

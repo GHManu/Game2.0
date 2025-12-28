@@ -27,7 +27,7 @@ il movimento e l'attacco in base al movimento e all'arma e cerco di implementare
 
 - Uso il design patter MVC(Model View Controller) per separare logica, UI e interazione
 - Uso un HashMap per la mappa così riesco a riempire anche coordinate negative
-- Applico l'Observer col metodo push, ovvero tramite passaggio di un oggetto
+
 
 ### UML (Class Diagram)
 ```mermaid

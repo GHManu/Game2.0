@@ -13,8 +13,4 @@ public class NormalSword extends AMeleeWeapon{
 
     }
 
-    @Override
-    public void update(AStatsObject statsObject) {
-
-    }
 }

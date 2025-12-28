@@ -7,10 +7,8 @@ import javafx.scene.layout.VBox;
 
 public class Enemy extends ACharacterEnemy {
 
-    public Enemy(ISubject subject){
+    public Enemy(){
 
-        this.setSubject(subject);
-        this.getSubject().addObserver(this);
 
         setGoingDown(true);
 
@@ -55,8 +53,8 @@ public class Enemy extends ACharacterEnemy {
 
     }
 
-    public Enemy(ISubject subject, AWeapon weapon){
-        this(subject);
+    public Enemy( AWeapon weapon){
+        this();
         setWeapon(weapon);
     }
     @Override
@@ -65,9 +63,4 @@ public class Enemy extends ACharacterEnemy {
 
     }
 
-
-    @Override
-    public void update(AStatsObject statsObject) {
-
-    }
 }

@@ -62,7 +62,6 @@ public class SixWaySmoothlyMovementWithInput extends IMovementStrategyWithInput 
         double y = target.getY();
         y -= target.getSpeed() * deltaTime ;
         target.setY(y);
-        //playerView.setY(y);
         Platform.runLater(() -> { target.getImgView().setLayoutY(target.getY()); target.getCld().ret.setY(target.getY());   target.getvBox().setLayoutY(target.getY()-20);});
     }
 
@@ -71,8 +70,6 @@ public class SixWaySmoothlyMovementWithInput extends IMovementStrategyWithInput 
         double y = target.getY();
         y += target.getSpeed() * deltaTime ;
         target.setY(y);
-
-        // playerView.setY(y);
         Platform.runLater(() -> {
             target.getImgView().setLayoutY(target.getY()); target.getCld().ret.setY(target.getY()); target.getvBox().setLayoutY(target.getY()-20);});
     }
@@ -82,7 +79,6 @@ public class SixWaySmoothlyMovementWithInput extends IMovementStrategyWithInput 
         double x = target.getX();
         x -= target.getSpeed() * deltaTime ;
         target.setX(x);
-        //playerView.setX(x);
         Platform.runLater(() -> {
             target.getImgView().setLayoutX(target.getX()); target.getCld().ret.setX(target.getX()); target.getvBox().setLayoutX(target.getX());});
     }
@@ -92,7 +88,6 @@ public class SixWaySmoothlyMovementWithInput extends IMovementStrategyWithInput 
         double x = target.getX();
         x += target.getSpeed() * deltaTime ;
         target.setX(x);
-        //playerView.setX(x);
         Platform.runLater(() -> {
             target.getImgView().setLayoutX(target.getX()); target.getCld().ret.setX(target.getX()); target.getvBox().setLayoutX(target.getX());});
     }

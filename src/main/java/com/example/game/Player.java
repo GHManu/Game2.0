@@ -11,21 +11,10 @@ import java.util.Set;
 
 public class Player extends ACharacterPlayable {
 
-    protected double timeSprint;
-    protected double timeReCharge;
-    protected static final double SPRINT_TIME_DURATION = 400.0;
-    protected static final double RECHARGE_TIME_DURATION = 400.0;
-    protected boolean isSprinting;
 
 
 
-
-
-
-    public Player(ISubject subject){
-
-        this.setSubject(subject);
-        this.getSubject().addObserver(this);
+    public Player(){
 
         setX( (IScreenSettings.screenWidth/2.0));
         setY((IScreenSettings.screenHeight/2.0));
@@ -42,11 +31,6 @@ public class Player extends ACharacterPlayable {
 
         this.setInit_attack_flag(false);
         this.setAttack_flag(false);
-
-        timeSprint = 0.0;
-        timeReCharge = 0.0;
-        isSprinting = false;
-
 
         setDir_forward(false);
         setDir_backward(false);
@@ -75,8 +59,8 @@ public class Player extends ACharacterPlayable {
     }
 
 
-    public Player(ISubject subject, AWeapon weapon){
-        this(subject);
+    public Player(AWeapon weapon){
+        this();
         this.setWeapon(weapon);
     }
 
@@ -92,9 +76,4 @@ public class Player extends ACharacterPlayable {
         this.getMovementStrategy().movement(deltatime, this);
     }
 
-
-    @Override
-    public void update(AStatsObject statsObject) {
-        this.setStatsObject(statsObject);
-    }
 }

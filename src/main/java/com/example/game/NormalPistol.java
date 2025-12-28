@@ -23,8 +23,4 @@ public class NormalPistol extends AFireWeapon {
         this.p.journey(deltatime, p.speed);
     }
 
-    @Override
-    public void update(AStatsObject statsObject) {
-
-    }
 }

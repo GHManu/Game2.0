@@ -19,23 +19,23 @@ public class GameUpdate implements Runnable{
     private ACharacterEnemyFactory characterEnemyFactory;
     private AWeaponFactory weaponFactory;
     private final Map world_map;
-    private GameSubject game_subject;
+
 
     private volatile static GameUpdate uniqueInstance;
 
     private GameUpdate(Group world){
-        game_subject = new GameSubject();
+
         currentThread = new Thread(this);
         weaponFactory = new FireWeaponFactory();
         this.world = world;
         world_map = new Map();
-        plr = new Player(game_subject,weaponFactory.createWeapon("pistol"));
+        plr = new Player(weaponFactory.createWeapon("pistol"));
 
 
         characterEnemyFactory = new EnemyFactory();
         plr.setMovementStrategy(new SixWaySmoothlyMovementWithInput());
         plr.setFightStrategy(new AttackFireWeaponPlayer());
-        enemy = characterEnemyFactory.createEnemy(game_subject,"fire weapon", "pistol", "without input", "oneway");
+        enemy = characterEnemyFactory.createEnemy("fire weapon", "pistol", "without input", "oneway");
 
     }
 

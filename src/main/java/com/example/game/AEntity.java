@@ -6,7 +6,7 @@ import javafx.scene.image.ImageView;
 
 //5 righe
 
-public abstract class AEntity implements IObserver{
+public abstract class AEntity{
 
     private Image img;
     private ImageView imgView;
@@ -18,24 +18,6 @@ public abstract class AEntity implements IObserver{
 
     private Collider cld;
 
-    private AStatsObject statsObject;
-    private ISubject subject;
-
-    public AStatsObject getStatsObject() {
-        return statsObject;
-    }
-
-    public void setStatsObject(AStatsObject statsObject) {
-        this.statsObject = statsObject;
-    }
-
-    public ISubject getSubject() {
-        return subject;
-    }
-
-    public void setSubject(ISubject subject) {
-        this.subject = subject;
-    }
 
     public Image getImg() {
         return img;
