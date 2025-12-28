@@ -3,8 +3,8 @@ package com.example.game;
 public class EnemyFactory extends ACharacterEnemyFactory{
 
     @Override
-    ACharacterEnemy createEnemy(String weaponType, String concreteWeapon, String movementType, String concreteMovement) {
-        ACharacterEnemy enemy = new Enemy();
+    ACharacterEnemy createEnemy(ISubject subject,String weaponType, String concreteWeapon, String movementType, String concreteMovement) {
+        ACharacterEnemy enemy = new Enemy(subject);
         AWeaponFactory weapon_factory;
 
         switch (weaponType.replaceAll("\\s+", "").toLowerCase()){   //rimuove tutti gli spazi (anche multipli).

@@ -7,7 +7,11 @@ import javafx.scene.layout.VBox;
 
 public class Enemy extends ACharacterEnemy {
 
-    public Enemy(){
+    public Enemy(ISubject subject){
+
+        this.setSubject(subject);
+        this.getSubject().addObserver(this);
+
         setGoingDown(true);
 
         setX( (IScreenSettings.screenWidth/2.0) + 150.0);
@@ -51,8 +55,8 @@ public class Enemy extends ACharacterEnemy {
 
     }
 
-    public Enemy(AWeapon weapon){
-        this();
+    public Enemy(ISubject subject, AWeapon weapon){
+        this(subject);
         setWeapon(weapon);
     }
     @Override

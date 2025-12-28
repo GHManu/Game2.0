@@ -9,7 +9,7 @@ import javafx.scene.input.MouseEvent;
 import java.util.*;
 
 
-public class GameUpdate implements Runnable, ISubject{
+public class GameUpdate implements Runnable{
     private final Group world;
     private final ACharacterPlayable plr;
     private final Thread currentThread;
@@ -19,22 +19,23 @@ public class GameUpdate implements Runnable, ISubject{
     private ACharacterEnemyFactory characterEnemyFactory;
     private AWeaponFactory weaponFactory;
     private final Map world_map;
-
+    private GameSubject game_subject;
 
     private volatile static GameUpdate uniqueInstance;
 
     private GameUpdate(Group world){
+        game_subject = new GameSubject();
         currentThread = new Thread(this);
         weaponFactory = new FireWeaponFactory();
         this.world = world;
         world_map = new Map();
-        plr = new Player(weaponFactory.createWeapon("pistol"));
+        plr = new Player(game_subject,weaponFactory.createWeapon("pistol"));
 
 
         characterEnemyFactory = new EnemyFactory();
         plr.setMovementStrategy(new SixWaySmoothlyMovementWithInput());
         plr.setFightStrategy(new AttackFireWeaponPlayer());
-        enemy = characterEnemyFactory.createEnemy("fire weapon", "pistol", "without input", "oneway");
+        enemy = characterEnemyFactory.createEnemy(game_subject,"fire weapon", "pistol", "without input", "oneway");
 
     }
 
@@ -71,20 +72,19 @@ public class GameUpdate implements Runnable, ISubject{
     public void run() { //processo in esecuzione
 
         double deltatime = 0;
-        long currentTime;    //tempo corrente del processo
+        long currentTime;
         long lastUpdate = System.currentTimeMillis();
-        //creo un Set di KeyCode, per salvare tutti gli eventi relativi all'input da tastiera
+
         Set<KeyCode> keysPressed = new HashSet<>();
 
         if(plr.getProgressBar().getProgress() > 0.1) gameScene.setOnKeyPressed((event) -> keysPressed.add(event.getCode()));
         if(plr.getProgressBar().getProgress() > 0.1) gameScene.setOnKeyReleased(event -> keysPressed.remove(event.getCode()));
 
 
-        //gameLoop
         while(currentThread.isAlive()){
             currentTime = System.currentTimeMillis();
 
-            deltatime += (currentTime - lastUpdate) / (1000.0 / FPS);   //se uso FPS allora metto l'if dopo, sennò no
+            deltatime += (currentTime - lastUpdate) / (1000.0 / FPS);
             lastUpdate = currentTime;
 
             if(deltatime >= 1){
@@ -175,18 +175,5 @@ public class GameUpdate implements Runnable, ISubject{
 
     }
 
-    @Override
-    public void addObserver(IObserver observer) {
 
-    }
-
-    @Override
-    public void removeObserver(IObserver observer) {
-
-    }
-
-    @Override
-    public void notifyObservers() {
-
-    }
 }

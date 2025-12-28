@@ -1,10 +1,10 @@
 package com.example.game;
 
-import javafx.application.Platform;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.VBox;
+
 
 import java.util.Set;
 
@@ -22,7 +22,10 @@ public class Player extends ACharacterPlayable {
 
 
 
-    public Player(){
+    public Player(ISubject subject){
+
+        this.setSubject(subject);
+        this.getSubject().addObserver(this);
 
         setX( (IScreenSettings.screenWidth/2.0));
         setY((IScreenSettings.screenHeight/2.0));
@@ -72,8 +75,8 @@ public class Player extends ACharacterPlayable {
     }
 
 
-    public Player(AWeapon weapon){
-        this();
+    public Player(ISubject subject, AWeapon weapon){
+        this(subject);
         this.setWeapon(weapon);
     }
 
@@ -92,6 +95,6 @@ public class Player extends ACharacterPlayable {
 
     @Override
     public void update(AStatsObject statsObject) {
-
+        this.setStatsObject(statsObject);
     }
 }
