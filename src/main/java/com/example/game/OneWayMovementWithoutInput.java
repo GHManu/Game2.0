@@ -2,7 +2,7 @@ package com.example.game;
 
 import javafx.application.Platform;
 
-public class OneWayMovementWithoutInput extends IMovementStrategyWithoutInput {
+public class OneWayMovementWithoutInput extends AMovementStrategyWithoutInput {
 
     @Override
     public void movement(double deltatime, ACharacter enemy) {

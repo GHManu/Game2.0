@@ -72,7 +72,7 @@ public class Player extends ACharacterPlayable {
 
     @Override
     protected void movement(double deltatime, Set<KeyCode> keyCodes) {
-        ((IMovementStrategyWithInput)this.getMovementStrategy()).setKeysPressed(keyCodes);
+        ((AMovementStrategyWithInput)this.getMovementStrategy()).setKeysPressed(keyCodes);
         this.getMovementStrategy().movement(deltatime, this);
     }
 

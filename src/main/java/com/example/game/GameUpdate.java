@@ -11,7 +11,7 @@ import java.util.*;
 
 public class GameUpdate implements Runnable{
     private final Group world;
-    private final ACharacterPlayable plr;
+    private ACharacterPlayable plr;
     private final Thread currentThread;
     private GameScene gameScene;
     private final float FPS = 60;
@@ -19,12 +19,22 @@ public class GameUpdate implements Runnable{
     private ACharacterEnemyFactory characterEnemyFactory;
     private AWeaponFactory weaponFactory;
     private final Map world_map;
-
+    private IGameLoopState current_state;
+    Set<KeyCode> keys_pressed;
 
     private volatile static GameUpdate uniqueInstance;
 
-    private GameUpdate(Group world){
 
+
+    public void setState(IGameLoopState newState) {
+        if (current_state != null)
+            current_state.stop(this);
+        current_state = newState;
+        current_state.start(this);
+    }
+
+    private GameUpdate(Group world){
+        this.setState(new PlayingState());
         currentThread = new Thread(this);
         weaponFactory = new FireWeaponFactory();
         this.world = world;
@@ -75,10 +85,12 @@ public class GameUpdate implements Runnable{
         long currentTime;
         long lastUpdate = System.currentTimeMillis();
 
-        Set<KeyCode> keysPressed = new HashSet<>();
+        keys_pressed = new HashSet<>();
 
-        if(plr.getProgressBar().getProgress() > 0.1) gameScene.setOnKeyPressed((event) -> keysPressed.add(event.getCode()));
-        if(plr.getProgressBar().getProgress() > 0.1) gameScene.setOnKeyReleased(event -> keysPressed.remove(event.getCode()));
+        if(plr.getProgressBar().getProgress() > 0.1){
+            gameScene.setOnKeyPressed((event) -> keys_pressed.add(event.getCode()));
+            gameScene.setOnKeyReleased(event -> keys_pressed.remove(event.getCode()));
+        }
 
 
         while(currentThread.isAlive()){
@@ -88,25 +100,14 @@ public class GameUpdate implements Runnable{
             lastUpdate = currentTime;
 
             if(deltatime >= 1){
-
-                Platform.runLater(this::updateCamera);
-
-                if(plr.getProgressBar().getProgress() > 0.1) gameMethodMovementHandler(deltatime, keysPressed);
-                if(plr.getProgressBar().getProgress() > 5.551115123125783E-17) gameMethodAttackHandler(deltatime);
-                if(enemy != null && enemy.getProgressBar().getProgress() <= 0.1) {   kill_Character(enemy); }//perchè è 1.1368683772161603E-13
-
-                if(plr != null && plr.getProgressBar().getProgress() <= 0.1)    kill_Character(plr);
-
-                if (enemy != null) {
-                    enemy.select_attack(deltatime, plr , enemy);
-                }
+                current_state.update(this,deltatime);
                 deltatime--;
             }
         }
 
     }
 
-    private void kill_Character(ACharacter character){
+    protected void kill_Character(ACharacter character){
         if(character != null && character.getCld().ret != null) {
             Platform.runLater(() -> {
                 plr.root.getChildren().remove(character.getvBox());
@@ -120,12 +121,12 @@ public class GameUpdate implements Runnable{
                 plr.root.getChildren().remove(character.getImgView());
                 character.setImgView(null);
             });
-           System.gc(); //richiama il garbage collector
+           System.gc();
         }
 
     }
 
-    private void updateCamera() {
+    protected void updateCamera() {
         double targetX = gameScene.getWidth() / 2 - (plr.getX() + plr.getImg().getWidth() / 2);
         double targetY = gameScene.getHeight() / 2 - (plr.getY() + plr.getImg().getHeight() / 2);
 
@@ -140,7 +141,7 @@ public class GameUpdate implements Runnable{
     }
 
 
-    private void gameMethodMovementHandler(double deltaTime, Set<KeyCode> keysPressed) {
+    protected void gameMethodMovementHandler(double deltaTime, Set<KeyCode> keysPressed) {
 
             if(enemy != null && plr != null && plr.getCld() != null && enemy.getCld() != null)   plr.getCld().collision_Detected(enemy.getCld().ret, true);
 
@@ -151,7 +152,7 @@ public class GameUpdate implements Runnable{
 
     }
 
-    private void gameMethodAttackHandler(double deltatime){
+    protected void gameMethodAttackHandler(double deltatime){
 
              if(plr.getProgressBar().getProgress() > 5.551115123125783E-17) {
                  gameScene.setOnMouseClicked(new EventHandler<MouseEvent>() {
@@ -175,5 +176,19 @@ public class GameUpdate implements Runnable{
 
     }
 
+    public ACharacterPlayable getPlr() {
+        return plr;
+    }
 
+    public void setPlr(ACharacterPlayable plr) {
+        this.plr = plr;
+    }
+
+    public ACharacterEnemy getEnemy() {
+        return enemy;
+    }
+
+    public void setEnemy(ACharacterEnemy enemy) {
+        this.enemy = enemy;
+    }
 }

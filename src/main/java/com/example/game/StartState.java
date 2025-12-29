@@ -1,15 +1,14 @@
 package com.example.game;
 
-public class MenuState implements IGameState{
+public class StartState implements IGameState{
     @Override
     public void start(GameModel context) {
-        context.setGameState(new StartState());
-        System.out.println("Gioco avviato!");
+        System.out.println("Il gioco è iniziato.");
     }
 
     @Override
     public void update(GameModel context) {
-        // Nessun aggiornamento
+
     }
 
     @Override

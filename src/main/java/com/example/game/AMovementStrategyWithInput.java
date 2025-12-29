@@ -4,7 +4,7 @@ import javafx.scene.input.KeyCode;
 
 import java.util.Set;
 
-public abstract class IMovementStrategyWithInput implements IMovementStrategy{
+public abstract class AMovementStrategyWithInput implements IMovementStrategy{
     private Set<KeyCode> keysPressed;
 
     public Set<KeyCode> getKeysPressed() {

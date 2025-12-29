@@ -1,95 +1,76 @@
 package com.example.game;
 
+
 import javafx.application.Platform;
 
-public class SixWaySmoothlyMovementWithInput extends IMovementStrategyWithInput {
+import java.util.Map;
+import java.util.Set;
+
+public class SixWaySmoothlyMovementWithInput extends AMovementStrategyWithInput {
     Sprint sprint = new Sprint();
+    private Map<Direction, DirectionSetting> dir_settings;
+
+    public SixWaySmoothlyMovementWithInput(){
+        init();
+    }
+
+
+    private void updatePosition(ACharacter target, double x, double y) {
+        target.setX(x); target.setY(y);
+        Platform.runLater(() -> {
+            target.getImgView().setLayoutX(x);
+            target.getImgView().setLayoutY(y);
+            target.getCld().ret.setX(x);
+            target.getCld().ret.setY(y);
+            target.getvBox().setLayoutX(x);
+            target.getvBox().setLayoutY(y - 20); });
+    }
+
+
+
+    public void init(){
+        dir_settings = Map.of(
+                Direction.UP, new DirectionSetting( Set.of(AInputCommands.forward, AInputCommands.forwardArrow),
+                        t -> t.getY() > IScreenSettings.sizeTile,
+                        t -> { t.setDir_backward(true);t.setDir_forward(false); },
+                        t -> t.changeImage(EGameImages.Back_Pg.getImage()),
+                        (dt, t) -> { if (t.getCld().fr) updatePosition(t, t.getX(), t.getY() - t.getSpeed() * dt); } ),
+
+                Direction.DOWN, new DirectionSetting( Set.of(AInputCommands.backward, AInputCommands.backwardArrow),
+                        t -> t.getY() < IScreenSettings.screenHeight - IScreenSettings.sizeTile * 2,
+                        t -> { t.setDir_forward(true); t.setDir_backward(false); },
+                        t -> t.changeImage(EGameImages.Front_Pg.getImage()),
+                        (dt, t) -> { if (t.getCld().br) updatePosition(t, t.getX(), t.getY() + t.getSpeed() * dt); } ),
+
+                Direction.LEFT, new DirectionSetting( Set.of(AInputCommands.leftward, AInputCommands.leftwardArrow),
+                        t -> t.getX() > IScreenSettings.sizeTile,
+                        t -> { t.setDir_leftward(true); t.setDir_rightward(false); },
+                        t -> t.changeImage(EGameImages.Left_Side_Pg.getImage()),
+                        (dt, t) -> { if (t.getCld().dx) updatePosition(t, t.getX() - t.getSpeed() * dt, t.getY()); } ),
+
+                Direction.RIGHT, new DirectionSetting( Set.of(AInputCommands.rightward, AInputCommands.rightwardArrow),
+                        t -> t.getX() < IScreenSettings.screenWidth - IScreenSettings.sizeTile * 2,
+                        t -> { t.setDir_rightward(true); t.setDir_leftward(false); },
+                        t -> t.changeImage(EGameImages.Right_Side_Pg.getImage()),
+                        (dt, t) -> { if (t.getCld().sx) updatePosition(t, t.getX() + t.getSpeed() * dt, t.getY()); } )
+        );
+    }
+
+
 
 
     @Override
     public void movement(double deltatime,  ACharacter target) {
-
-        Platform.runLater(() -> { sprint.controlSprint(deltatime,this.getKeysPressed(),target); });
-
-        if ( (this.getKeysPressed().contains(AInputCommands.forward) || this.getKeysPressed().contains(AInputCommands.forwardArrow)) && target.getY() >IScreenSettings.sizeTile
-        ) {
-            target.setDir_backward(true);
-
-            target.changeImage(EGameImages.Back_Pg.getImage());
-            if( target.getCld().fr)   this.moveUp(deltatime, target);
+        Platform.runLater(() -> sprint.controlSprint(deltatime, getKeysPressed(), target));
+        for (var entry : dir_settings.entrySet()) {
+            DirectionSetting dir_set = entry.getValue();
+            boolean pressed = getKeysPressed().stream().anyMatch(dir_set.inputs()::contains);
+            if (pressed && dir_set.boundary_check().test(target)) {
+                dir_set.set_direction_flag().accept(target);
+                dir_set.set_image().accept(target);
+                dir_set.move_if_allowed().accept(deltatime, target);
+            }
         }
-        else{
-            target.setDir_forward(false);
-        }
-
-        if ( (this.getKeysPressed().contains( AInputCommands.backward) || this.getKeysPressed().contains(AInputCommands.backwardArrow)) &&  target.getY() < (IScreenSettings.screenHeight- IScreenSettings.sizeTile*2)
-        ) {
-            target.setDir_forward(true);
-
-            target.changeImage(EGameImages.Front_Pg.getImage());
-            if( target.getCld().br)  this.moveDown(deltatime, target);
-        }
-        else{
-            target.setDir_backward(false);
-        }
-
-        if ( (this.getKeysPressed().contains(AInputCommands.leftward) || this.getKeysPressed().contains(AInputCommands.leftwardArrow)) &&  target.getX() > IScreenSettings.sizeTile
-        ) {
-            target.setDir_leftward(true);
-
-
-            target.changeImage(EGameImages.Left_Side_Pg.getImage());
-            if( target.getCld().dx) this.moveLeft(deltatime, target);
-        }
-        else{
-            target.setDir_leftward(false);
-        }
-
-        if ( (this.getKeysPressed().contains(AInputCommands.rightward) || this.getKeysPressed().contains(AInputCommands.rightwardArrow)) && target.getX() < (IScreenSettings.screenWidth- IScreenSettings.sizeTile*2)
-        ) {
-            target.setDir_rightward(true);
-
-            target.changeImage(EGameImages.Right_Side_Pg.getImage());
-            if( target.getCld().sx)    this.moveRight(deltatime, target);
-        }
-        else{
-            target.setDir_rightward(false);
-        }
-    }
-
-
-    protected void moveUp(double deltaTime, ACharacter target) {
-        double y = target.getY();
-        y -= target.getSpeed() * deltaTime ;
-        target.setY(y);
-        Platform.runLater(() -> { target.getImgView().setLayoutY(target.getY()); target.getCld().ret.setY(target.getY());   target.getvBox().setLayoutY(target.getY()-20);});
-    }
-
-
-    protected void moveDown(double deltaTime, ACharacter target) {
-        double y = target.getY();
-        y += target.getSpeed() * deltaTime ;
-        target.setY(y);
-        Platform.runLater(() -> {
-            target.getImgView().setLayoutY(target.getY()); target.getCld().ret.setY(target.getY()); target.getvBox().setLayoutY(target.getY()-20);});
-    }
-
-
-    protected void moveLeft(double deltaTime, ACharacter target) {
-        double x = target.getX();
-        x -= target.getSpeed() * deltaTime ;
-        target.setX(x);
-        Platform.runLater(() -> {
-            target.getImgView().setLayoutX(target.getX()); target.getCld().ret.setX(target.getX()); target.getvBox().setLayoutX(target.getX());});
-    }
-
-
-    protected void moveRight(double deltaTime, ACharacter target) {
-        double x = target.getX();
-        x += target.getSpeed() * deltaTime ;
-        target.setX(x);
-        Platform.runLater(() -> {
-            target.getImgView().setLayoutX(target.getX()); target.getCld().ret.setX(target.getX()); target.getvBox().setLayoutX(target.getX());});
     }
 
 }

@@ -1,11 +1,10 @@
 package com.example.game;
 
-public class GameOverState implements IGameLoopState{
+public class WinState implements IGameLoopState{
 
     @Override
     public void start(GameUpdate context) {
-        System.out.println("GameOver");
-        context.kill_Character(context.getPlr());
+        System.out.println("Nemico sconfitto, hai vinto!");
     }
 
     @Override

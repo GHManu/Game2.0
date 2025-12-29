@@ -1,6 +1,6 @@
 package com.example.game;
 
-public abstract class IMovementStrategyWithoutInput implements IMovementStrategy{
+public abstract class AMovementStrategyWithoutInput implements IMovementStrategy{
     private ACharacter target;
 
     public ACharacter getTarget() {

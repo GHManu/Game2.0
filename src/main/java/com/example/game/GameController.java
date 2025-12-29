@@ -20,7 +20,7 @@ public class GameController {
 
     private void initController() {
         view.getStartButton().setOnAction(e -> startGame());
-        view.getQuitButton().setOnAction(e -> Platform.exit());
+        view.getQuitButton().setOnAction(e -> {this.model.stopGame(); Platform.exit();});
 
         stage.setTitle("Simple Game");
         stage.setScene(view.getMenuScene());
@@ -37,6 +37,7 @@ public class GameController {
         GameUpdate gameUpdate = GameUpdate.getInstance(gameRoot);
         gameUpdate.startGameLoop(gameScene);
         stage.setResizable(false);
-        stage.setOnCloseRequest(event -> System.exit(0));
+        stage.setOnCloseRequest(event ->{ this.model.stopGame(); System.exit(0);});
+
     }
 }
