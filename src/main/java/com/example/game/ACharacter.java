@@ -17,15 +17,8 @@ public abstract class ACharacter extends AEntity{
     private double speed;
 
 
-    private boolean dir_forward;
-    private boolean dir_backward;
-    private boolean dir_rightward;
-    private boolean dir_leftward;
-    private boolean dir_forward_oblq_right;
-    private boolean dir_forward_oblq_left;
-    private boolean dir_backward_oblq_right;
-    private boolean dir_backward_oblq_left;
-    private boolean goingDown; //per adesso per l'enemy
+    private Direction direction = Direction.DOWN;
+
 
     protected boolean init_attack_flag;
     protected boolean attack_flag;
@@ -65,6 +58,13 @@ public abstract class ACharacter extends AEntity{
     }
 
 
+    public Direction getDirection() {
+        return direction;
+    }
+
+    public void setDirection(Direction direction) {
+        this.direction = direction;
+    }
     public ProgressBar getProgressBar() {
         return progressBar;
     }
@@ -113,77 +113,6 @@ public abstract class ACharacter extends AEntity{
         this.speed = speed;
     }
 
-    public boolean isDir_forward() {
-        return dir_forward;
-    }
-
-    public void setDir_forward(boolean dir_forward) {
-        this.dir_forward = dir_forward;
-    }
-
-    public boolean isDir_backward() {
-        return dir_backward;
-    }
-
-    public void setDir_backward(boolean dir_backward) {
-        this.dir_backward = dir_backward;
-    }
-
-    public boolean isDir_rightward() {
-        return dir_rightward;
-    }
-
-    public void setDir_rightward(boolean dir_rightward) {
-        this.dir_rightward = dir_rightward;
-    }
-
-    public boolean isDir_leftward() {
-        return dir_leftward;
-    }
-
-    public void setDir_leftward(boolean dir_leftward) {
-        this.dir_leftward = dir_leftward;
-    }
-
-    public boolean isDir_forward_oblq_right() {
-        return dir_forward_oblq_right;
-    }
-
-    public void setDir_forward_oblq_right(boolean dir_forward_oblq_right) {
-        this.dir_forward_oblq_right = dir_forward_oblq_right;
-    }
-
-    public boolean isDir_forward_oblq_left() {
-        return dir_forward_oblq_left;
-    }
-
-    public void setDir_forward_oblq_left(boolean dir_forward_oblq_left) {
-        this.dir_forward_oblq_left = dir_forward_oblq_left;
-    }
-
-    public boolean isDir_backward_oblq_right() {
-        return dir_backward_oblq_right;
-    }
-
-    public void setDir_backward_oblq_right(boolean dir_backward_oblq_right) {
-        this.dir_backward_oblq_right = dir_backward_oblq_right;
-    }
-
-    public boolean isDir_backward_oblq_left() {
-        return dir_backward_oblq_left;
-    }
-
-    public void setDir_backward_oblq_left(boolean dir_backward_oblq_left) {
-        this.dir_backward_oblq_left = dir_backward_oblq_left;
-    }
-
-    public boolean isGoingDown() {
-        return goingDown;
-    }
-
-    public void setGoingDown(boolean goingDown) {
-        this.goingDown = goingDown;
-    }
 
     public boolean isAttack_flag() {
         return attack_flag;

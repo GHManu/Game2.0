@@ -20,8 +20,8 @@ public class SixWaySmoothlyMovementWithInput extends AMovementStrategyWithInput 
         Platform.runLater(() -> {
             target.getImgView().setLayoutX(x);
             target.getImgView().setLayoutY(y);
-            target.getCld().ret.setX(x);
-            target.getCld().ret.setY(y);
+            target.getCld().getShape().setX(x);
+            target.getCld().getShape().setY(y);
             target.getvBox().setLayoutX(x);
             target.getvBox().setLayoutY(y - 20); });
     }
@@ -31,28 +31,28 @@ public class SixWaySmoothlyMovementWithInput extends AMovementStrategyWithInput 
     public void init(){
         dir_settings = Map.of(
                 Direction.UP, new DirectionSetting( Set.of(AInputCommands.forward, AInputCommands.forwardArrow),
-                        t -> t.getY() > IScreenSettings.sizeTile,
-                        t -> { t.setDir_backward(true);t.setDir_forward(false); },
-                        t -> t.changeImage(EGameImages.Back_Pg.getImage()),
-                        (dt, t) -> { if (t.getCld().fr) updatePosition(t, t.getX(), t.getY() - t.getSpeed() * dt); } ),
+                        plr -> plr.getY() > IScreenSettings.sizeTile,
+                        plr -> { plr.setDirection(Direction.DOWN); },
+                        plr -> plr.changeImage(EGameImages.Back_Pg.getImage()),
+                        (dt, plr) -> { if (plr.getCld().canHit(Direction.UP)) updatePosition(plr, plr.getX(), plr.getY() - plr.getSpeed() * dt); } ),
 
                 Direction.DOWN, new DirectionSetting( Set.of(AInputCommands.backward, AInputCommands.backwardArrow),
-                        t -> t.getY() < IScreenSettings.screenHeight - IScreenSettings.sizeTile * 2,
-                        t -> { t.setDir_forward(true); t.setDir_backward(false); },
-                        t -> t.changeImage(EGameImages.Front_Pg.getImage()),
-                        (dt, t) -> { if (t.getCld().br) updatePosition(t, t.getX(), t.getY() + t.getSpeed() * dt); } ),
+                        plr -> plr.getY() < IScreenSettings.screenHeight - IScreenSettings.sizeTile * 2,
+                        plr -> { plr.setDirection(Direction.UP); },
+                        plr -> plr.changeImage(EGameImages.Front_Pg.getImage()),
+                        (dt, plr) -> { if (plr.getCld().canHit(Direction.DOWN)) updatePosition(plr, plr.getX(), plr.getY() + plr.getSpeed() * dt); } ),
 
                 Direction.LEFT, new DirectionSetting( Set.of(AInputCommands.leftward, AInputCommands.leftwardArrow),
-                        t -> t.getX() > IScreenSettings.sizeTile,
-                        t -> { t.setDir_leftward(true); t.setDir_rightward(false); },
-                        t -> t.changeImage(EGameImages.Left_Side_Pg.getImage()),
-                        (dt, t) -> { if (t.getCld().dx) updatePosition(t, t.getX() - t.getSpeed() * dt, t.getY()); } ),
+                        plr -> plr.getX() > IScreenSettings.sizeTile,
+                        plr -> { plr.setDirection(Direction.RIGHT); },
+                        plr -> plr.changeImage(EGameImages.Left_Side_Pg.getImage()),
+                        (dt, plr) -> { if (plr.getCld().canHit(Direction.LEFT)) updatePosition(plr, plr.getX() - plr.getSpeed() * dt, plr.getY()); } ),
 
                 Direction.RIGHT, new DirectionSetting( Set.of(AInputCommands.rightward, AInputCommands.rightwardArrow),
-                        t -> t.getX() < IScreenSettings.screenWidth - IScreenSettings.sizeTile * 2,
-                        t -> { t.setDir_rightward(true); t.setDir_leftward(false); },
-                        t -> t.changeImage(EGameImages.Right_Side_Pg.getImage()),
-                        (dt, t) -> { if (t.getCld().sx) updatePosition(t, t.getX() + t.getSpeed() * dt, t.getY()); } )
+                        plr -> plr.getX() < IScreenSettings.screenWidth - IScreenSettings.sizeTile * 2,
+                        plr -> {plr.setDirection(Direction.RIGHT); },
+                        plr -> plr.changeImage(EGameImages.Right_Side_Pg.getImage()),
+                        (dt, plr) -> { if (plr.getCld().canHit(Direction.RIGHT)) updatePosition(plr, plr.getX() + plr.getSpeed() * dt, plr.getY()); } )
         );
     }
 

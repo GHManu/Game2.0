@@ -32,14 +32,6 @@ public class Player extends ACharacterPlayable {
         this.setInit_attack_flag(false);
         this.setAttack_flag(false);
 
-        setDir_forward(false);
-        setDir_backward(false);
-        setDir_rightward(false);
-        setDir_leftward(false);
-        setDir_forward_oblq_right(false);
-        setDir_forward_oblq_left(false);
-        setDir_backward_oblq_right(false);
-        setDir_backward_oblq_left(false);
 
         this.setHealth(this.getInitial_Health());
         setSpeed(2.5);

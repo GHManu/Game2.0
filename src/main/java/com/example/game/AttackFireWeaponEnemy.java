@@ -11,70 +11,118 @@ import javafx.scene.shape.Rectangle;
 public class AttackFireWeaponEnemy implements IFightStrategy{
 
 
-    @Override
-    public void normalAttack(double deltatime, ACharacterEnemy subject, ACharacterPlayable target) {
-
-        AFireWeapon fireWeapon = ((AFireWeapon)subject.getWeapon());
-        this.initAttack(deltatime, subject, target);
-
-        Collider target_cld = target.getCld();
-        Rectangle ret = target_cld.ret;
-        ImageView target_img_view = target.getImgView();
-        ProgressBar target_prog_bar = target.getProgressBar();
-        VBox target_vbox = target.getvBox();
-        ObservableList<Node> target_root_children = target.root.getChildren();
-
-
-        ProgressBar subject_prog_bar = subject.getProgressBar();
-
-
-        Collider projectile_cld = fireWeapon.p.getCld();
-        Rectangle projectile_cld_ret = projectile_cld.ret;
-
-
-        if(subject_prog_bar.getProgress() > 0.1 && target_prog_bar.getProgress() > 0.1)    subject.getMovementStrategy().movement(deltatime, subject);
-
-        if(subject_prog_bar.getProgress() > 0.1 && !subject.attack_flag && target_prog_bar.getProgress() > 0.1) {  //finchè è in vita
-
-            fireWeapon.p =  fireWeapon.getMag().getFirst();
-            subject.getWeapon().fight(deltatime);
-
-            projectile_cld.collision_Detected(projectile_cld_ret, false);
-
-            if (fireWeapon.p.isArrived(target.getX(), target.getY())) {
-                Platform.runLater(() -> { target_root_children.remove( fireWeapon.p.getImgView()); } );
-                subject.attack_flag = true;
-            }
-            if(projectile_cld_ret.intersects(ret.getBoundsInLocal())){
-
-                if(target_cld.dx && target.getX() > 0){
-                    setPlrCollisionX(target_img_view, ret, target_prog_bar, target_vbox, -target.getSpeed(), subject.getREBOUND());
-                }
-
-                if(target_cld.sx && target.getX() < (IScreenSettings.screenWidth- IScreenSettings.sizeTile)){
-                    setPlrCollisionX(target_img_view, ret, target_prog_bar, target_vbox, target.getSpeed(), subject.getREBOUND());
-                }
-
-                if(target_cld.br && target.getY() < (IScreenSettings.screenHeight- IScreenSettings.sizeTile)){
-                    setPlrCollisionY(target_img_view, ret, target_prog_bar, target_vbox, target.getSpeed(), subject.getREBOUND());
-                }
-                if(target_cld.fr && target.getY() >0){
-                    setPlrCollisionY(target_img_view, ret, target_prog_bar, target_vbox, -target.getSpeed(), subject.getREBOUND());
-                }
-
-                Platform.runLater(() -> { target_root_children.removeAll(projectile_cld_ret, fireWeapon.p.getImgView()); } );
-                Platform.runLater(() -> {  target_prog_bar.setProgress(target_prog_bar.getProgress() - 0.2); });
-                subject.attack_flag = true;
-            }
-
+    private void moveEnemyIfAlive(double dt, ACharacterEnemy subject, ACharacterPlayable target) {
+        if (subject.getProgressBar().getProgress() > 0.1 &&
+                target.getProgressBar().getProgress() > 0.1) {
+            subject.getMovementStrategy().movement(dt, subject);
         }
-
-
-        if(subject_prog_bar.getProgress() < 0.1 && !fireWeapon.p.isArrived(target.getX(), target.getY())){
-            Platform.runLater(() -> { target_root_children.removeAll(projectile_cld_ret, fireWeapon.p.getImgView()); } );
-        }
-
     }
+    private void updateProjectile(double dt, ACharacterEnemy subject, ACharacterPlayable target, AFireWeapon fireWeapon) {
+
+        fireWeapon.p = fireWeapon.getMag().getFirst();
+        subject.getWeapon().fight(dt);
+
+        Collider projectileCld = fireWeapon.p.getCld();
+        projectileCld.collisionDetected(projectileCld.getShape(), false);
+    }
+    private void removeProjectile(ObservableList<Node> root, Projectile p) {
+        Platform.runLater(() -> root.remove(p.getImgView()));
+    }
+    private void applyDamage(ACharacterPlayable target, double amount) {
+        Platform.runLater(() -> {
+            target.getProgressBar().setProgress(
+                    target.getProgressBar().getProgress() - amount
+            );
+        });
+    }
+    private void applyCollision(
+            ACharacterPlayable target,
+            double dx, double dy,
+            double rebound) {
+
+        ImageView img = target.getImgView();
+        Rectangle shape = target.getCld().getShape();
+        ProgressBar bar = target.getProgressBar();
+        VBox vbox = target.getvBox();
+
+        Platform.runLater(() -> {
+            img.setX(img.getX() + dx * rebound);
+            img.setY(img.getY() + dy * rebound);
+
+            shape.setLayoutX(shape.getLayoutX() - dx * rebound);
+            shape.setLayoutY(shape.getLayoutY() - dy * rebound);
+
+            bar.setTranslateX(bar.getTranslateX() + dx * rebound * 0.4);
+            bar.setTranslateY(bar.getTranslateY() + dy * rebound * 0.4);
+
+            vbox.setTranslateX(vbox.getTranslateX() + dx * rebound * 0.4);
+            vbox.setTranslateY(vbox.getTranslateY() + dy * rebound * 0.4);
+        });
+    }
+
+
+
+    @Override
+    public void normalAttack(double dt, ACharacterEnemy subject, ACharacterPlayable target) {
+
+        AFireWeapon fireWeapon = (AFireWeapon) subject.getWeapon();
+        initAttack(dt, subject, target);
+
+        ProgressBar subjectBar = subject.getProgressBar();
+        ProgressBar targetBar = target.getProgressBar();
+
+
+        moveEnemyIfAlive(dt, subject, target);
+
+        if (subjectBar.getProgress() > 0.1 &&
+                !subject.attack_flag &&
+                targetBar.getProgress() > 0.1) {
+
+            updateProjectile(dt, subject, target, fireWeapon);
+
+            Projectile p = fireWeapon.p;
+            Collider projectileCld = p.getCld();
+
+
+            if (p.isArrived(target.getX(), target.getY())) {
+                removeProjectile(target.root.getChildren(), p);
+                subject.attack_flag = true;
+                return;
+            }
+
+
+            if (projectileCld.getShape().intersects(target.getCld().getShape().getBoundsInLocal())) {
+
+                Collider cld = target.getCld();
+
+                double speed = target.getSpeed();
+                double rebound = subject.getREBOUND();
+
+                if (cld.canHit(Direction.RIGHT))
+                    applyCollision(target, -speed, 0, rebound);
+
+                if (cld.canHit(Direction.LEFT))
+                    applyCollision(target,  speed, 0, rebound);
+
+                if (cld.canHit(Direction.DOWN))
+                    applyCollision(target, 0,  speed, rebound);
+
+                if (cld.canHit(Direction.UP))
+                    applyCollision(target, 0, -speed, rebound);
+
+                removeProjectile(target.root.getChildren(), p);
+                applyDamage(target, 0.2);
+
+                subject.attack_flag = true;
+            }
+        }
+
+        if (subjectBar.getProgress() < 0.1 &&
+                !fireWeapon.p.isArrived(target.getX(), target.getY())) {
+            removeProjectile(target.root.getChildren(), fireWeapon.p);
+        }
+    }
+
     @Override
     public void initAttack(double deltatime, ACharacterEnemy enemy, ACharacterPlayable player) {
         if (enemy.attack_flag && player.getProgressBar().getProgress() > 0.1 && enemy.getProgressBar().getProgress() > 0.1) {
@@ -91,22 +139,5 @@ public class AttackFireWeaponEnemy implements IFightStrategy{
         }
 
 
-    }
-
-    private void setPlrCollisionY(ImageView imageView, Rectangle ret, ProgressBar progbar, VBox vBox, double speed, double enemyrebound){
-        Platform.runLater(() -> {
-            imageView.setY(imageView.getY() + (speed * enemyrebound));
-            ret.setLayoutY(ret.getLayoutY() - (speed * enemyrebound));
-            progbar.setTranslateY(progbar.getTranslateY() + (speed * enemyrebound* 0.4));
-            vBox.setTranslateY(vBox.getTranslateY() + (speed * enemyrebound* 0.4));
-        });
-    }
-    private void setPlrCollisionX(ImageView imageView, Rectangle ret, ProgressBar progbar, VBox vBox, double speed, double enemyrebound){
-        Platform.runLater(() -> {
-            imageView.setX(imageView.getX() + (speed * enemyrebound));
-            ret.setLayoutX(ret.getLayoutX() - (speed * enemyrebound));
-            progbar.setTranslateX(progbar.getTranslateX() + (speed * enemyrebound* 0.4));
-            vBox.setTranslateX(vBox.getTranslateX() + (speed * enemyrebound* 0.4));
-        });
     }
 }

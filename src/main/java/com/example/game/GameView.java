@@ -11,6 +11,10 @@ public class GameView {
     private Button quitButton;
     private Scene menuScene;
 
+
+    private Scene victoryScene;
+    private Scene gameOverScene;
+
     public GameView(double width, double height) {
         menuLayout = new VBox(20);
         menuLayout.setAlignment(Pos.CENTER);
@@ -26,7 +30,16 @@ public class GameView {
 
         menuScene = new Scene(menuLayout, width, height);
         menuScene.getStylesheets().add(getClass().getResource("Style/SceneStyle.css").toExternalForm());
+
+
+        victoryScene = VictoryScene.create(
+                () -> {},
+                () -> {} );
+        gameOverScene = GameOverScene.create(
+                () -> {},
+                () -> {} );
     }
+
 
     public Scene getMenuScene() {
         return menuScene;
@@ -36,7 +49,10 @@ public class GameView {
         return startButton;
     }
 
-    public Button getQuitButton() {
-        return quitButton;
-    }
+    public Button getQuitButton() { return quitButton; }
+
+    public Scene getVictoryScene() { return victoryScene; }
+
+    public Scene getGameOverScene() { return gameOverScene; }
+
 }

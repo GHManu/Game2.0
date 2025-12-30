@@ -27,4 +27,7 @@ public class GameModel {
     public void stopGame() {
         gameState.stop(this);
     }
+
+    public void win(GameController controller) { controller.showVictory(); }
+    public void lose(GameController controller) { controller.showGameOver(); }
 }

@@ -28,7 +28,7 @@ il movimento e l'attacco in base al movimento e all'arma e cerco di implementare
 - Uso il design patter MVC(Model View Controller) per separare logica, UI e interazione e uso anche lo State per le diverse fasi del gioco
 - Uso un HashMap per la mappa così riesco a riempire anche coordinate negative
 - Uso un altro state per le diverse fasi del game loop
-
+- Ho tolto il Singleton poichè sennò non potevo fare rigioca
 
 ### UML (Class Diagram)
 ```mermaid

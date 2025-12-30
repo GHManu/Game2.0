@@ -8,9 +8,7 @@ import javafx.scene.layout.VBox;
 public class Enemy extends ACharacterEnemy {
 
     public Enemy(){
-
-
-        setGoingDown(true);
+        this.setDirection(Direction.DOWN);
 
         setX( (IScreenSettings.screenWidth/2.0) + 150.0);
         setY((IScreenSettings.screenHeight/2.0) - 120.0);
@@ -21,16 +19,6 @@ public class Enemy extends ACharacterEnemy {
         getvBox().setSpacing(10);
         getvBox().setLayoutX(getX());
         getvBox().setLayoutY(getY() - 20);
-
-
-        setDir_forward(false);
-        setDir_backward(false);
-        setDir_rightward(false);
-        setDir_leftward(false);
-        setDir_forward_oblq_right(false);
-        setDir_forward_oblq_left(false);
-        setDir_backward_oblq_right(false);
-        setDir_backward_oblq_left(false);
 
          this.setHealth(this.getInitial_Health());
         setSpeed(1.5);

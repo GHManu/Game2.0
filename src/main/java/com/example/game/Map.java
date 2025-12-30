@@ -56,17 +56,17 @@ public class Map extends AEntity{
             switch (value) {
                 case 1: // muro
                     Wall wall = new Wall(p.x, p.y);
-                    root.getChildren().add(wall.getCld().ret);
+                    root.getChildren().add(wall.getCld().getShape());
                     root.getChildren().add(wall.getImgView());
                     break;
                 case 2: // acqua
                     Water water = new Water(p.x, p.y);
-                    root.getChildren().add(water.getCld().ret);
+                    root.getChildren().add(water.getCld().getShape());
                     root.getChildren().add(water.getImgView());
                     break;
                 default: // erba
                     Grass grass = new Grass(p.x, p.y);
-                    root.getChildren().add(grass.getCld().ret);
+                    root.getChildren().add(grass.getCld().getShape());
                     root.getChildren().add(grass.getImgView());
                     break;
             }

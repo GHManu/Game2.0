@@ -30,14 +30,14 @@ public class AttackFireWeaponPlayer implements IFightStrategy{
                 removeProjectile(p, player, it);
                 continue;
             }
-            if (enemy.getCld().ret != null && p.getCld().ret.intersects(enemy.getCld().ret.getBoundsInLocal())) {
+            if (enemy.getCld().getShape() != null && p.getCld().getShape().intersects(enemy.getCld().getShape().getBoundsInLocal())) {
                 if (enemy.getHealth() > 1) {
                     applyDamage(enemy, p);
                 }
                 removeProjectile(p, player, it);
                 continue;
             }
-            if (!fwEnemy.getMag().isEmpty() && p.getCld().ret.intersects(fwEnemy.getMag().getFirst().getCld().ret.getBoundsInLocal())) {
+            if (!fwEnemy.getMag().isEmpty() && p.getCld().getShape().intersects(fwEnemy.getMag().getFirst().getCld().getShape().getBoundsInLocal())) {
                 removeProjectile(p, player, it);
             }
         }

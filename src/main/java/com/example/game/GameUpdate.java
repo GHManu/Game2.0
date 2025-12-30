@@ -13,18 +13,26 @@ public class GameUpdate implements Runnable{
     private final Group world;
     private ACharacterPlayable plr;
     private final Thread currentThread;
-    private GameScene gameScene;
+    private GameScene game_scene;
     private final float FPS = 60;
     private ACharacterEnemy enemy;
-    private ACharacterEnemyFactory characterEnemyFactory;
+    private ACharacterEnemyFactory character_enemy_factory;
     private AWeaponFactory weaponFactory;
     private final Map world_map;
     private IGameLoopState current_state;
     Set<KeyCode> keys_pressed;
+    private GameController game_controller;
 
     private volatile static GameUpdate uniqueInstance;
 
 
+    public GameController getGame_controller() {
+        return game_controller;
+    }
+
+    public void setGame_controller(GameController game_controller) {
+        this.game_controller = game_controller;
+    }
 
     public void setState(IGameLoopState newState) {
         if (current_state != null)
@@ -33,7 +41,7 @@ public class GameUpdate implements Runnable{
         current_state.start(this);
     }
 
-    private GameUpdate(Group world){
+    protected GameUpdate(Group world){
         this.setState(new PlayingState());
         currentThread = new Thread(this);
         weaponFactory = new FireWeaponFactory();
@@ -42,28 +50,29 @@ public class GameUpdate implements Runnable{
         plr = new Player(weaponFactory.createWeapon("pistol"));
 
 
-        characterEnemyFactory = new EnemyFactory();
+        character_enemy_factory = new EnemyFactory();
         plr.setMovementStrategy(new SixWaySmoothlyMovementWithInput());
         plr.setFightStrategy(new AttackFireWeaponPlayer());
-        enemy = characterEnemyFactory.createEnemy("fire weapon", "pistol", "without input", "oneway");
+        enemy = character_enemy_factory.createEnemy("fire weapon", "pistol", "without input", "oneway");
 
     }
 
-    public static GameUpdate getInstance(Group root){
-        if(uniqueInstance == null)
-            synchronized (GameUpdate.class){
-                if(uniqueInstance == null)
-                    uniqueInstance =  new GameUpdate(root);
-            }
-        return uniqueInstance;
-    }
+//    public static GameUpdate getInstance(Group root){
+//        if(uniqueInstance == null)
+//            synchronized (GameUpdate.class){
+//                if(uniqueInstance == null)
+//                    uniqueInstance =  new GameUpdate(root);
+//            }
+//        return uniqueInstance;
+//    }
 
 
 
     public void startGameLoop(GameScene gameScene){
+        world.getChildren().clear();
         plr.setRoot(world);
         plr.setEnemy(enemy);
-        this.gameScene = gameScene;
+        this.game_scene = gameScene;
 
 
         world_map.drawMap(world);
@@ -88,8 +97,8 @@ public class GameUpdate implements Runnable{
         keys_pressed = new HashSet<>();
 
         if(plr.getProgressBar().getProgress() > 0.1){
-            gameScene.setOnKeyPressed((event) -> keys_pressed.add(event.getCode()));
-            gameScene.setOnKeyReleased(event -> keys_pressed.remove(event.getCode()));
+            game_scene.setOnKeyPressed((event) -> keys_pressed.add(event.getCode()));
+            game_scene.setOnKeyReleased(event -> keys_pressed.remove(event.getCode()));
         }
 
 
@@ -108,14 +117,14 @@ public class GameUpdate implements Runnable{
     }
 
     protected void kill_Character(ACharacter character){
-        if(character != null && character.getCld().ret != null) {
+        if(character != null && character.getCld().getShape() != null) {
             Platform.runLater(() -> {
                 plr.root.getChildren().remove(character.getvBox());
                 character.setvBox(null);
             });
             Platform.runLater(() -> {
-                plr.root.getChildren().remove(character.getCld().ret);
-                character.getCld().ret = null;
+                plr.root.getChildren().remove(character.getCld().getShape());
+                character.getCld().setShape(null);
             });
            Platform.runLater(() -> {
                 plr.root.getChildren().remove(character.getImgView());
@@ -127,8 +136,8 @@ public class GameUpdate implements Runnable{
     }
 
     protected void updateCamera() {
-        double targetX = gameScene.getWidth() / 2 - (plr.getX() + plr.getImg().getWidth() / 2);
-        double targetY = gameScene.getHeight() / 2 - (plr.getY() + plr.getImg().getHeight() / 2);
+        double targetX = game_scene.getWidth() / 2 - (plr.getX() + plr.getImg().getWidth() / 2);
+        double targetY = game_scene.getHeight() / 2 - (plr.getY() + plr.getImg().getHeight() / 2);
 
         // Fattore di interpolazione (0.1 = segue lentamente, 1 = istantaneo)
         double lerpFactor = 1;
@@ -143,7 +152,7 @@ public class GameUpdate implements Runnable{
 
     protected void gameMethodMovementHandler(double deltaTime, Set<KeyCode> keysPressed) {
 
-            if(enemy != null && plr != null && plr.getCld() != null && enemy.getCld() != null)   plr.getCld().collision_Detected(enemy.getCld().ret, true);
+            if(enemy != null && plr != null && plr.getCld() != null && enemy.getCld() != null)   plr.getCld().collisionDetected(enemy.getCld().getShape(), true);
 
 
             assert plr != null;
@@ -155,7 +164,7 @@ public class GameUpdate implements Runnable{
     protected void gameMethodAttackHandler(double deltatime){
 
              if(plr.getProgressBar().getProgress() > 5.551115123125783E-17) {
-                 gameScene.setOnMouseClicked(new EventHandler<MouseEvent>() {
+                 game_scene.setOnMouseClicked(new EventHandler<MouseEvent>() {
                      @Override
                      public void handle(MouseEvent mouseEvent) {
                          double getSceneX = mouseEvent.getSceneX();

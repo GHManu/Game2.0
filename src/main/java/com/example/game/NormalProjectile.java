@@ -47,8 +47,8 @@ public class NormalProjectile extends Projectile {
         Platform.runLater(() -> {
             this.getImgView().setLayoutX(this.getX());
             this.getImgView().setLayoutY(this.getY());
-            this.getCld().ret.setX(this.getX());
-            this.getCld().ret.setY(this.getY());
+            this.getCld().getShape().setX(this.getX());
+            this.getCld().getShape().setY(this.getY());
 
         });
 

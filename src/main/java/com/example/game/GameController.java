@@ -34,10 +34,15 @@ public class GameController {
         GameScene gameScene = new GameScene(gameRoot, GameScene.screenWidth, GameScene.screenHeight, Color.BLACK);
 
         stage.setScene(gameScene);
-        GameUpdate gameUpdate = GameUpdate.getInstance(gameRoot);
+        GameUpdate gameUpdate = new GameUpdate(gameRoot);
         gameUpdate.startGameLoop(gameScene);
+        gameUpdate.setGame_controller(this);
         stage.setResizable(false);
         stage.setOnCloseRequest(event ->{ this.model.stopGame(); System.exit(0);});
 
     }
+
+
+    public void showVictory() { stage.setScene(VictoryScene.create(this::startGame, () -> System.exit(0) )); }
+    public void showGameOver() { stage.setScene(GameOverScene.create(this::startGame, () -> System.exit(0) )); }
 }
