@@ -13,7 +13,7 @@ public class PlayingState implements IGameLoopState{
     public void update(GameUpdate context, double deltatime) {
         Platform.runLater(context::updateCamera);
         if(context.getPlr().getProgressBar().getProgress() > 0.1)
-            context.gameMethodMovementHandler(deltatime, context.keys_pressed);
+            context.gameMethodMovementHandler(deltatime, context.getKeys_pressed());
 
         if(context.getPlr().getProgressBar().getProgress() > 0.00000000000001)
             context.gameMethodAttackHandler(deltatime);

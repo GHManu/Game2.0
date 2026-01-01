@@ -5,7 +5,7 @@ import javafx.scene.input.KeyCode;
 
 import java.util.Set;
 
-//16 righe
+
 
 public abstract class ACharacterPlayable extends ACharacter {
     protected Group root;

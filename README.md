@@ -29,6 +29,7 @@ il movimento e l'attacco in base al movimento e all'arma e cerco di implementare
 - Uso un HashMap per la mappa così riesco a riempire anche coordinate negative
 - Uso un altro state per le diverse fasi del game loop
 - Ho tolto il Singleton poichè sennò non potevo fare rigioca
+- Applico un Observer per la gestione di eventi, per separare ad esempio la logica dell'UI dalla logica dei calcoli dei danni e abbassamento valori (poi si può estendee ad audio ecc...)
 
 ### UML (Class Diagram)
 ```mermaid

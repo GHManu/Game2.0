@@ -1,10 +1,8 @@
 package com.example.game;
 
 import javafx.application.Platform;
-import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.input.KeyCode;
-import javafx.scene.input.MouseEvent;
 
 import java.util.*;
 
@@ -17,14 +15,12 @@ public class GameUpdate implements Runnable{
     private final float FPS = 60;
     private ACharacterEnemy enemy;
     private ACharacterEnemyFactory character_enemy_factory;
-    private AWeaponFactory weaponFactory;
+    private ACharacterPlayableFactory character_playable_factory;
     private final Map world_map;
     private IGameLoopState current_state;
-    Set<KeyCode> keys_pressed;
+    private Set<KeyCode> keys_pressed;
     private GameController game_controller;
-
-    private volatile static GameUpdate uniqueInstance;
-
+    private HUD hud_enemy;
 
     public GameController getGame_controller() {
         return game_controller;
@@ -42,30 +38,21 @@ public class GameUpdate implements Runnable{
     }
 
     protected GameUpdate(Group world){
+        EventUIBus.GetInstance();
         this.setState(new PlayingState());
         currentThread = new Thread(this);
-        weaponFactory = new FireWeaponFactory();
+
         this.world = world;
         world_map = new Map();
-        plr = new Player(weaponFactory.createWeapon("pistol"));
 
-
+        character_playable_factory = new PlayerFactory();
         character_enemy_factory = new EnemyFactory();
-        plr.setMovementStrategy(new SixWaySmoothlyMovementWithInput());
-        plr.setFightStrategy(new AttackFireWeaponPlayer());
+
+        plr = character_playable_factory.createPlayer("fire weapon", "pistol", "with input", "sixway");
+
         enemy = character_enemy_factory.createEnemy("fire weapon", "pistol", "without input", "oneway");
-
+        hud_enemy = new HUD();
     }
-
-//    public static GameUpdate getInstance(Group root){
-//        if(uniqueInstance == null)
-//            synchronized (GameUpdate.class){
-//                if(uniqueInstance == null)
-//                    uniqueInstance =  new GameUpdate(root);
-//            }
-//        return uniqueInstance;
-//    }
-
 
 
     public void startGameLoop(GameScene gameScene){
@@ -77,15 +64,34 @@ public class GameUpdate implements Runnable{
 
         world_map.drawMap(world);
 
-        world.getChildren().addLast(plr.getvBox());
-        world.getChildren().addLast(plr.getImgView());
-        world.getChildren().addLast(enemy.getvBox());
-        world.getChildren().addLast(enemy.getImgView());
+        EventUIBus.get().notifyEventListenerObserver(new DTOUIEvent(EUIEventType.ADD_ELEMENT, new DTO(world, plr.getvBox())));
+        EventUIBus.get().notifyEventListenerObserver(new DTOUIEvent(EUIEventType.ADD_ELEMENT, new DTO(world, plr.getImgView())));
+        EventUIBus.get().notifyEventListenerObserver(new DTOUIEvent(EUIEventType.ADD_ELEMENT, new DTO(world, enemy.getvBox())));
+        EventUIBus.get().notifyEventListenerObserver(new DTOUIEvent(EUIEventType.ADD_ELEMENT, new DTO(world, enemy.getImgView())));
+
 
         currentThread.start();
 
+    }
+
+    private void setEventListeners(){
+        if(plr.getProgressBar().getProgress() > 0.1){
+            game_scene.setOnKeyPressed((event) -> keys_pressed.add(event.getCode()));
+            game_scene.setOnKeyReleased(event -> keys_pressed.remove(event.getCode()));
+            game_scene.setOnMouseClicked(mouseEvent -> {
+                if (plr.getProgressBar().getProgress() <= 0.1)
+                    return;
+
+                plr.setxDest(mouseEvent.getSceneX());
+                plr.setyDest(mouseEvent.getSceneY());
+                plr.setInit_attack_flag(true);
+                plr.setAttack_flag(true);
+            });
+
+        }
 
     }
+
 
     @Override
     public void run() { //processo in esecuzione
@@ -96,11 +102,7 @@ public class GameUpdate implements Runnable{
 
         keys_pressed = new HashSet<>();
 
-        if(plr.getProgressBar().getProgress() > 0.1){
-            game_scene.setOnKeyPressed((event) -> keys_pressed.add(event.getCode()));
-            game_scene.setOnKeyReleased(event -> keys_pressed.remove(event.getCode()));
-        }
-
+        this.setEventListeners();
 
         while(currentThread.isAlive()){
             currentTime = System.currentTimeMillis();
@@ -162,23 +164,6 @@ public class GameUpdate implements Runnable{
     }
 
     protected void gameMethodAttackHandler(double deltatime){
-
-             if(plr.getProgressBar().getProgress() > 5.551115123125783E-17) {
-                 game_scene.setOnMouseClicked(new EventHandler<MouseEvent>() {
-                     @Override
-                     public void handle(MouseEvent mouseEvent) {
-                         double getSceneX = mouseEvent.getSceneX();
-                         double getSceneY = mouseEvent.getSceneY();
-                         plr.setxDest(getSceneX);
-                         plr.setyDest(getSceneY);
-
-                         plr.setInit_attack_flag(true);
-                         plr.setAttack_flag(true);
-
-                     }
-                 });
-             }
-
         if(plr.isAttack_flag() && plr.getProgressBar().getProgress() > 0.1){
             plr.select_attack(deltatime, plr, enemy);
         }
@@ -199,5 +184,9 @@ public class GameUpdate implements Runnable{
 
     public void setEnemy(ACharacterEnemy enemy) {
         this.enemy = enemy;
+    }
+
+    public Set<KeyCode> getKeys_pressed() {
+        return keys_pressed;
     }
 }

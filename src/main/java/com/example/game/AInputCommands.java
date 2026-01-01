@@ -3,7 +3,7 @@ package com.example.game;
 import javafx.scene.input.KeyCode;
 
 public abstract class AInputCommands {
-    //comandi
+
     protected static final KeyCode forward = KeyCode.W;
     protected  static final KeyCode backward = KeyCode.S;
     protected  static final KeyCode leftward = KeyCode.A;
