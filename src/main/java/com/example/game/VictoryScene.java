@@ -19,7 +19,8 @@ public class VictoryScene {
         Button retry = new Button("Rigioca");
         Button exit = new Button("Esci");
 
-        retry.setOnAction(e -> onRetry.run());
+        retry.setOnAction(e -> {
+            EventBus.get().removeAll(); onRetry.run();});
         exit.setOnAction(e -> onExit.run());
 
         VBox root = new VBox(20, title, retry, exit);

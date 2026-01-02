@@ -2,30 +2,43 @@ package com.example.game;
 
 import javafx.application.Platform;
 import javafx.scene.Group;
+import javafx.scene.Node;
 
 
-public class HUD implements IEventListenerUIObserver {
+public class HUD implements IEventListenerObserver {
 
-    public HUD()
+    private volatile static HUD unique_instance;
+
+    public static void  getInstance(){
+        if(unique_instance == null){
+            synchronized (HUD.class){
+                if(unique_instance == null){
+                    unique_instance = new HUD();
+                }
+            }
+        }
+    }
+
+    private HUD()
     {
-        EventUIBus.get().addEventListenerObserver(this);
+        EventBus.get().addEventListenerObserver(this);
     }
 
     @Override
-    public void update(DTOUIEvent dto_event) {
+    public void update(DTOEvent dto_event) {
 
-        switch(dto_event.type){
-            case EUIEventType.ENEMY_DAMAGED:
-                DamageData data = (DamageData) dto_event.data;
+        switch(dto_event.getType()){
+            case EEventType.DAMAGED:
+                DamageData data = (DamageData) dto_event.getData();
                 updateProgressBar(data.getCharacter(), data.getDamage());
                 break;
-            case EUIEventType.REMOVE_ELEMENT:
-                DTO dto1 = (DTO) dto_event.data;
-                removeElement((Group) dto1.getRoot(), dto1.getObject());
+            case EEventType.REMOVE_ELEMENT:
+                UIDTO UIDTO1 = (UIDTO) dto_event.getData();
+                removeElement( UIDTO1.getRoot(), UIDTO1.getNode());
                 break;
-            case EUIEventType.ADD_ELEMENT:
-                DTO dto2 = (DTO) dto_event.data;
-                addElement((Group) dto2.getRoot(), dto2.getObject());
+            case EEventType.ADD_ELEMENT:
+                UIDTO UIDTO2 = (UIDTO) dto_event.getData();
+                addElement(UIDTO2.getRoot(), UIDTO2.getNode());
                 break;
             default:
                 break;
@@ -36,16 +49,16 @@ public class HUD implements IEventListenerUIObserver {
     private void updateProgressBar(ACharacter character, double damage)
     {
         Platform.runLater(() -> {
-            double progress = character.getHealth() / character.getInitial_Health();
+            double progress = (character.getProgressBar().getProgress() - damage);
             character.getProgressBar().setProgress(progress);
         });
     }
 
-    private void removeElement(Group root, Object object){
-        Platform.runLater(() -> root.getChildren().remove(object));
+    private void removeElement(Group root, Node node){
+        Platform.runLater(() -> root.getChildren().remove(node));
     }
 
-    private void addElement(Group root, Object object){
-        Platform.runLater(() -> root.getChildren().remove(object));
+    private void addElement(Group root, Node node){
+        Platform.runLater(() -> root.getChildren().add(node));
     }
 }

@@ -1,8 +1,7 @@
 package com.example.game;
 
 import javafx.application.Platform;
-import javafx.collections.ObservableList;
-import javafx.scene.Node;
+import javafx.scene.Group;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
@@ -25,15 +24,13 @@ public class AttackFireWeaponEnemy implements IFightStrategy{
         Collider projectileCld = fireWeapon.p.getCld();
         projectileCld.collisionDetected(projectileCld.getShape(), false);
     }
-    private void removeProjectile(ObservableList<Node> root, Projectile p) {
-        Platform.runLater(() -> root.remove(p.getImgView()));
+    private void removeProjectile(Group root, Projectile p) {
+        EventBus.get().notifyEventListenerObserver(new DTOEvent(EEventType.REMOVE_ELEMENT, new UIDTO( root, p.getImgView())));
     }
     private void applyDamage(ACharacterPlayable target, double amount) {
-        Platform.runLater(() -> {
-            target.getProgressBar().setProgress(
-                    target.getProgressBar().getProgress() - amount
-            );
-        });
+        double newHealth = target.getHealth() - (target.getInitial_Health() * amount);
+        target.setHealth(newHealth);
+        EventBus.get().notifyEventListenerObserver(new DTOEvent(EEventType.DAMAGED, new DamageData(target, amount)));
     }
     private void applyCollision(
             ACharacterPlayable target,
@@ -85,7 +82,7 @@ public class AttackFireWeaponEnemy implements IFightStrategy{
 
 
             if (p.isArrived(target.getX(), target.getY())) {
-                removeProjectile(target.root.getChildren(), p);
+                removeProjectile(target.root, p);
                 subject.attack_flag = true;
                 return;
             }
@@ -110,7 +107,7 @@ public class AttackFireWeaponEnemy implements IFightStrategy{
                 if (cld.canHit(Direction.UP))
                     applyCollision(target, 0, -speed, rebound);
 
-                removeProjectile(target.root.getChildren(), p);
+                removeProjectile(target.root, p);
                 applyDamage(target, 0.2);
 
                 subject.attack_flag = true;
@@ -119,7 +116,7 @@ public class AttackFireWeaponEnemy implements IFightStrategy{
 
         if (subjectBar.getProgress() < 0.1 &&
                 !fireWeapon.p.isArrived(target.getX(), target.getY())) {
-            removeProjectile(target.root.getChildren(), fireWeapon.p);
+            removeProjectile(target.root, fireWeapon.p);
         }
     }
 

@@ -10,15 +10,7 @@ import java.util.Set;
 public abstract class ACharacterPlayable extends ACharacter {
     protected Group root;
     private double xDest, yDest;
-    private ACharacterEnemy enemy;
 
-    public ACharacterEnemy getEnemy() {
-        return enemy;
-    }
-
-    public void setEnemy(ACharacterEnemy enemy) {
-        this.enemy = enemy;
-    }
 
     public double getxDest() {
         return xDest;

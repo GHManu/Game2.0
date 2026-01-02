@@ -1,7 +1,7 @@
 package com.example.game;
 
-import javafx.application.Platform;
 import javafx.scene.Group;
+import javafx.scene.Node;
 import javafx.scene.input.KeyCode;
 
 import java.util.*;
@@ -14,13 +14,12 @@ public class GameUpdate implements Runnable{
     private GameScene game_scene;
     private final float FPS = 60;
     private ACharacterEnemy enemy;
-    private ACharacterEnemyFactory character_enemy_factory;
-    private ACharacterPlayableFactory character_playable_factory;
+    private final ACharacterEnemyFactory character_enemy_factory;
+    private final ACharacterPlayableFactory character_playable_factory;
     private final Map world_map;
     private IGameLoopState current_state;
     private Set<KeyCode> keys_pressed;
     private GameController game_controller;
-    private HUD hud_enemy;
 
     public GameController getGame_controller() {
         return game_controller;
@@ -38,7 +37,7 @@ public class GameUpdate implements Runnable{
     }
 
     protected GameUpdate(Group world){
-        EventUIBus.GetInstance();
+        EventBus.GetInstance();
         this.setState(new PlayingState());
         currentThread = new Thread(this);
 
@@ -51,23 +50,32 @@ public class GameUpdate implements Runnable{
         plr = character_playable_factory.createPlayer("fire weapon", "pistol", "with input", "sixway");
 
         enemy = character_enemy_factory.createEnemy("fire weapon", "pistol", "without input", "oneway");
-        hud_enemy = new HUD();
-    }
 
+        HUD.getInstance();
+    }
 
     public void startGameLoop(GameScene gameScene){
         world.getChildren().clear();
         plr.setRoot(world);
-        plr.setEnemy(enemy);
+
         this.game_scene = gameScene;
 
 
         world_map.drawMap(world);
 
-        EventUIBus.get().notifyEventListenerObserver(new DTOUIEvent(EUIEventType.ADD_ELEMENT, new DTO(world, plr.getvBox())));
-        EventUIBus.get().notifyEventListenerObserver(new DTOUIEvent(EUIEventType.ADD_ELEMENT, new DTO(world, plr.getImgView())));
-        EventUIBus.get().notifyEventListenerObserver(new DTOUIEvent(EUIEventType.ADD_ELEMENT, new DTO(world, enemy.getvBox())));
-        EventUIBus.get().notifyEventListenerObserver(new DTOUIEvent(EUIEventType.ADD_ELEMENT, new DTO(world, enemy.getImgView())));
+        List<Node> elements = List.of(
+                plr.getvBox(),
+                plr.getImgView(),
+                enemy.getvBox(),
+                enemy.getImgView()
+        );
+
+        elements.forEach(node ->
+                EventBus.get().notifyEventListenerObserver(
+                        new DTOEvent(EEventType.ADD_ELEMENT, new UIDTO(world, node))
+                )
+        );
+
 
 
         currentThread.start();
@@ -120,18 +128,17 @@ public class GameUpdate implements Runnable{
 
     protected void kill_Character(ACharacter character){
         if(character != null && character.getCld().getShape() != null) {
-            Platform.runLater(() -> {
-                plr.root.getChildren().remove(character.getvBox());
+                EventBus.get().notifyEventListenerObserver(
+                        new DTOEvent(EEventType.REMOVE_ELEMENT, new UIDTO(world,character.getvBox())));
                 character.setvBox(null);
-            });
-            Platform.runLater(() -> {
-                plr.root.getChildren().remove(character.getCld().getShape());
+
+                EventBus.get().notifyEventListenerObserver(
+                        new DTOEvent(EEventType.REMOVE_ELEMENT, new UIDTO(world,character.getCld().getShape())));
                 character.getCld().setShape(null);
-            });
-           Platform.runLater(() -> {
-                plr.root.getChildren().remove(character.getImgView());
+
+                EventBus.get().notifyEventListenerObserver(
+                        new DTOEvent(EEventType.REMOVE_ELEMENT, new UIDTO(world,character.getImgView())));
                 character.setImgView(null);
-            });
            System.gc();
         }
 

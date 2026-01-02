@@ -3,7 +3,7 @@ package com.example.game;
 public class AttackFireWeaponPlayer implements IFightStrategy{
 
     private void removeProjectile(NormalProjectile p, ACharacterPlayable player, ProjectileIterator it) {
-        EventUIBus.get().notifyEventListenerObserver(new DTOUIEvent(EUIEventType.REMOVE_ELEMENT, new DTO(player.root, p.getImgView())));
+        EventBus.get().notifyEventListenerObserver(new DTOEvent(EEventType.REMOVE_ELEMENT, new UIDTO(player.root, p.getImgView())));
         it.remove();
     }
 
@@ -11,7 +11,7 @@ public class AttackFireWeaponPlayer implements IFightStrategy{
         double newHealth = enemy.getHealth() - (enemy.getInitial_Health() * p.normal_damage);
         enemy.setHealth(newHealth);
         enemy.setSpeed(enemy.getSpeed() + 0.2);
-        EventUIBus.get().notifyEventListenerObserver(new DTOUIEvent(EUIEventType.ENEMY_DAMAGED, new DamageData(enemy, p.normal_damage)));
+        EventBus.get().notifyEventListenerObserver(new DTOEvent(EEventType.DAMAGED, new DamageData(enemy, p.normal_damage)));
     }
 
 
@@ -53,7 +53,7 @@ public class AttackFireWeaponPlayer implements IFightStrategy{
                     player.getyDest() );
             player.setAttack_flag(true);
             fw.getMag().add(p);
-            EventUIBus.get().notifyEventListenerObserver(new DTOUIEvent(EUIEventType.REMOVE_ELEMENT, new DTO(player.root, p.getImgView())));
+            EventBus.get().notifyEventListenerObserver(new DTOEvent(EEventType.ADD_ELEMENT, new UIDTO(player.root, p.getImgView())));
         }
         player.setInit_attack_flag(false);
     }

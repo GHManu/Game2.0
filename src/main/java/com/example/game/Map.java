@@ -14,14 +14,14 @@ public class Map extends AEntity{
         for (int r = 0; r < 12; r++) {
             for (int c = 0; c < 16; c++) {
                 if (r == 0 || r == 11 || c == 0 || c == 15) {
-                    tile_map.put(new Point(c, r), 1); // muro
+                    tile_map.put(new Point(c, r), 1);
                 } else {
-                    tile_map.put(new Point(c, r), 0); // erba
+                    tile_map.put(new Point(c, r), 0);
                 }
             }
         }
 
-        // acqua (2), 7 strati
+        // acqua (2)
         int layers = 7;
 
         // sopra
