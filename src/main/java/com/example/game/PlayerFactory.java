@@ -1,5 +1,9 @@
 package com.example.game;
 
+import com.example.game.Weapon.AWeapon;
+import com.example.game.Weapon.AWeaponFactory;
+import com.example.game.Weapon.Ranged.FireWeaponFactory;
+
 public class PlayerFactory extends ACharacterPlayableFactory{
 
     @Override

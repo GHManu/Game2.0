@@ -28,10 +28,10 @@ public abstract class ACharacterPlayable extends ACharacter {
         this.yDest = yDest;
     }
 
-    protected void setRoot(Group root){
+    public void setRoot(Group root){
         this.root = root;
     }
 
-    protected abstract void select_attack(double deltatime, ACharacterPlayable plr, ACharacterEnemy enemy);
-    protected abstract void movement(double deltatime, Set<KeyCode> keyCodes);
+    public abstract void select_attack(double deltatime, ACharacterPlayable plr, ACharacterEnemy enemy);
+    public abstract void movement(double deltatime, Set<KeyCode> keyCodes);
 }

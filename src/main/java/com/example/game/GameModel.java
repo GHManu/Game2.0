@@ -1,5 +1,9 @@
 package com.example.game;
 
+import com.example.game.Application.GameController;
+import com.example.game.State.UI.IGameState;
+import com.example.game.State.UI.MenuState;
+
 public class GameModel {
     private IGameState gameState;
 

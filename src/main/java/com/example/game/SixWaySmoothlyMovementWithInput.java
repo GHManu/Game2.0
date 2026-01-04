@@ -1,6 +1,8 @@
 package com.example.game;
 
 
+import com.example.game.UI.EGameImages;
+import com.example.game.UI.IScreenSettings;
 import javafx.application.Platform;
 
 import java.util.Map;

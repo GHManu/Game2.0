@@ -1,5 +1,8 @@
 package com.example.game;
 
+import com.example.game.UI.EGameImages;
+import com.example.game.Weapon.AWeapon;
+import com.example.game.Weapon.IFightStrategy;
 import javafx.application.Platform;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.image.Image;

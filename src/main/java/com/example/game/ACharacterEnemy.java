@@ -11,7 +11,7 @@ public abstract class ACharacterEnemy extends ACharacter{
 
     }
 
-    abstract void select_attack(double deltatime, ACharacterPlayable plr, ACharacterEnemy enemy);
+    public abstract void select_attack(double deltatime, ACharacterPlayable plr, ACharacterEnemy enemy);
 
 
     public double getREBOUND() {

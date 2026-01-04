@@ -1,13 +1,20 @@
 package com.example.game;
 
-public class AttackFireWeaponPlayer implements IFightStrategy{
+import com.example.game.UI.EGameImages;
+import com.example.game.UI.UIDTO;
+import com.example.game.Weapon.IFightStrategy;
+import com.example.game.Weapon.Ranged.ProjectileIterator;
+import com.example.game.Weapon.Ranged.AFireWeapon;
+import com.example.game.Weapon.Ranged.NormalAProjectile;
 
-    private void removeProjectile(NormalProjectile p, ACharacterPlayable player, ProjectileIterator it) {
+public class AttackFireWeaponPlayer implements IFightStrategy {
+
+    private void removeProjectile(NormalAProjectile p, ACharacterPlayable player, ProjectileIterator it) {
         EventBus.get().notifyEventListenerObserver(new DTOEvent(EEventType.REMOVE_ELEMENT, new UIDTO(player.root, p.getImgView())));
         it.remove();
     }
 
-    private void applyDamage(ACharacterEnemy enemy, NormalProjectile p) {
+    private void applyDamage(ACharacterEnemy enemy, NormalAProjectile p) {
         double newHealth = enemy.getHealth() - (enemy.getInitial_Health() * p.normal_damage);
         enemy.setHealth(newHealth);
         enemy.setSpeed(enemy.getSpeed() + 0.2);
@@ -22,8 +29,8 @@ public class AttackFireWeaponPlayer implements IFightStrategy{
         AFireWeapon fwEnemy = (AFireWeapon) enemy.getWeapon();
         ProjectileIterator it = new ProjectileIterator(fw.getMag());
         while (it.hasNext()) {
-            NormalProjectile p = (NormalProjectile) it.next();
-            fw.p = p;
+            NormalAProjectile p = (NormalAProjectile) it.next();
+            fw.setProjectile(p);
             player.getWeapon().fight(dt);
             if (p.isArrived(player.getxDest(), player.getyDest())) {
                 removeProjectile(p, player, it);
@@ -46,7 +53,7 @@ public class AttackFireWeaponPlayer implements IFightStrategy{
     public void initAttack(double deltatime, ACharacterEnemy enemy, ACharacterPlayable player) {
         if (player.getProgressBar().getProgress() <= 0) return;
         if (player.isInit_attack_flag() && player.getWeapon() instanceof AFireWeapon fw) {
-            NormalProjectile p = new NormalProjectile( EGameImages.ProvaAttacco.getImage(),
+            NormalAProjectile p = new NormalAProjectile( EGameImages.ProvaAttacco.getImage(),
                     player.getImgView().getLayoutX(),
                     player.getImgView().getLayoutY(),
                     player.getxDest(),

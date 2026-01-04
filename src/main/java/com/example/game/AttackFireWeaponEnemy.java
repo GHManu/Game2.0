@@ -1,5 +1,11 @@
 package com.example.game;
 
+import com.example.game.UI.EGameImages;
+import com.example.game.UI.UIDTO;
+import com.example.game.Weapon.IFightStrategy;
+import com.example.game.Weapon.Ranged.AFireWeapon;
+import com.example.game.Weapon.Ranged.AProjectile;
+import com.example.game.Weapon.Ranged.NormalAProjectile;
 import javafx.application.Platform;
 import javafx.scene.Group;
 import javafx.scene.control.ProgressBar;
@@ -7,7 +13,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.Rectangle;
 
-public class AttackFireWeaponEnemy implements IFightStrategy{
+public class AttackFireWeaponEnemy implements IFightStrategy {
 
 
     private void moveEnemyIfAlive(double dt, ACharacterEnemy subject, ACharacterPlayable target) {
@@ -18,13 +24,13 @@ public class AttackFireWeaponEnemy implements IFightStrategy{
     }
     private void updateProjectile(double dt, ACharacterEnemy subject, ACharacterPlayable target, AFireWeapon fireWeapon) {
 
-        fireWeapon.p = fireWeapon.getMag().getFirst();
+        fireWeapon.setProjectile(fireWeapon.getMag().getFirst());
         subject.getWeapon().fight(dt);
 
-        Collider projectileCld = fireWeapon.p.getCld();
+        Collider projectileCld = fireWeapon.getProjectile().getCld();
         projectileCld.collisionDetected(projectileCld.getShape(), false);
     }
-    private void removeProjectile(Group root, Projectile p) {
+    private void removeProjectile(Group root, AProjectile p) {
         EventBus.get().notifyEventListenerObserver(new DTOEvent(EEventType.REMOVE_ELEMENT, new UIDTO( root, p.getImgView())));
     }
     private void applyDamage(ACharacterPlayable target, double amount) {
@@ -77,7 +83,7 @@ public class AttackFireWeaponEnemy implements IFightStrategy{
 
             updateProjectile(dt, subject, target, fireWeapon);
 
-            Projectile p = fireWeapon.p;
+            AProjectile p = fireWeapon.getProjectile();
             Collider projectileCld = p.getCld();
 
 
@@ -115,8 +121,8 @@ public class AttackFireWeaponEnemy implements IFightStrategy{
         }
 
         if (subjectBar.getProgress() < 0.1 &&
-                !fireWeapon.p.isArrived(target.getX(), target.getY())) {
-            removeProjectile(target.root, fireWeapon.p);
+                !fireWeapon.getProjectile().isArrived(target.getX(), target.getY())) {
+            removeProjectile(target.root, fireWeapon.getProjectile());
         }
     }
 
@@ -127,7 +133,7 @@ public class AttackFireWeaponEnemy implements IFightStrategy{
             enemy.attack_flag = false;
 
 
-            Projectile p = new NormalProjectile(EGameImages.ProvaAttaccoEnemy.getImage(), enemy.getX(), enemy.getY(), player.getX(), player.getY());
+            AProjectile p = new NormalAProjectile(EGameImages.ProvaAttaccoEnemy.getImage(), enemy.getX(), enemy.getY(), player.getX(), player.getY());
             Platform.runLater(() -> {
                 player.root.getChildren().add(p.getImgView());
             });
