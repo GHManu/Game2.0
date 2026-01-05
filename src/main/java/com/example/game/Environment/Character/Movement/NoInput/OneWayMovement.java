@@ -11,7 +11,7 @@ import java.util.Set;
 public class OneWayMovement extends AMovementStrategyWithoutInput {
 
     private static final DirectionSetting MOVE_DOWN = new DirectionSetting(
-            Set.of(), // nessun input
+            im -> true, // nessun input
             enemy -> enemy.getY() < IScreenSettings.screenHeight - IScreenSettings.sizeTile * 2,
             enemy -> enemy.setDirection(Direction.UP),
             enemy -> enemy.changeImage(EGameImages.Front_Enemy_c.getImage()),
@@ -19,7 +19,7 @@ public class OneWayMovement extends AMovementStrategyWithoutInput {
     );
 
     private static final DirectionSetting MOVE_UP = new DirectionSetting(
-            Set.of(),
+            im -> true,
             enemy -> enemy.getY() > IScreenSettings.sizeTile,
             enemy -> enemy.setDirection(Direction.DOWN),
             enemy -> enemy.changeImage(EGameImages.Back_Enemy_c.getImage()),

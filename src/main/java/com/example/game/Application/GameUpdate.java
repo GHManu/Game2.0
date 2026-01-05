@@ -11,9 +11,10 @@ import com.example.game.Environment.Map.Map;
 import com.example.game.Event.DTOEvent;
 import com.example.game.Event.EEventType;
 import com.example.game.Event.EventBus;
+import com.example.game.InputManager.InputManager;
 import com.example.game.Scene.GameScene;
 import com.example.game.State.GameLoop.IGameLoopState;
-import com.example.game.State.UI.PlayingState;
+import com.example.game.State.GameLoop.PlayingState;
 import com.example.game.UI.HUD;
 import com.example.game.UI.UIDTO;
 import javafx.scene.Group;
@@ -34,8 +35,8 @@ public class GameUpdate implements Runnable{
     private final ACharacterPlayableFactory character_playable_factory;
     private final Map world_map;
     private IGameLoopState current_state;
-    private Set<KeyCode> keys_pressed;
     private GameController game_controller;
+    InputManager input_manager;
 
     public GameController getGame_controller() {
         return game_controller;
@@ -63,20 +64,20 @@ public class GameUpdate implements Runnable{
         character_playable_factory = new PlayerFactory();
         character_enemy_factory = new EnemyFactory();
 
-        plr = character_playable_factory.createPlayer("fire weapon", "pistol", "with input", "sixway");
-
-        enemy = character_enemy_factory.createEnemy("fire weapon", "pistol", "without input", "oneway");
-
         HUD.getInstance();
     }
 
     public void startGameLoop(GameScene gameScene){
         world.getChildren().clear();
-        plr.setRoot(world);
+
 
         this.game_scene = gameScene;
+        this.input_manager = new InputManager(game_scene);
 
+        plr = character_playable_factory.createPlayer("fire weapon", "pistol", "with input", "sixway", input_manager);
+        enemy = character_enemy_factory.createEnemy("fire weapon", "pistol", "without input", "oneway");
 
+        plr.setRoot(world);
         world_map.drawMap(world);
 
         List<Node> elements = List.of(
@@ -98,24 +99,6 @@ public class GameUpdate implements Runnable{
 
     }
 
-    private void setEventListeners(){
-        if(plr.getProgressBar().getProgress() > 0.1){
-            game_scene.setOnKeyPressed((event) -> keys_pressed.add(event.getCode()));
-            game_scene.setOnKeyReleased(event -> keys_pressed.remove(event.getCode()));
-            game_scene.setOnMouseClicked(mouseEvent -> {
-                if (plr.getProgressBar().getProgress() <= 0.1)
-                    return;
-
-                plr.setxDest(mouseEvent.getSceneX());
-                plr.setyDest(mouseEvent.getSceneY());
-                plr.setInit_attack_flag(true);
-                plr.setAttack_flag(true);
-            });
-
-        }
-
-    }
-
 
     @Override
     public void run() { //processo in esecuzione
@@ -124,9 +107,7 @@ public class GameUpdate implements Runnable{
         long currentTime;
         long lastUpdate = System.currentTimeMillis();
 
-        keys_pressed = new HashSet<>();
 
-        this.setEventListeners();
 
         while(currentThread.isAlive()){
             currentTime = System.currentTimeMillis();
@@ -175,21 +156,26 @@ public class GameUpdate implements Runnable{
     }
 
 
-    public void gameMethodMovementHandler(double deltaTime, Set<KeyCode> keysPressed) {
+    public void gameMethodMovementHandler(double deltaTime, InputManager input_manager) {
 
             if(enemy != null && plr != null && plr.getCld() != null && enemy.getCld() != null)   plr.getCld().collisionDetected(enemy.getCld().getShape(), true);
 
 
             assert plr != null;
 
-            plr.movement(deltaTime, keysPressed);
+            plr.movement(deltaTime);
 
     }
 
     public void gameMethodAttackHandler(double deltatime){
-        if(plr.isAttack_flag() && plr.getProgressBar().getProgress() > 0.1){
-            plr.select_attack(deltatime, plr, enemy);
-        }
+       if(input_manager.consumeMouseClick()){
+           plr.setInit_attack_flag(true);
+           plr.setxDest(input_manager.getMouseX());
+           plr.setyDest(input_manager.getMouseY());
+       }
+       if(plr.isAttack_flag() || plr.isInit_attack_flag()){
+           plr.select_attack(deltatime, plr, enemy);
+       }
 
     }
 
@@ -209,7 +195,7 @@ public class GameUpdate implements Runnable{
         this.enemy = enemy;
     }
 
-    public Set<KeyCode> getKeys_pressed() {
-        return keys_pressed;
+    public InputManager getInput_manager() {
+        return input_manager;
     }
 }

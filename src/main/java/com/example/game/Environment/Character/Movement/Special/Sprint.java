@@ -2,6 +2,7 @@ package com.example.game.Environment.Character.Movement.Special;
 
 import com.example.game.InputManager.AInputCommands;
 import com.example.game.Environment.Character.ACharacter;
+import com.example.game.InputManager.InputManager;
 import javafx.application.Platform;
 import javafx.scene.input.KeyCode;
 import java.util.Set;
@@ -15,13 +16,11 @@ public class Sprint {
     protected boolean isSprinting;
 
 
-    public void controlSprint(double deltatime, Set<KeyCode> keyCodes, ACharacter plr){
-        if(keyCodes.contains(AInputCommands.sprint)){
+    public void controlSprint(double deltatime, InputManager input_manager, ACharacter plr){
+        if (input_manager.isSprinting()) {
             this.sprintStatus(deltatime);
-            this.sprint(deltatime, plr);
-        }else {
-            this.walk(deltatime, plr);
-        }
+            this.sprint(deltatime, plr); }
+        else { this.walk(deltatime, plr);}
     }
 
 

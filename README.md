@@ -1,6 +1,8 @@
 # Game2.0
 *Gioco della [Repository](https://github.com/GHManu/Game) (Pokemon-like -> un RPG action adventure), riscritto con le regole del corso di Ingegneria Del Software*
- 
+ # Riassunto
+L'obiettivo è sconfiggere il nemico muovendoti (WASD o frecce, shift per lo sprint temporaneo con ricarica) in una mappa piccola e chiusa e attaccando con il tasto sinistro del 
+mouse. Il nemico si muove in due direzioni e attacca con un proiettile alla volta, quando uno esplode ne parte un altro.
 
 
 ## Analisi Dei Requisiti

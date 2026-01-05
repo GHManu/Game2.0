@@ -6,11 +6,12 @@ import com.example.game.Environment.Character.Movement.WithInput.SixWaySmoothlyM
 import com.example.game.Environment.Object.Interactable.Weapon.AWeapon;
 import com.example.game.Environment.Object.Interactable.Weapon.AWeaponFactory;
 import com.example.game.Environment.Object.Interactable.Weapon.Ranged.FireWeaponFactory;
+import com.example.game.InputManager.InputManager;
 
 public class PlayerFactory extends ACharacterPlayableFactory{
 
     @Override
-    public ACharacterPlayable createPlayer(String weaponType, String concreteWeapon, String movementType, String concreteMovement) {
+    public ACharacterPlayable createPlayer(String weaponType, String concreteWeapon, String movementType, String concreteMovement, InputManager input_manager) {
         ACharacterPlayable player = new Player();
         AWeaponFactory weapon_factory;
 
@@ -36,7 +37,7 @@ public class PlayerFactory extends ACharacterPlayableFactory{
             case "withinput":
                 switch(concreteMovement.replaceAll("\\s+", "").toLowerCase()){
                     case "sixway":
-                        player.setMovementStrategy(new SixWaySmoothlyMovement());
+                        player.setMovementStrategy(new SixWaySmoothlyMovement(input_manager));
                         break;
                 }
 

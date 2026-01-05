@@ -3,9 +3,7 @@ package com.example.game.Environment.Character.Playable;
 import com.example.game.Environment.Character.ACharacter;
 import com.example.game.Environment.Character.Enemy.ACharacterEnemy;
 import javafx.scene.Group;
-import javafx.scene.input.KeyCode;
 
-import java.util.Set;
 
 
 
@@ -35,5 +33,5 @@ public abstract class ACharacterPlayable extends ACharacter {
     }
 
     public abstract void select_attack(double deltatime, ACharacterPlayable plr, ACharacterEnemy enemy);
-    public abstract void movement(double deltatime, Set<KeyCode> keyCodes);
+    public abstract void movement(double deltatime);
 }

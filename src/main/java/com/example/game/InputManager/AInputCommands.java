@@ -13,4 +13,5 @@ public abstract class AInputCommands {
     public static final KeyCode leftwardArrow = KeyCode.LEFT;
     public static final KeyCode rightwardArrow = KeyCode.RIGHT;
     public static final KeyCode sprint = KeyCode.SHIFT;
+
 }
