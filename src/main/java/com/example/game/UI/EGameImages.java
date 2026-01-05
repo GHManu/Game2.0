@@ -7,19 +7,19 @@ import java.util.Objects;
 public enum EGameImages {
 
 
-    Back_Enemy_c("Images/Back_Enemy_c.png"),
-    Back_Pg("Images/Back_Pg.png"),
-    Front_Enemy_c("Images/Front_Enemy_c.png"),
-    Front_Pg("Images/Front_Pg.png"),
-    Left_Side_Enemy_c("Images/Left_Enemy_c.png"),
-    Left_Side_Pg("Images/Left_Side_Pg.png"),
-    Right_Side_Enemy_c("Images/Right_Enemy_c.png"),
-    Right_Side_Pg("Images/Right_Side_Pg.png"),
-    ProvaAttacco("Images/ProvaAttacco.png"),
-    ProvaAttaccoEnemy("Images/ProvaAttaccoEnemy.png"),
-    Grass("Images/grass.png"),
-    Water("Images/Water.png"),
-    Wall("Images/wall.png");
+    Back_Enemy_c("/com/example/game/Images/Back_Enemy_c.png"),
+    Back_Pg("/com/example/game/Images/Back_Pg.png"),
+    Front_Enemy_c("/com/example/game/Images/Front_Enemy_c.png"),
+    Front_Pg("/com/example/game/Images/Front_Pg.png"),
+    Left_Side_Enemy_c("/com/example/game/Images/Left_Enemy_c.png"),
+    Left_Side_Pg("/com/example/game/Images/Left_Side_Pg.png"),
+    Right_Side_Enemy_c("/com/example/game/Images/Right_Enemy_c.png"),
+    Right_Side_Pg("/com/example/game/Images/Right_Side_Pg.png"),
+    ProvaAttacco("/com/example/game/Images/ProvaAttacco.png"),
+    ProvaAttaccoEnemy("/com/example/game/Images/ProvaAttaccoEnemy.png"),
+    Grass("/com/example/game/Images/grass.png"),
+    Water("/com/example/game/Images/Water.png"),
+    Wall("/com/example/game/Images/wall.png");
 
     private final Image image;
     private final String path;

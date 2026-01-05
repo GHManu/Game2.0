@@ -1,6 +1,6 @@
 package com.example.game.State.UI;
 
-import com.example.game.GameModel;
+import com.example.game.Application.GameModel;
 
 public class QuitState implements IGameState{
 

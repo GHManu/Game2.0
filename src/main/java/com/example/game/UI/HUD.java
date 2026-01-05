@@ -1,6 +1,11 @@
 package com.example.game.UI;
 
-import com.example.game.*;
+import com.example.game.Environment.Character.Attack.DamageData;
+import com.example.game.Environment.Character.ACharacter;
+import com.example.game.Event.DTOEvent;
+import com.example.game.Event.EEventType;
+import com.example.game.Event.EventBus;
+import com.example.game.Event.IEventListenerObserver;
 import javafx.application.Platform;
 import javafx.scene.Group;
 import javafx.scene.Node;

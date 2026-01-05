@@ -6,9 +6,8 @@ module com.example.gamedemo {
 
 
     opens com.example.game to javafx.fxml;
-    exports com.example.game;
-    exports com.example.game.Weapon;
-    opens com.example.game.Weapon to javafx.fxml;
+    exports com.example.game.Environment.Object.Interactable.Weapon;
+    opens com.example.game.Environment.Object.Interactable.Weapon to javafx.fxml;
     exports com.example.game.Scene;
     opens com.example.game.Scene to javafx.fxml;
     exports com.example.game.State.GameLoop;
@@ -21,12 +20,36 @@ module com.example.gamedemo {
     opens com.example.game.Application to javafx.fxml;
     exports com.example.game.Environment;
     opens com.example.game.Environment to javafx.fxml;
-    exports com.example.game.Weapon.Ranged;
-    opens com.example.game.Weapon.Ranged to javafx.fxml;
-    exports com.example.game.Weapon.CloseRange;
-    opens com.example.game.Weapon.CloseRange to javafx.fxml;
-    exports com.example.game.Environment.Interactable;
-    opens com.example.game.Environment.Interactable to javafx.fxml;
-    exports com.example.game.Environment.NonInteractable;
-    opens com.example.game.Environment.NonInteractable to javafx.fxml;
+    exports com.example.game.Environment.Object.Interactable.Weapon.Ranged;
+    opens com.example.game.Environment.Object.Interactable.Weapon.Ranged to javafx.fxml;
+    exports com.example.game.Environment.Object.Interactable.Weapon.CloseRange;
+    opens com.example.game.Environment.Object.Interactable.Weapon.CloseRange to javafx.fxml;
+    exports com.example.game.Environment.Object.Interactable;
+    opens com.example.game.Environment.Object.Interactable to javafx.fxml;
+    exports com.example.game.Environment.Object.NonInteractable;
+    opens com.example.game.Environment.Object.NonInteractable to javafx.fxml;
+    exports com.example.game.Environment.Character;
+    opens com.example.game.Environment.Character to javafx.fxml;
+    exports com.example.game.Environment.Character.Movement.NoInput;
+    opens com.example.game.Environment.Character.Movement.NoInput to javafx.fxml;
+    exports com.example.game.Environment.Character.Movement.WithInput;
+    opens com.example.game.Environment.Character.Movement.WithInput to javafx.fxml;
+    exports com.example.game.Environment.Character.Movement;
+    opens com.example.game.Environment.Character.Movement to javafx.fxml;
+    exports com.example.game.Environment.Character.Attack;
+    opens com.example.game.Environment.Character.Attack to javafx.fxml;
+    exports com.example.game.Environment.Character.Movement.Special;
+    opens com.example.game.Environment.Character.Movement.Special to javafx.fxml;
+    exports com.example.game.Event;
+    opens com.example.game.Event to javafx.fxml;
+    exports com.example.game.InputManager;
+    opens com.example.game.InputManager to javafx.fxml;
+    exports com.example.game.Environment.Character.NPC;
+    opens com.example.game.Environment.Character.NPC to javafx.fxml;
+    exports com.example.game.Environment.Character.Enemy;
+    opens com.example.game.Environment.Character.Enemy to javafx.fxml;
+    exports com.example.game.Environment.Character.Playable;
+    opens com.example.game.Environment.Character.Playable to javafx.fxml;
+    exports com.example.game.Environment.Map;
+    opens com.example.game.Environment.Map to javafx.fxml;
 }

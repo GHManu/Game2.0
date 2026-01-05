@@ -1,7 +1,16 @@
 package com.example.game.Application;
 
-import com.example.game.*;
-import com.example.game.Environment.Map;
+import com.example.game.Environment.Character.*;
+import com.example.game.Environment.Character.Enemy.ACharacterEnemy;
+import com.example.game.Environment.Character.Enemy.ACharacterEnemyFactory;
+import com.example.game.Environment.Character.Enemy.EnemyFactory;
+import com.example.game.Environment.Character.Playable.ACharacterPlayable;
+import com.example.game.Environment.Character.Playable.ACharacterPlayableFactory;
+import com.example.game.Environment.Character.Playable.PlayerFactory;
+import com.example.game.Environment.Map.Map;
+import com.example.game.Event.DTOEvent;
+import com.example.game.Event.EEventType;
+import com.example.game.Event.EventBus;
 import com.example.game.Scene.GameScene;
 import com.example.game.State.GameLoop.IGameLoopState;
 import com.example.game.State.UI.PlayingState;

@@ -31,7 +31,7 @@ public class GameView {
         menuLayout.getChildren().addAll(startButton, quitButton);
 
         menuScene = new Scene(menuLayout, width, height);
-        menuScene.getStylesheets().add(getClass().getResource("Style/SceneStyle.css").toExternalForm());
+        menuScene.getStylesheets().add(getClass().getResource("/com/example/game/Style/SceneStyle.css").toExternalForm());
 
 
         victoryScene = VictoryScene.create(

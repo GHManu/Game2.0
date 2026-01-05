@@ -1,6 +1,6 @@
 package com.example.game.Scene;
 
-import com.example.game.EventBus;
+import com.example.game.Event.EventBus;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -20,8 +20,7 @@ public class VictoryScene {
         Button retry = new Button("Rigioca");
         Button exit = new Button("Esci");
 
-        retry.setOnAction(e -> {
-            EventBus.get().removeAll(); onRetry.run();});
+        retry.setOnAction(e -> onRetry.run());
         exit.setOnAction(e -> onExit.run());
 
         VBox root = new VBox(20, title, retry, exit);
