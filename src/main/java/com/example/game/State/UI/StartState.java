@@ -15,6 +15,6 @@ public class StartState implements IGameState{
 
     @Override
     public void stop(GameModel context) {
-        context.setGameState(new QuitState(context));
+        context.setGame_state(new QuitState(context));
     }
 }

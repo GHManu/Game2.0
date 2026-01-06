@@ -37,11 +37,12 @@ public class Collider {
     public void reset() {
         can_hit_right = can_hit_left = can_hit_up = can_hit_down = true;
     }
+    public boolean intersect(Rectangle cld){ return shape.intersects(cld.getBoundsInParent());}
 
     public void collisionDetected(Rectangle other, boolean block) {
         if (other == null || shape == null) return;
 
-        if (!shape.intersects(other.getBoundsInParent())) {
+        if (!(this.intersect(other))) {
             reset();
             return;
         }

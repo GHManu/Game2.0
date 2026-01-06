@@ -4,33 +4,33 @@ import com.example.game.State.UI.IGameState;
 import com.example.game.State.UI.MenuState;
 
 public class GameModel {
-    private IGameState gameState;
+    private IGameState game_state;
 
 
     public GameModel() {
-        this.gameState = new MenuState();
+        this.game_state = new MenuState();
     }
 
-    public IGameState getGameState() {
-        return gameState;
+    public IGameState getGame_state() {
+        return game_state;
     }
 
-    public void setGameState(IGameState gameState) {
-        this.gameState = gameState;
+
+    public void setGame_state(IGameState game_state) {
+        this.game_state = game_state;
     }
 
     public void startGame() {
-        gameState.start(this);
+        game_state.start(this);
     }
 
     public void updateGame() {
-        gameState.update(this);
+        game_state.update(this);
     }
 
     public void stopGame() {
-        gameState.stop(this);
+        game_state.stop(this);
     }
 
-    public void win(GameController controller) { controller.showVictory(); }
-    public void lose(GameController controller) { controller.showGameOver(); }
+
 }

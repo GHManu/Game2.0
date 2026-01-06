@@ -5,6 +5,7 @@ import com.example.game.Environment.Character.Movement.NoInput.OneWayMovement;
 import com.example.game.Environment.Character.Movement.WithInput.SixWaySmoothlyMovement;
 import com.example.game.Environment.Object.Interactable.Weapon.AWeapon;
 import com.example.game.Environment.Object.Interactable.Weapon.AWeaponFactory;
+import com.example.game.Environment.Object.Interactable.Weapon.Ranged.AFireWeapon;
 import com.example.game.Environment.Object.Interactable.Weapon.Ranged.FireWeaponFactory;
 import com.example.game.InputManager.InputManager;
 
@@ -20,7 +21,7 @@ public class PlayerFactory extends ACharacterPlayableFactory{
                 weapon_factory = new FireWeaponFactory();
                 AWeapon weapon_selected = weapon_factory.createWeapon(concreteWeapon);
                 player.setWeapon(weapon_selected);
-                player.setFightStrategy(new AttackFireWeaponPlayer());
+                player.setFightStrategy(new AttackFireWeaponPlayer((AFireWeapon) player.getWeapon()));
                 break;
 
             default:

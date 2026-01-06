@@ -5,7 +5,7 @@ import com.example.game.Application.GameModel;
 public class MenuState implements IGameState{
     @Override
     public void start(GameModel context) {
-        context.setGameState(new StartState());
+        context.setGame_state(new StartState());
         System.out.println("Gioco avviato!");
     }
 
@@ -16,6 +16,6 @@ public class MenuState implements IGameState{
 
     @Override
     public void stop(GameModel context) {
-        context.setGameState(new QuitState(context));
+        context.setGame_state(new QuitState(context));
     }
 }

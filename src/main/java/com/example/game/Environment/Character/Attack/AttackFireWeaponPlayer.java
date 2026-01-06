@@ -13,6 +13,11 @@ import com.example.game.Environment.Object.Interactable.Weapon.Ranged.AFireWeapo
 import com.example.game.Environment.Object.Interactable.Weapon.Ranged.NormalAProjectile;
 
 public class AttackFireWeaponPlayer implements IFightStrategy {
+    private AFireWeapon fw;
+
+    public AttackFireWeaponPlayer(AFireWeapon fw) {
+        this.fw = fw;
+    }
 
     private void removeProjectile(NormalAProjectile p, ACharacterPlayable player, ProjectileIterator it) {
         EventBus.get().notifyEventListenerObserver(new DTOEvent(EEventType.REMOVE_ELEMENT, new UIDTO(player.root, p.getImgView())));
@@ -30,7 +35,6 @@ public class AttackFireWeaponPlayer implements IFightStrategy {
     @Override
     public void normalAttack(double dt, ACharacterEnemy enemy, ACharacterPlayable player) {
         initAttack(dt, enemy, player);
-        AFireWeapon fw = (AFireWeapon) player.getWeapon();
         AFireWeapon fwEnemy = (AFireWeapon) enemy.getWeapon();
         ProjectileIterator it = new ProjectileIterator(fw.getMag());
         while (it.hasNext()) {
@@ -57,7 +61,7 @@ public class AttackFireWeaponPlayer implements IFightStrategy {
     @Override
     public void initAttack(double deltatime, ACharacterEnemy enemy, ACharacterPlayable player) {
         if (player.getProgressBar().getProgress() <= 0) return;
-        if (player.isInit_attack_flag() && player.getWeapon() instanceof AFireWeapon fw) {
+        if (player.isInit_attack_flag()) {
             NormalAProjectile p = new NormalAProjectile( EGameImages.ProvaAttacco.getImage(),
                     player.getImgView().getLayoutX(),
                     player.getImgView().getLayoutY(),

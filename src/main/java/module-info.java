@@ -5,7 +5,6 @@ module com.example.gamedemo {
     requires java.desktop;
 
 
-    opens com.example.game to javafx.fxml;
     exports com.example.game.Environment.Object.Interactable.Weapon;
     opens com.example.game.Environment.Object.Interactable.Weapon to javafx.fxml;
     exports com.example.game.Scene;

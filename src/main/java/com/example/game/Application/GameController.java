@@ -6,6 +6,7 @@ import com.example.game.Scene.VictoryScene;
 import com.example.game.UI.GameView;
 import javafx.application.Platform;
 import javafx.scene.Group;
+import javafx.scene.Scene;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
@@ -13,25 +14,31 @@ public class GameController {
     private GameModel model;
     private GameView view;
     private Stage stage;
+    private CommandRegistry registry;
 
     public GameController(Stage stage) {
         this.stage = stage;
         this.model = new GameModel();
         this.view = new GameView(GameScene.screenWidth, GameScene.screenHeight);
+        this.registry = new CommandRegistry();
 
         initController();
     }
 
     private void initController() {
-        view.getStartButton().setOnAction(e -> startGame());
-        view.getQuitButton().setOnAction(e -> {this.model.stopGame(); Platform.exit();});
+        registry.register("start", new StartGameCommand(this));
+        registry.register("quit", new QuitGameCommand(model));
+
+        view.getStartButton().setOnAction(e -> registry.get("start").execute());
+        view.getQuitButton().setOnAction(e -> registry.get("quit").execute());
+
 
         stage.setTitle("Simple Game");
         stage.setScene(view.getMenuScene());
         stage.show();
     }
 
-    private void startGame() {
+    public void startGame() {
         model.startGame();
 
         Group gameRoot = new Group();
@@ -47,6 +54,13 @@ public class GameController {
     }
 
 
-    public void showVictory() { stage.setScene(VictoryScene.create(this::startGame, () -> System.exit(0) )); }
-    public void showGameOver() { stage.setScene(GameOverScene.create(this::startGame, () -> System.exit(0) )); }
+    public void showVictory() {
+        Scene scene = VictoryScene.create( new RetryCommand(this), new QuitGameCommand(model) );
+        stage.setScene(scene);
+    }
+
+    public void showGameOver() {
+        Scene scene = VictoryScene.create( new RetryCommand(this), new QuitGameCommand(model) );
+        stage.setScene(scene);
+    }
 }

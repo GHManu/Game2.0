@@ -1,15 +1,22 @@
 package com.example.game.InputManager;
 
+import com.example.game.Application.Command;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
 
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
+
 
 public class InputManager {
     private Set<KeyCode> keysPressed;
-    private double mouseX; private double mouseY;
+    private double mouseX;
+    private double mouseY;
     private boolean mouseClicked;
+
+
     public InputManager(Scene gameScene) {
         keysPressed = new HashSet<>();
         setEventListeners(gameScene);

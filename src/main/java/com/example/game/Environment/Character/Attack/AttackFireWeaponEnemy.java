@@ -21,8 +21,11 @@ import javafx.scene.layout.VBox;
 import javafx.scene.shape.Rectangle;
 
 public class AttackFireWeaponEnemy implements IFightStrategy {
+    private final AFireWeapon fw;
 
-
+    public AttackFireWeaponEnemy(AFireWeapon fw){
+        this.fw = fw;
+    }
     private void moveEnemyIfAlive(double dt, ACharacterEnemy subject, ACharacterPlayable target) {
         if (subject.getProgressBar().getProgress() > 0.1 &&
                 target.getProgressBar().getProgress() > 0.1) {
@@ -75,7 +78,6 @@ public class AttackFireWeaponEnemy implements IFightStrategy {
     @Override
     public void normalAttack(double dt, ACharacterEnemy subject, ACharacterPlayable target) {
 
-        AFireWeapon fireWeapon = (AFireWeapon) subject.getWeapon();
         initAttack(dt, subject, target);
 
         ProgressBar subjectBar = subject.getProgressBar();
@@ -88,9 +90,9 @@ public class AttackFireWeaponEnemy implements IFightStrategy {
                 !subject.isAttack_flag() &&
                 targetBar.getProgress() > 0.1) {
 
-            updateProjectile(dt, subject, target, fireWeapon);
+            updateProjectile(dt, subject, target, fw);
 
-            AProjectile p = fireWeapon.getProjectile();
+            AProjectile p = fw.getProjectile();
             Collider projectileCld = p.getCld();
 
 
@@ -101,7 +103,7 @@ public class AttackFireWeaponEnemy implements IFightStrategy {
             }
 
 
-            if (projectileCld.getShape().intersects(target.getCld().getShape().getBoundsInLocal())) {
+            if (projectileCld.intersect(target.getCld().getShape())) {
 
                 Collider cld = target.getCld();
 
@@ -128,8 +130,8 @@ public class AttackFireWeaponEnemy implements IFightStrategy {
         }
 
         if (subjectBar.getProgress() < 0.1 &&
-                !fireWeapon.getProjectile().isArrived(target.getX(), target.getY())) {
-            removeProjectile(target.root, fireWeapon.getProjectile());
+                !fw.getProjectile().isArrived(target.getX(), target.getY())) {
+            removeProjectile(target.root, fw.getProjectile());
         }
     }
 
@@ -141,9 +143,9 @@ public class AttackFireWeaponEnemy implements IFightStrategy {
 
 
             AProjectile p = new NormalAProjectile(EGameImages.ProvaAttaccoEnemy.getImage(), enemy.getX(), enemy.getY(), player.getX(), player.getY());
-            Platform.runLater(() -> {
-                player.root.getChildren().add(p.getImgView());
-            });
+
+            EventBus.get().notifyEventListenerObserver(new DTOEvent(EEventType.ADD_ELEMENT, new UIDTO(player.root, p.getImgView())));
+
             ((AFireWeapon) enemy.getWeapon()).getMag().set(0, p);
 
         }
