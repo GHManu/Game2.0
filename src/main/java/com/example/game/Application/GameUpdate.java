@@ -19,7 +19,6 @@ import com.example.game.UI.HUD;
 import com.example.game.UI.UIDTO;
 import javafx.scene.Group;
 import javafx.scene.Node;
-import javafx.scene.input.KeyCode;
 
 import java.util.*;
 
@@ -156,7 +155,7 @@ public class GameUpdate implements Runnable{
     }
 
 
-    public void gameMethodMovementHandler(double deltaTime, InputManager input_manager) {
+    public void gameMethodMovementHandler(double deltaTime) {
 
             if(enemy != null && plr != null && plr.getCld() != null && enemy.getCld() != null)   plr.getCld().collisionDetected(enemy.getCld().getShape(), true);
 

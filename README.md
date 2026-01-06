@@ -31,6 +31,7 @@ il movimento e l'attacco in base al movimento e all'arma e cerco di implementare
 - Ovviamente le armi hanno un loro attacco standard, però l'implementazione del Player e dell'Enemy sono diverse, perciò creerò due classi per implementare l'attacco; 
 
 - Uso il design patter MVC(Model View Controller) per separare logica, UI e interazione per quanto riguarda il menù e l'UI e uso anche lo State per le diverse fasi del gioco
+- Ho creato una Mappa con erba, muri e acqua e una Camera
 - Uso un HashMap per la mappa di gioco così riesco a riempire anche coordinate negative
 - Uso un altro state per le diverse fasi del game loop
 - Applico il Singleton a HUD e a EventBus

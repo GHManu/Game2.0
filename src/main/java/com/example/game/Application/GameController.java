@@ -1,10 +1,8 @@
 package com.example.game.Application;
 
-import com.example.game.Scene.GameOverScene;
 import com.example.game.Scene.GameScene;
 import com.example.game.Scene.VictoryScene;
 import com.example.game.UI.GameView;
-import javafx.application.Platform;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.paint.Color;

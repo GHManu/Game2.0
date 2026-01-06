@@ -51,4 +51,6 @@ module com.example.gamedemo {
     opens com.example.game.Environment.Character.Playable to javafx.fxml;
     exports com.example.game.Environment.Map;
     opens com.example.game.Environment.Map to javafx.fxml;
+    exports com.example.game.Environment.Camera;
+    opens com.example.game.Environment.Camera to javafx.fxml;
 }
