@@ -3,6 +3,8 @@ package com.example.game.Environment.Character;
 import com.example.game.Environment.AEntity;
 import com.example.game.Environment.Character.Movement.Direction;
 import com.example.game.Environment.Character.Movement.IMovementStrategy;
+import com.example.game.ICharacterListenerObservable;
+import com.example.game.ICharacterListenerObserver;
 import com.example.game.UI.EGameImages;
 import com.example.game.Environment.Object.Interactable.Weapon.AWeapon;
 import com.example.game.Environment.Object.Interactable.Weapon.IFightStrategy;
@@ -11,9 +13,12 @@ import javafx.scene.control.ProgressBar;
 import javafx.scene.image.Image;
 import javafx.scene.layout.VBox;
 
+import java.util.ArrayList;
+import java.util.List;
+
 //17 righe
 
-public abstract class ACharacter extends AEntity {
+public abstract class ACharacter extends AEntity implements ICharacterListenerObservable {
 
     private ProgressBar progressBar;
     private VBox vBox;
@@ -33,9 +38,30 @@ public abstract class ACharacter extends AEntity {
     private IFightStrategy fightStrategy;
     private AWeapon weapon;
 
+    private final List<ICharacterListenerObserver> listeners = new ArrayList<>();
+
+    @Override
+    public void addObserver(ICharacterListenerObserver l)
+    {
+        listeners.add(l);
+    }
+    @Override
+    public void removeObserver(ICharacterListenerObserver l) {
+        listeners.remove(l);
+    }
+
+    protected void notifyDeath() {
+        for (var l : listeners) {
+            l.onDeath(this);
+        }
+    }
+    protected void notifyDamage(double amount) {
+        for (var l : listeners) {
+            l.onDamage(this, amount);
+        }
+    }
 
     public AWeapon getWeapon() {
-
         return weapon;
     }
 

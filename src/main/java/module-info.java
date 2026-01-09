@@ -39,8 +39,6 @@ module com.example.gamedemo {
     opens com.example.game.Environment.Character.Attack to javafx.fxml;
     exports com.example.game.Environment.Character.Movement.Special;
     opens com.example.game.Environment.Character.Movement.Special to javafx.fxml;
-    exports com.example.game.Event;
-    opens com.example.game.Event to javafx.fxml;
     exports com.example.game.InputManager;
     opens com.example.game.InputManager to javafx.fxml;
     exports com.example.game.Environment.Character.NPC;
@@ -51,6 +49,5 @@ module com.example.gamedemo {
     opens com.example.game.Environment.Character.Playable to javafx.fxml;
     exports com.example.game.Environment.Map;
     opens com.example.game.Environment.Map to javafx.fxml;
-    exports com.example.game.Environment.Camera;
-    opens com.example.game.Environment.Camera to javafx.fxml;
+
 }

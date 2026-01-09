@@ -1,16 +1,13 @@
 package com.example.game.Environment.Character.Attack;
 
-import com.example.game.Event.DTOEvent;
-import com.example.game.Event.EEventType;
 import com.example.game.Environment.Character.Enemy.ACharacterEnemy;
 import com.example.game.Environment.Character.Playable.ACharacterPlayable;
-import com.example.game.Event.EventBus;
 import com.example.game.UI.EGameImages;
-import com.example.game.UI.UIDTO;
 import com.example.game.Environment.Object.Interactable.Weapon.IFightStrategy;
 import com.example.game.Environment.Object.Interactable.Weapon.Ranged.ProjectileIterator;
 import com.example.game.Environment.Object.Interactable.Weapon.Ranged.AFireWeapon;
 import com.example.game.Environment.Object.Interactable.Weapon.Ranged.NormalAProjectile;
+import com.example.game.UI.HUD;
 
 public class AttackFireWeaponPlayer implements IFightStrategy {
     private AFireWeapon fw;
@@ -20,7 +17,7 @@ public class AttackFireWeaponPlayer implements IFightStrategy {
     }
 
     private void removeProjectile(NormalAProjectile p, ACharacterPlayable player, ProjectileIterator it) {
-        EventBus.get().notifyEventListenerObserver(new DTOEvent(EEventType.REMOVE_ELEMENT, new UIDTO(player.root, p.getImgView())));
+        HUD.removeElement(player.root, p.getImgView());
         it.remove();
     }
 
@@ -28,7 +25,7 @@ public class AttackFireWeaponPlayer implements IFightStrategy {
         double newHealth = enemy.getHealth() - (enemy.getInitial_Health() * p.normal_damage);
         enemy.setHealth(newHealth);
         enemy.setSpeed(enemy.getSpeed() + 0.2);
-        EventBus.get().notifyEventListenerObserver(new DTOEvent(EEventType.DAMAGED, new DamageData(enemy, p.normal_damage)));
+        HUD.updateProgressBar(enemy, p.normal_damage);
     }
 
 
@@ -69,7 +66,7 @@ public class AttackFireWeaponPlayer implements IFightStrategy {
                     player.getyDest() );
             player.setAttack_flag(true);
             fw.getMag().add(p);
-            EventBus.get().notifyEventListenerObserver(new DTOEvent(EEventType.ADD_ELEMENT, new UIDTO(player.root, p.getImgView())));
+            HUD.addElement(player.root, p.getImgView());
         }
         player.setInit_attack_flag(false);
     }

@@ -8,15 +8,11 @@ import com.example.game.Environment.Character.Playable.ACharacterPlayable;
 import com.example.game.Environment.Character.Playable.ACharacterPlayableFactory;
 import com.example.game.Environment.Character.Playable.PlayerFactory;
 import com.example.game.Environment.Map.Map;
-import com.example.game.Event.DTOEvent;
-import com.example.game.Event.EEventType;
-import com.example.game.Event.EventBus;
 import com.example.game.InputManager.InputManager;
 import com.example.game.Scene.GameScene;
 import com.example.game.State.GameLoop.IGameLoopState;
 import com.example.game.State.GameLoop.PlayingState;
 import com.example.game.UI.HUD;
-import com.example.game.UI.UIDTO;
 import javafx.scene.Group;
 import javafx.scene.Node;
 
@@ -53,7 +49,7 @@ public class GameUpdate implements Runnable{
     }
 
     protected GameUpdate(Group world){
-        EventBus.GetInstance();
+
         this.setState(new PlayingState());
         currentThread = new Thread(this);
 
@@ -87,9 +83,7 @@ public class GameUpdate implements Runnable{
         );
 
         elements.forEach(node ->
-                EventBus.get().notifyEventListenerObserver(
-                        new DTOEvent(EEventType.ADD_ELEMENT, new UIDTO(world, node))
-                )
+                 HUD.addElement(world, node)
         );
 
 
@@ -124,18 +118,10 @@ public class GameUpdate implements Runnable{
 
     public void kill_Character(ACharacter character){
         if(character != null && character.getCld().getShape() != null) {
-                EventBus.get().notifyEventListenerObserver(
-                        new DTOEvent(EEventType.REMOVE_ELEMENT, new UIDTO(world,character.getvBox())));
-                character.setvBox(null);
-
-                EventBus.get().notifyEventListenerObserver(
-                        new DTOEvent(EEventType.REMOVE_ELEMENT, new UIDTO(world,character.getCld().getShape())));
-                character.getCld().setShape(null);
-
-                EventBus.get().notifyEventListenerObserver(
-                        new DTOEvent(EEventType.REMOVE_ELEMENT, new UIDTO(world,character.getImgView())));
-                character.setImgView(null);
-           System.gc();
+                HUD.removeElement(world, character.getvBox());
+                HUD.removeElement(world, character.getCld().getShape());
+                HUD.removeElement(world, character.getImgView());
+                System.gc();
         }
 
     }
@@ -158,7 +144,6 @@ public class GameUpdate implements Runnable{
     public void gameMethodMovementHandler(double deltaTime) {
 
             if(enemy != null && plr != null && plr.getCld() != null && enemy.getCld() != null)   plr.getCld().collisionDetected(enemy.getCld().getShape(), true);
-
 
             assert plr != null;
 

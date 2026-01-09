@@ -3,16 +3,13 @@ package com.example.game.Environment.Character.Attack;
 import com.example.game.Environment.Character.Enemy.ACharacterEnemy;
 import com.example.game.Environment.Character.Playable.ACharacterPlayable;
 import com.example.game.Environment.Collider;
-import com.example.game.Event.DTOEvent;
-import com.example.game.Event.EEventType;
-import com.example.game.Event.EventBus;
 import com.example.game.Environment.Character.Movement.Direction;
 import com.example.game.UI.EGameImages;
-import com.example.game.UI.UIDTO;
 import com.example.game.Environment.Object.Interactable.Weapon.IFightStrategy;
 import com.example.game.Environment.Object.Interactable.Weapon.Ranged.AFireWeapon;
 import com.example.game.Environment.Object.Interactable.Weapon.Ranged.AProjectile;
 import com.example.game.Environment.Object.Interactable.Weapon.Ranged.NormalAProjectile;
+import com.example.game.UI.HUD;
 import javafx.application.Platform;
 import javafx.scene.Group;
 import javafx.scene.control.ProgressBar;
@@ -41,12 +38,12 @@ public class AttackFireWeaponEnemy implements IFightStrategy {
         projectileCld.collisionDetected(projectileCld.getShape(), false);
     }
     private void removeProjectile(Group root, AProjectile p) {
-        EventBus.get().notifyEventListenerObserver(new DTOEvent(EEventType.REMOVE_ELEMENT, new UIDTO( root, p.getImgView())));
+        HUD.removeElement(root,  p.getImgView());
     }
     private void applyDamage(ACharacterPlayable target, double amount) {
         double newHealth = target.getHealth() - (target.getInitial_Health() * amount);
         target.setHealth(newHealth);
-        EventBus.get().notifyEventListenerObserver(new DTOEvent(EEventType.DAMAGED, new DamageData(target, amount)));
+        HUD.updateProgressBar(target, amount);
     }
     private void applyCollision(
             ACharacterPlayable target,
@@ -141,10 +138,9 @@ public class AttackFireWeaponEnemy implements IFightStrategy {
 
             enemy.setAttack_flag(false);
 
-
             AProjectile p = new NormalAProjectile(EGameImages.ProvaAttaccoEnemy.getImage(), enemy.getX(), enemy.getY(), player.getX(), player.getY());
 
-            EventBus.get().notifyEventListenerObserver(new DTOEvent(EEventType.ADD_ELEMENT, new UIDTO(player.root, p.getImgView())));
+            HUD.addElement(player.root, p.getImgView());
 
             ((AFireWeapon) enemy.getWeapon()).getMag().set(0, p);
 

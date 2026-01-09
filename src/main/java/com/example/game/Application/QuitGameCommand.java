@@ -1,7 +1,5 @@
 package com.example.game.Application;
 
-import javafx.application.Platform;
-
 public class QuitGameCommand implements Command {
     private final GameModel model;
 
@@ -12,7 +10,7 @@ public class QuitGameCommand implements Command {
     @Override
     public void execute() {
         model.stopGame();
-        Platform.exit();
+        System.exit(0);
     }
 }
 

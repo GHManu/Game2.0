@@ -35,7 +35,7 @@ il movimento e l'attacco in base al movimento e all'arma e cerco di implementare
 - Uso un HashMap per la mappa di gioco così riesco a riempire anche coordinate negative
 - Uso un altro state per le diverse fasi del game loop
 - Applico il Singleton a HUD e a EventBus
-- Applico un Observer per la gestione di eventi, per separare ad esempio la logica dell'UI, quindi ho creto HUD per gestire cose che riguardano la modifica di UI dalla logica dei calcoli dei danni e abbassamento valori (poi si può estende ad audio ecc...)
+- Applico un Observer per la gestione di eventi (architettura event-driven); però l'Observer ha 2 metodi invece di uno e il notify di Observable li ho implementati e messi direttamente nell'Observable Concreto 
 - Applico un Command per i vari tasti di UI
 
 

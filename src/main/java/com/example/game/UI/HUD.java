@@ -1,17 +1,12 @@
 package com.example.game.UI;
 
-import com.example.game.Environment.Character.Attack.DamageData;
 import com.example.game.Environment.Character.ACharacter;
-import com.example.game.Event.DTOEvent;
-import com.example.game.Event.EEventType;
-import com.example.game.Event.EventBus;
-import com.example.game.Event.IEventListenerObserver;
 import javafx.application.Platform;
 import javafx.scene.Group;
 import javafx.scene.Node;
 
 
-public class HUD implements IEventListenerObserver {
+public class HUD {
 
     private volatile static HUD unique_instance;
 
@@ -25,34 +20,8 @@ public class HUD implements IEventListenerObserver {
         }
     }
 
-    private HUD()
-    {
-        EventBus.get().addEventListenerObserver(this);
-    }
 
-    @Override
-    public void update(DTOEvent dto_event) {
-
-        switch(dto_event.getType()){
-            case EEventType.DAMAGED:
-                DamageData data = (DamageData) dto_event.getData();
-                updateProgressBar(data.getCharacter(), data.getDamage());
-                break;
-            case EEventType.REMOVE_ELEMENT:
-                UIDTO UIDTO1 = (UIDTO) dto_event.getData();
-                removeElement( UIDTO1.getRoot(), UIDTO1.getNode());
-                break;
-            case EEventType.ADD_ELEMENT:
-                UIDTO UIDTO2 = (UIDTO) dto_event.getData();
-                addElement(UIDTO2.getRoot(), UIDTO2.getNode());
-                break;
-            default:
-                break;
-        }
-
-    }
-
-    private void updateProgressBar(ACharacter character, double damage)
+    public static void updateProgressBar(ACharacter character, double damage)
     {
         Platform.runLater(() -> {
             double progress = (character.getProgressBar().getProgress() - damage);
@@ -60,11 +29,11 @@ public class HUD implements IEventListenerObserver {
         });
     }
 
-    private void removeElement(Group root, Node node){
+    public static void removeElement(Group root, Node node){
         Platform.runLater(() -> root.getChildren().remove(node));
     }
 
-    private void addElement(Group root, Node node){
+    public static void addElement(Group root, Node node){
         Platform.runLater(() -> root.getChildren().add(node));
     }
 }
