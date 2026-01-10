@@ -1,5 +1,6 @@
 package com.example.game.Application;
 
+import com.example.game.Scene.GameOverScene;
 import com.example.game.Scene.GameScene;
 import com.example.game.Scene.VictoryScene;
 import com.example.game.UI.GameView;
@@ -58,7 +59,7 @@ public class GameController {
     }
 
     public void showGameOver() {
-        Scene scene = VictoryScene.create( new RetryCommand(this), new QuitGameCommand(model) );
+        Scene scene = GameOverScene.create( new RetryCommand(this), new QuitGameCommand(model) );
         stage.setScene(scene);
     }
 }

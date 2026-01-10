@@ -41,8 +41,7 @@ public class AttackFireWeaponEnemy implements IFightStrategy {
         HUD.removeElement(root,  p.getImgView());
     }
     private void applyDamage(ACharacterPlayable target, double amount) {
-        double newHealth = target.getHealth() - (target.getInitial_Health() * amount);
-        target.setHealth(newHealth);
+        target.takeDamage(amount);
         HUD.updateProgressBar(target, amount);
     }
     private void applyCollision(

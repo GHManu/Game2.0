@@ -1,5 +1,6 @@
 package com.example.game.Application;
 
+import com.example.game.Environment.Camera;
 import com.example.game.Environment.Character.*;
 import com.example.game.Environment.Character.Enemy.ACharacterEnemy;
 import com.example.game.Environment.Character.Enemy.ACharacterEnemyFactory;
@@ -7,6 +8,7 @@ import com.example.game.Environment.Character.Enemy.EnemyFactory;
 import com.example.game.Environment.Character.Playable.ACharacterPlayable;
 import com.example.game.Environment.Character.Playable.ACharacterPlayableFactory;
 import com.example.game.Environment.Character.Playable.PlayerFactory;
+import com.example.game.Environment.Destroyer;
 import com.example.game.Environment.Map.Map;
 import com.example.game.InputManager.InputManager;
 import com.example.game.Scene.GameScene;
@@ -32,6 +34,25 @@ public class GameUpdate implements Runnable{
     private IGameLoopState current_state;
     private GameController game_controller;
     InputManager input_manager;
+    private Destroyer destroyer;
+    private Camera camera;
+
+
+    public Camera getCamera() {
+        return camera;
+    }
+
+    public void setCamera(Camera camera) {
+        this.camera = camera;
+    }
+
+    public Destroyer getDestroyer() {
+        return destroyer;
+    }
+
+    public void setDestroyer(Destroyer destroyer) {
+        this.destroyer = destroyer;
+    }
 
     public GameController getGame_controller() {
         return game_controller;
@@ -49,8 +70,6 @@ public class GameUpdate implements Runnable{
     }
 
     protected GameUpdate(Group world){
-
-        this.setState(new PlayingState());
         currentThread = new Thread(this);
 
         this.world = world;
@@ -59,6 +78,7 @@ public class GameUpdate implements Runnable{
         character_playable_factory = new PlayerFactory();
         character_enemy_factory = new EnemyFactory();
 
+        destroyer = new Destroyer(world);
         HUD.getInstance();
     }
 
@@ -72,7 +92,9 @@ public class GameUpdate implements Runnable{
         plr = character_playable_factory.createPlayer("fire weapon", "pistol", "with input", "sixway", input_manager);
         enemy = character_enemy_factory.createEnemy("fire weapon", "pistol", "without input", "oneway");
 
+        this.setState(new PlayingState());
         plr.setRoot(world);
+        camera = new Camera(world, game_scene, plr);
         world_map.drawMap(world);
 
         List<Node> elements = List.of(
@@ -115,31 +137,6 @@ public class GameUpdate implements Runnable{
         }
 
     }
-
-    public void kill_Character(ACharacter character){
-        if(character != null && character.getCld().getShape() != null) {
-                HUD.removeElement(world, character.getvBox());
-                HUD.removeElement(world, character.getCld().getShape());
-                HUD.removeElement(world, character.getImgView());
-                System.gc();
-        }
-
-    }
-
-    public void updateCamera() {
-        double targetX = game_scene.getWidth() / 2 - (plr.getX() + plr.getImg().getWidth() / 2);
-        double targetY = game_scene.getHeight() / 2 - (plr.getY() + plr.getImg().getHeight() / 2);
-
-        // Fattore di interpolazione (0.1 = segue lentamente, 1 = istantaneo)
-        double lerpFactor = 1;
-
-        double newX = world.getLayoutX() + (targetX - world.getLayoutX()) * lerpFactor;
-        double newY = world.getLayoutY() + (targetY - world.getLayoutY()) * lerpFactor;
-
-        world.setLayoutX(newX);
-        world.setLayoutY(newY);
-    }
-
 
     public void gameMethodMovementHandler(double deltaTime) {
 

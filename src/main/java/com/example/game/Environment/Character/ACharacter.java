@@ -3,8 +3,6 @@ package com.example.game.Environment.Character;
 import com.example.game.Environment.AEntity;
 import com.example.game.Environment.Character.Movement.Direction;
 import com.example.game.Environment.Character.Movement.IMovementStrategy;
-import com.example.game.ICharacterListenerObservable;
-import com.example.game.ICharacterListenerObserver;
 import com.example.game.UI.EGameImages;
 import com.example.game.Environment.Object.Interactable.Weapon.AWeapon;
 import com.example.game.Environment.Object.Interactable.Weapon.IFightStrategy;
@@ -18,7 +16,7 @@ import java.util.List;
 
 //17 righe
 
-public abstract class ACharacter extends AEntity implements ICharacterListenerObservable {
+public abstract class ACharacter extends AEntity {
 
     private ProgressBar progressBar;
     private VBox vBox;
@@ -26,7 +24,6 @@ public abstract class ACharacter extends AEntity implements ICharacterListenerOb
     private double health;
     private double strength;
     private double speed;
-
 
     private Direction direction = Direction.DOWN;
 
@@ -38,28 +35,6 @@ public abstract class ACharacter extends AEntity implements ICharacterListenerOb
     private IFightStrategy fightStrategy;
     private AWeapon weapon;
 
-    private final List<ICharacterListenerObserver> listeners = new ArrayList<>();
-
-    @Override
-    public void addObserver(ICharacterListenerObserver l)
-    {
-        listeners.add(l);
-    }
-    @Override
-    public void removeObserver(ICharacterListenerObserver l) {
-        listeners.remove(l);
-    }
-
-    protected void notifyDeath() {
-        for (var l : listeners) {
-            l.onDeath(this);
-        }
-    }
-    protected void notifyDamage(double amount) {
-        for (var l : listeners) {
-            l.onDamage(this, amount);
-        }
-    }
 
     public AWeapon getWeapon() {
         return weapon;
@@ -168,5 +143,11 @@ public abstract class ACharacter extends AEntity implements ICharacterListenerOb
     public void setFightStrategy(IFightStrategy fightStrategy) {
         this.fightStrategy = fightStrategy;
     }
+    public boolean isAlive(){ return this.getProgressBar().getProgress() > 0.1 && this.getHealth() > 0;}
 
+    public void takeDamage(double amount){
+        double newHealth = this.getHealth() - (this.getInitial_Health() * amount);
+        this.setHealth(newHealth);
+
+    }
 }

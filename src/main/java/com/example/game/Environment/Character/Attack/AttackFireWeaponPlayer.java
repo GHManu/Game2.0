@@ -10,7 +10,7 @@ import com.example.game.Environment.Object.Interactable.Weapon.Ranged.NormalAPro
 import com.example.game.UI.HUD;
 
 public class AttackFireWeaponPlayer implements IFightStrategy {
-    private AFireWeapon fw;
+    private final AFireWeapon fw;
 
     public AttackFireWeaponPlayer(AFireWeapon fw) {
         this.fw = fw;
@@ -21,11 +21,10 @@ public class AttackFireWeaponPlayer implements IFightStrategy {
         it.remove();
     }
 
-    private void applyDamage(ACharacterEnemy enemy, NormalAProjectile p) {
-        double newHealth = enemy.getHealth() - (enemy.getInitial_Health() * p.normal_damage);
-        enemy.setHealth(newHealth);
+    private void applyDamage(ACharacterEnemy enemy, double amount) {
+        enemy.takeDamage(amount);
         enemy.setSpeed(enemy.getSpeed() + 0.2);
-        HUD.updateProgressBar(enemy, p.normal_damage);
+        HUD.updateProgressBar(enemy, amount);
     }
 
 
@@ -44,7 +43,7 @@ public class AttackFireWeaponPlayer implements IFightStrategy {
             }
             if (enemy.getCld().getShape() != null && p.getCld().getShape().intersects(enemy.getCld().getShape().getBoundsInLocal())) {
                 if (enemy.getHealth() > 1) {
-                    applyDamage(enemy, p);
+                    applyDamage(enemy, p.normal_damage);
                 }
                 removeProjectile(p, player, it);
                 continue;

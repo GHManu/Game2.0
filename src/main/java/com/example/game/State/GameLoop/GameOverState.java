@@ -8,7 +8,7 @@ public class GameOverState implements IGameLoopState {
     @Override
     public void start(GameUpdate context) {
         System.out.println("GameOver");
-        context.kill_Character(context.getPlr());
+        context.getDestroyer().destroyCharacter(context.getPlr());
         Platform.runLater(() -> { context.getGame_controller().showGameOver();});
     }
 
