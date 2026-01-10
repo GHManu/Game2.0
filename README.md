@@ -1,21 +1,26 @@
 # Game2.0
 *Gioco della [Repository](https://github.com/GHManu/Game) (tipologia:Pokemon-like -> un RPG action adventure), riscritto con le regole del corso di Ingegneria Del Software; ovviamente non è completo, ma ho cercato di farlo con quello che c'era*
- # Riassunto
-L'obiettivo è sconfiggere il nemico muovendoti (WASD o frecce, shift per lo sprint temporaneo con ricarica) in una mappa piccola e chiusa e attaccando con il tasto sinistro del 
+
+
+# Analisi Dei Requisiti
+## Scopo
+L'obiettivo è sconfiggere il nemico muovendoti (WASD o frecce, shift per lo sprint temporaneo con ricarica) in una mappa piccola e chiusa e attaccando con il tasto sinistro del
 mouse. Il nemico si muove in due direzioni e attacca con un proiettile alla volta, quando uno esplode ne parte un altro.
 
+## Attori Coinvolti
 
-## Analisi Dei Requisiti
+## Requisiti Funzionali
+
+## Requisiti Non Funzionali
+
+## Vincoli di Progetto
 
 
-
-
-
-## Differenze
+## Modifiche Apportate
 - Le classi astratte le chiamerò con una A iniziale, le interfacce con I e le enumerazoni con E; 
 scrivo i metodi con il camelCase mentre le variabili tutte minuscole con _, e le costanti tutte in maiuscolo
 - In generale applicherò un principio per avere un po' di clean code, quello usato nel Design Pattern Facade, ovvero Principle of Least Knowledge
-
+- Ho creato una Camera mobile
 
 - Farei la distinzione tra personaggi giocabili, personaggi bot, con i quali non posso giocarci ma con cui ci posso interagire e i nemici, personaggi non giocabili ma contro cui i personaggi giocabili si devono scontrare e ci possono essere tipi diversi di tutti questi; nello specifico ad esempio ci possono essere diversi enemy in un posto;
  quindi ho scelto di il Desingn Pattern Strategy, poichè ad esempio tra i personaggi giocabili, il movimento o gli attacchi potrebbero cambiare 
@@ -25,17 +30,17 @@ scrivo i metodi con il camelCase mentre le variabili tutte minuscole con _, e le
 - Per l'Input ho creato un InputManager e per i tasti ho creato una classe a parte, dalla quale l'InputManager dipende(poichè chiamo metodi che richiamano le var dentro a quella classe)
 
 - Applico il FactoryMethod/AbstractFactoryMethod per la creazione di armi
+- Applico il FactoryMethod/AbstractFactoryMethod per la creazione di nemici e personaggi giocabili
 - Dato che voglio fare in modo che ogni personaggio possa avere più armi e quindi avere più attacchi, creo solo un Enemy e un Player, che però modificano
 il movimento e l'attacco in base al movimento e all'arma e cerco di implementare le armi e il movimento affinchè siano il più generiche possibile per poterle usare anche per il player
 
 - Ovviamente le armi hanno un loro attacco standard, però l'implementazione del Player e dell'Enemy sono diverse, perciò creerò due classi per implementare l'attacco; 
 
-- Uso il design patter MVC(Model View Controller) per separare logica, UI e interazione per quanto riguarda il menù e l'UI e uso anche lo State per le diverse fasi del gioco
-- Ho creato una Mappa con erba, muri e acqua e una Camera
+- Uso il design patter MVC(Model View Controller) per separare logica, UI e interazione per quanto riguarda il menù e l'UI
+- Ho creato una Mappa con erba, muri e acqua
 - Uso un HashMap per la mappa di gioco così riesco a riempire anche coordinate negative
-- Uso un altro state per le diverse fasi del game loop
-- Applico il Singleton a HUD e a EventBus
-- Applico un Observer per la gestione di eventi (architettura event-driven); però l'Observer ha 2 metodi invece di uno e il notify di Observable li ho implementati e messi direttamente nell'Observable Concreto 
+- Uso lo State per le fasi del game loop e per l'UI
+- Applico il Singleton a HUD
 - Applico un Command per i vari tasti di UI
 
 
