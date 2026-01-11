@@ -4,9 +4,10 @@ import com.example.game.Environment.Character.Movement.Direction;
 import com.example.game.Environment.Character.Movement.DirectionSetting;
 import com.example.game.Environment.Character.ACharacter;
 import com.example.game.Environment.Character.Movement.Special.Sprint;
+
+import com.example.game.Environment.Map.MyMap;
 import com.example.game.InputManager.InputManager;
 import com.example.game.UI.EGameImages;
-import com.example.game.UI.IScreenSettings;
 import javafx.application.Platform;
 
 import java.util.Map;
@@ -18,6 +19,7 @@ public class SixWaySmoothlyMovement extends AMovementStrategyWithInput {
 
     public SixWaySmoothlyMovement(InputManager inputManager){
         setInputManager(inputManager);
+
         init();
     }
 
@@ -35,31 +37,79 @@ public class SixWaySmoothlyMovement extends AMovementStrategyWithInput {
 
 
 
-    public void init(){
+    public void init() {
         dir_settings = Map.of(
-                Direction.UP, new DirectionSetting(InputManager::isMovingForward,
-                        plr -> plr.getY() > IScreenSettings.sizeTile,
+                Direction.UP, new DirectionSetting(
+                        InputManager::isMovingForward,
                         plr -> { plr.setDirection(Direction.DOWN); },
                         plr -> plr.changeImage(EGameImages.Back_Pg.getImage()),
-                        (dt, plr) -> { if (plr.getCld().canHit(Direction.UP)) updatePosition(plr, plr.getX(), plr.getY() - plr.getSpeed() * dt); } ),
+                        (dt, plr) -> {
+                            double nextX = plr.getX();
+                            double nextY = plr.getY() - plr.getSpeed() * dt;
 
-                Direction.DOWN, new DirectionSetting( InputManager::isMovingBackward,
-                        plr -> plr.getY() < IScreenSettings.screenHeight - IScreenSettings.sizeTile * 2,
+                            if (plr.getCld().canHit(Direction.UP) &&
+                                    plr.canMoveTo(nextX, nextY, MyMap.getWallColliders())) {
+
+                                updatePosition(plr, nextX, nextY);
+                                return true;
+                            }
+                            return false;
+                        }
+                ),
+
+                Direction.DOWN, new DirectionSetting(
+                        InputManager::isMovingBackward,
                         plr -> { plr.setDirection(Direction.UP); },
                         plr -> plr.changeImage(EGameImages.Front_Pg.getImage()),
-                        (dt, plr) -> { if (plr.getCld().canHit(Direction.DOWN)) updatePosition(plr, plr.getX(), plr.getY() + plr.getSpeed() * dt); } ),
+                        (dt, plr) -> {
+                            double nextX = plr.getX();
+                            double nextY = plr.getY() + plr.getSpeed() * dt;
 
-                Direction.LEFT, new DirectionSetting( InputManager::isMovingLeft,
-                        plr -> plr.getX() > IScreenSettings.sizeTile,
+                            if (plr.getCld().canHit(Direction.DOWN) &&
+                                    plr.canMoveTo(nextX, nextY, MyMap.getWallColliders())) {
+
+                                updatePosition(plr, nextX, nextY);
+                                return true;
+                            }
+                            return false;
+                        }
+                ),
+
+                Direction.LEFT, new DirectionSetting(
+                        InputManager::isMovingLeft,
                         plr -> { plr.setDirection(Direction.RIGHT); },
                         plr -> plr.changeImage(EGameImages.Left_Side_Pg.getImage()),
-                        (dt, plr) -> { if (plr.getCld().canHit(Direction.LEFT)) updatePosition(plr, plr.getX() - plr.getSpeed() * dt, plr.getY()); } ),
+                        (dt, plr) -> {
+                            double nextX = plr.getX() - plr.getSpeed() * dt;
+                            double nextY = plr.getY();
 
-                Direction.RIGHT, new DirectionSetting( InputManager::isMovingRight,
-                        plr -> plr.getX() < IScreenSettings.screenWidth - IScreenSettings.sizeTile * 2,
-                        plr -> {plr.setDirection(Direction.RIGHT); },
+                            if (plr.getCld().canHit(Direction.LEFT) &&
+                                    plr.canMoveTo(nextX, nextY, MyMap.getWallColliders())) {
+
+                                updatePosition(plr, nextX, nextY);
+                                return true;
+                            }
+                            return false;
+                        }
+                ),
+
+                Direction.RIGHT, new DirectionSetting(
+                        InputManager::isMovingRight,
+                        plr -> { plr.setDirection(Direction.RIGHT); },
                         plr -> plr.changeImage(EGameImages.Right_Side_Pg.getImage()),
-                        (dt, plr) -> { if (plr.getCld().canHit(Direction.RIGHT)) updatePosition(plr, plr.getX() + plr.getSpeed() * dt, plr.getY()); } )
+                        (dt, plr) -> {
+                            double nextX = plr.getX() + plr.getSpeed() * dt;
+                            double nextY = plr.getY();
+
+                            if (plr.getCld().canHit(Direction.RIGHT) &&
+                                    plr.canMoveTo(nextX, nextY, MyMap.getWallColliders())) {
+
+                                updatePosition(plr, nextX, nextY);
+                                return true;
+                            }
+                            return false;
+                        }
+                )
         );
     }
 
@@ -67,17 +117,21 @@ public class SixWaySmoothlyMovement extends AMovementStrategyWithInput {
 
 
     @Override
-    public void movement(double deltatime,  ACharacter target) {
-        Platform.runLater(() -> sprint.controlSprint(deltatime, getInputManager(), target));
+    public void movement(double dt, ACharacter target) {
+        sprint.controlSprint(dt, getInputManager(), target);
         for (var entry : dir_settings.entrySet()) {
-            DirectionSetting dir_set = entry.getValue();
-            boolean pressed = dir_set.input_check().test(getInputManager());
-            if (pressed && dir_set.boundary_check().test(target)) {
-                dir_set.set_direction_flag().accept(target);
-                dir_set.set_image().accept(target);
-                dir_set.move_if_allowed().accept(deltatime, target);
+            DirectionSetting dir = entry.getValue();
+            if (dir.input_check().test(getInputManager())) {
+                 Platform.runLater(() -> {
+                     dir.set_direction_flag().accept(target);
+                     dir.set_image().accept(target);
+                     dir.move_if_allowed().apply(dt, target);
+                 });
+
+
             }
         }
     }
+
 
 }

@@ -1,5 +1,7 @@
 package com.example.game.Environment;
 
+import com.example.game.UI.EGameImages;
+import javafx.application.Platform;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
@@ -57,5 +59,17 @@ public abstract class AEntity{
 
     public void setCld(Collider cld) {
         this.cld = cld;
+    }
+
+
+    public final void changeImage(Image image){
+        for(EGameImages ea : EGameImages.values()){
+            if(ea.getImage() == image){
+                Platform.runLater(() -> {
+                    getImgView().setImage(image);
+                });
+                break;
+            }
+        }
     }
 }

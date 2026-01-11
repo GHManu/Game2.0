@@ -3,28 +3,21 @@ package com.example.game.Environment.Character.Attack;
 import com.example.game.Environment.Character.Enemy.ACharacterEnemy;
 import com.example.game.Environment.Character.Playable.ACharacterPlayable;
 import com.example.game.UI.EGameImages;
-import com.example.game.Environment.Object.Interactable.Weapon.IFightStrategy;
 import com.example.game.Environment.Object.Interactable.Weapon.Ranged.ProjectileIterator;
 import com.example.game.Environment.Object.Interactable.Weapon.Ranged.AFireWeapon;
 import com.example.game.Environment.Object.Interactable.Weapon.Ranged.NormalAProjectile;
 import com.example.game.UI.HUD;
 
-public class AttackFireWeaponPlayer implements IFightStrategy {
+public class CommonAttackFireWeaponPlayer extends ACommonAttack {
     private final AFireWeapon fw;
 
-    public AttackFireWeaponPlayer(AFireWeapon fw) {
+    public CommonAttackFireWeaponPlayer(AFireWeapon fw) {
         this.fw = fw;
     }
 
     private void removeProjectile(NormalAProjectile p, ACharacterPlayable player, ProjectileIterator it) {
         HUD.removeElement(player.root, p.getImgView());
         it.remove();
-    }
-
-    private void applyDamage(ACharacterEnemy enemy, double amount) {
-        enemy.takeDamage(amount);
-        enemy.setSpeed(enemy.getSpeed() + 0.2);
-        HUD.updateProgressBar(enemy, amount);
     }
 
 

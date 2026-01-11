@@ -1,7 +1,6 @@
 package com.example.game.Application;
 
 import com.example.game.Environment.Camera;
-import com.example.game.Environment.Character.*;
 import com.example.game.Environment.Character.Enemy.ACharacterEnemy;
 import com.example.game.Environment.Character.Enemy.ACharacterEnemyFactory;
 import com.example.game.Environment.Character.Enemy.EnemyFactory;
@@ -9,7 +8,7 @@ import com.example.game.Environment.Character.Playable.ACharacterPlayable;
 import com.example.game.Environment.Character.Playable.ACharacterPlayableFactory;
 import com.example.game.Environment.Character.Playable.PlayerFactory;
 import com.example.game.Environment.Destroyer;
-import com.example.game.Environment.Map.Map;
+import com.example.game.Environment.Map.MyMap;
 import com.example.game.InputManager.InputManager;
 import com.example.game.Scene.GameScene;
 import com.example.game.State.GameLoop.IGameLoopState;
@@ -30,7 +29,7 @@ public class GameUpdate implements Runnable{
     private ACharacterEnemy enemy;
     private final ACharacterEnemyFactory character_enemy_factory;
     private final ACharacterPlayableFactory character_playable_factory;
-    private final Map world_map;
+    private final MyMap world_My_map;
     private IGameLoopState current_state;
     private GameController game_controller;
     InputManager input_manager;
@@ -73,7 +72,7 @@ public class GameUpdate implements Runnable{
         currentThread = new Thread(this);
 
         this.world = world;
-        world_map = new Map();
+        world_My_map = new MyMap("/com/example/game/Maps/map.txt");
 
         character_playable_factory = new PlayerFactory();
         character_enemy_factory = new EnemyFactory();
@@ -95,7 +94,7 @@ public class GameUpdate implements Runnable{
         this.setState(new PlayingState());
         plr.setRoot(world);
         camera = new Camera(world, game_scene, plr);
-        world_map.drawMap(world);
+        world_My_map.drawMap(world);
 
         List<Node> elements = List.of(
                 plr.getvBox(),

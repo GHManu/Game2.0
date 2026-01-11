@@ -5,7 +5,6 @@ import com.example.game.Environment.Character.Playable.ACharacterPlayable;
 import com.example.game.Environment.Collider;
 import com.example.game.Environment.Character.Movement.Direction;
 import com.example.game.UI.EGameImages;
-import com.example.game.Environment.Object.Interactable.Weapon.IFightStrategy;
 import com.example.game.Environment.Object.Interactable.Weapon.Ranged.AFireWeapon;
 import com.example.game.Environment.Object.Interactable.Weapon.Ranged.AProjectile;
 import com.example.game.Environment.Object.Interactable.Weapon.Ranged.NormalAProjectile;
@@ -17,15 +16,15 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.Rectangle;
 
-public class AttackFireWeaponEnemy implements IFightStrategy {
+public class CommonAttackFireWeaponEnemy extends ACommonAttack {
     private final AFireWeapon fw;
 
-    public AttackFireWeaponEnemy(AFireWeapon fw){
+    public CommonAttackFireWeaponEnemy(AFireWeapon fw){
         this.fw = fw;
     }
     private void moveEnemyIfAlive(double dt, ACharacterEnemy subject, ACharacterPlayable target) {
-        if (subject.getProgressBar().getProgress() > 0.1 &&
-                target.getProgressBar().getProgress() > 0.1) {
+        if (subject.isAlive() &&
+                target.isAlive()) {
             subject.getMovementStrategy().movement(dt, subject);
         }
     }
@@ -40,10 +39,7 @@ public class AttackFireWeaponEnemy implements IFightStrategy {
     private void removeProjectile(Group root, AProjectile p) {
         HUD.removeElement(root,  p.getImgView());
     }
-    private void applyDamage(ACharacterPlayable target, double amount) {
-        target.takeDamage(amount);
-        HUD.updateProgressBar(target, amount);
-    }
+
     private void applyCollision(
             ACharacterPlayable target,
             double dx, double dy,
@@ -76,15 +72,11 @@ public class AttackFireWeaponEnemy implements IFightStrategy {
 
         initAttack(dt, subject, target);
 
-        ProgressBar subjectBar = subject.getProgressBar();
-        ProgressBar targetBar = target.getProgressBar();
-
-
         moveEnemyIfAlive(dt, subject, target);
 
-        if (subjectBar.getProgress() > 0.1 &&
+        if (subject.isAlive() &&
                 !subject.isAttack_flag() &&
-                targetBar.getProgress() > 0.1) {
+                target.isAlive()) {
 
             updateProjectile(dt, subject, target, fw);
 
@@ -125,7 +117,7 @@ public class AttackFireWeaponEnemy implements IFightStrategy {
             }
         }
 
-        if (subjectBar.getProgress() < 0.1 &&
+        if (!subject.isAlive() &&
                 !fw.getProjectile().isArrived(target.getX(), target.getY())) {
             removeProjectile(target.root, fw.getProjectile());
         }
@@ -133,7 +125,7 @@ public class AttackFireWeaponEnemy implements IFightStrategy {
 
     @Override
     public void initAttack(double deltatime, ACharacterEnemy enemy, ACharacterPlayable player) {
-        if (enemy.isAttack_flag() && player.getProgressBar().getProgress() > 0.1 && enemy.getProgressBar().getProgress() > 0.1) {
+        if (enemy.isAttack_flag() && player.isAlive() && enemy.isAlive()) {
 
             enemy.setAttack_flag(false);
 

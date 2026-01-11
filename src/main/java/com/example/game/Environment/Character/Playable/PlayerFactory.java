@@ -1,6 +1,6 @@
 package com.example.game.Environment.Character.Playable;
 
-import com.example.game.Environment.Character.Attack.AttackFireWeaponPlayer;
+import com.example.game.Environment.Character.Attack.CommonAttackFireWeaponPlayer;
 import com.example.game.Environment.Character.Movement.NoInput.OneWayMovement;
 import com.example.game.Environment.Character.Movement.WithInput.SixWaySmoothlyMovement;
 import com.example.game.Environment.Object.Interactable.Weapon.AWeapon;
@@ -21,7 +21,7 @@ public class PlayerFactory extends ACharacterPlayableFactory{
                 weapon_factory = new FireWeaponFactory();
                 AWeapon weapon_selected = weapon_factory.createWeapon(concreteWeapon);
                 player.setWeapon(weapon_selected);
-                player.setFightStrategy(new AttackFireWeaponPlayer((AFireWeapon) player.getWeapon()));
+                player.setFightStrategy(new CommonAttackFireWeaponPlayer((AFireWeapon) player.getWeapon()));
                 break;
 
             default:

@@ -17,7 +17,7 @@ public class Enemy extends ACharacterEnemy {
         this.setDirection(Direction.DOWN);
 
         setX( (IScreenSettings.screenWidth/2.0) + 150.0);
-        setY((IScreenSettings.screenHeight/2.0) - 120.0);
+        setY((IScreenSettings.screenHeight/2.0) - 90.0);
 
         setProgressBar(new ProgressBar(1.0));
         setvBox(new VBox(getProgressBar()));

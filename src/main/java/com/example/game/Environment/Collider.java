@@ -76,5 +76,11 @@ public class Collider {
             if (block) shape.setY(other.getY() + other.getHeight());
         }
     }
+
+    public boolean intersectsAt(double nextX, double nextY, Collider other) {
+        double w = this.getShape().getWidth();
+        double h =  this.getShape().getHeight();
+        return nextX < other.getShape().getX() + other.getShape().getWidth() && nextX + w > other.getShape().getX() && nextY < other.getShape().getY() + other.getShape().getHeight() && nextY + h > other.getShape().getY();
+    }
 }
 

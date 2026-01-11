@@ -1,6 +1,6 @@
 package com.example.game.Environment.Character.Enemy;
 
-import com.example.game.Environment.Character.Attack.AttackFireWeaponEnemy;
+import com.example.game.Environment.Character.Attack.CommonAttackFireWeaponEnemy;
 import com.example.game.Environment.Object.Interactable.Weapon.AWeapon;
 import com.example.game.Environment.Object.Interactable.Weapon.AWeaponFactory;
 import com.example.game.Environment.Object.Interactable.Weapon.Ranged.AFireWeapon;
@@ -19,7 +19,7 @@ public class EnemyFactory extends ACharacterEnemyFactory {
                 weapon_factory = new FireWeaponFactory();
                 AWeapon weapon_selected = weapon_factory.createWeapon(concreteWeapon);
                 enemy.setWeapon(weapon_selected);
-                enemy.setFightStrategy(new AttackFireWeaponEnemy((AFireWeapon) enemy.getWeapon()));
+                enemy.setFightStrategy(new CommonAttackFireWeaponEnemy((AFireWeapon) enemy.getWeapon()));
                 break;
 
             default:

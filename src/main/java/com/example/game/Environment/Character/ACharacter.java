@@ -3,6 +3,8 @@ package com.example.game.Environment.Character;
 import com.example.game.Environment.AEntity;
 import com.example.game.Environment.Character.Movement.Direction;
 import com.example.game.Environment.Character.Movement.IMovementStrategy;
+import com.example.game.Environment.Collider;
+import com.example.game.Environment.Object.NonInteractable.Wall;
 import com.example.game.UI.EGameImages;
 import com.example.game.Environment.Object.Interactable.Weapon.AWeapon;
 import com.example.game.Environment.Object.Interactable.Weapon.IFightStrategy;
@@ -52,18 +54,6 @@ public abstract class ACharacter extends AEntity {
     public void setMovementStrategy(IMovementStrategy movementStrategy) {
         this.movementStrategy = movementStrategy;
     }
-
-    public final void changeImage(Image image){
-        for(EGameImages ea : EGameImages.values()){
-            if(ea.getImage() == image){
-                Platform.runLater(() -> {
-                    getImgView().setImage(image);
-                });
-                break;
-            }
-        }
-    }
-
 
     public Direction getDirection() {
         return direction;
@@ -149,5 +139,12 @@ public abstract class ACharacter extends AEntity {
         double newHealth = this.getHealth() - (this.getInitial_Health() * amount);
         this.setHealth(newHealth);
 
+    }
+    public boolean canMoveTo(double nextX, double nextY, List<Collider> walls) {
+        for (Collider w : walls)
+        {
+            if (this.getCld().intersectsAt(nextX, nextY, w)) { return false; }
+        }
+        return true;
     }
 }
