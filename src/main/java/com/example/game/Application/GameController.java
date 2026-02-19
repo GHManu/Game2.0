@@ -45,7 +45,7 @@ public class GameController {
 
         stage.setScene(gameScene);
         GameUpdate gameUpdate = new GameUpdate(gameRoot);
-        gameUpdate.startGameLoop(gameScene);
+        gameUpdate.startGameLoop(stage,gameScene);
         gameUpdate.setGame_controller(this);
         stage.setResizable(false);
         stage.setOnCloseRequest(event ->{ this.model.stopGame(); System.exit(0);});

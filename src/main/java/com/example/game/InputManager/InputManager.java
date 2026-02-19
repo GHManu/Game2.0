@@ -2,29 +2,40 @@ package com.example.game.InputManager;
 
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
+import javafx.scene.input.MouseEvent;
+import javafx.stage.Stage;
 
 import java.util.HashSet;
 import java.util.Set;
 
 
 public class InputManager {
-    private Set<KeyCode> keysPressed;
-    private double mouseX;
-    private double mouseY;
+    private final Set<KeyCode> keysPressed;
+
+    private double mouseXClick;
+    private double mouseYClick;
+
+    private double currentMouseX;
+    private double currentMouseY;
+
     private boolean mouseClicked;
 
 
-    public InputManager(Scene gameScene) {
+    public InputManager(Stage stage, Scene gameScene) {
         keysPressed = new HashSet<>();
-        setEventListeners(gameScene);
+        setEventListeners(stage, gameScene);
     }
-    private void setEventListeners(Scene gameScene) {
+    private void setEventListeners(Stage stage, Scene gameScene) {
+
         gameScene.setOnKeyPressed(event -> keysPressed.add(event.getCode()));
         gameScene.setOnKeyReleased(event -> keysPressed.remove(event.getCode()));
-        gameScene.setOnMouseClicked(mouseEvent -> {
+
+        gameScene.setOnMouseMoved(e -> { currentMouseX = e.getSceneX(); currentMouseY = e.getSceneY(); });
+
+        stage.addEventFilter(MouseEvent.MOUSE_PRESSED, mouseEvent -> {
             if(mouseEvent.getButton() == AInputCommands.MOUSE_LEFT){
-                mouseX = mouseEvent.getSceneX();
-                mouseY = mouseEvent.getSceneY();
+                mouseXClick = mouseEvent.getX();
+                mouseYClick = mouseEvent.getY();
                 mouseClicked = true;
             }
         });
@@ -36,8 +47,8 @@ public class InputManager {
     public boolean isMovingRight() { return isButtonPressed(AInputCommands.RIGHTWARD) || isButtonPressed(AInputCommands.RIGHTWARD_ARROW); }
     public boolean isSprinting() { return isButtonPressed(AInputCommands.SPRINT); }
     public boolean consumeMouseClick() { boolean clicked = mouseClicked; mouseClicked = false; return clicked; }
-    public double getMouseX() { return mouseX; }
-    public double getMouseY() { return mouseY; }
+    public double getMouseX() { return mouseXClick; }
+    public double getMouseY() { return mouseYClick; }
     public Set<KeyCode> getPressedKeys() {
         return keysPressed;
     }

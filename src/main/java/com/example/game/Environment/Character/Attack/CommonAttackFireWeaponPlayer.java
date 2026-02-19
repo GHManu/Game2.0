@@ -7,6 +7,8 @@ import com.example.game.Environment.Object.Interactable.Weapon.Ranged.Projectile
 import com.example.game.Environment.Object.Interactable.Weapon.Ranged.AFireWeapon;
 import com.example.game.Environment.Object.Interactable.Weapon.Ranged.NormalAProjectile;
 import com.example.game.UI.HUD;
+import javafx.geometry.Bounds;
+import javafx.geometry.Point2D;
 
 public class CommonAttackFireWeaponPlayer extends ACommonAttack {
     private final AFireWeapon fw;
@@ -50,18 +52,45 @@ public class CommonAttackFireWeaponPlayer extends ACommonAttack {
     @Override
     public void initAttack(double deltatime, ACharacterEnemy enemy, ACharacterPlayable player) {
         if (player.getProgressBar().getProgress() <= 0) return;
+
         if (player.isInit_attack_flag()) {
-            NormalAProjectile p = new NormalAProjectile( EGameImages.ProvaAttacco.getImage(),
-                    player.getImgView().getLayoutX(),
-                    player.getImgView().getLayoutY(),
-                    player.getxDest(),
-                    player.getyDest() );
-            player.setAttack_flag(true);
+
+
+            Bounds b = player.getImgView().localToScene(player.getImgView().getBoundsInLocal());
+            double sceneX = b.getMinX() + b.getWidth() / 2;
+            double sceneY = b.getMinY() + b.getHeight() / 2;
+
+            Point2D local = player.root.sceneToLocal(sceneX, sceneY);
+            double px = local.getX();
+            double py = local.getY();
+
+            // 3. Destinazione del click (in Scene)
+            double mxScene = player.getxDest();
+            double myScene = player.getyDest();
+
+            // 4. Converti anche la destinazione nel parent del proiettile
+            Point2D destLocal = player.root.sceneToLocal(mxScene, myScene);
+            double mx = destLocal.getX();
+            double my = destLocal.getY();
+
+
+
+
+            NormalAProjectile p =  new NormalAProjectile(
+                    EGameImages.ProvaAttacco.getImage(),
+                    px,
+                    py,
+                    mx,
+                    my
+            );
+
+
             fw.getMag().add(p);
             HUD.addElement(player.root, p.getImgView());
+            player.setAttack_flag(true);
         }
+
         player.setInit_attack_flag(false);
     }
-
 
 }

@@ -17,9 +17,10 @@ public class NormalAProjectile extends AProjectile {
 
             setX(x);
             setY(y);
-            this.getImgView().setLayoutX(this.getX());
-            this.getImgView().setLayoutY(this.getY());
-
+        Platform.runLater(() -> {
+            this.getImgView().setTranslateX(this.getX());
+            this.getImgView().setTranslateY(this.getY());
+        });
 
 
 
@@ -47,8 +48,8 @@ public class NormalAProjectile extends AProjectile {
         setY(y);
 
         Platform.runLater(() -> {
-            this.getImgView().setLayoutX(this.getX());
-            this.getImgView().setLayoutY(this.getY());
+            this.getImgView().setTranslateX(this.getX());
+            this.getImgView().setTranslateY(this.getY());
             this.getCld().getShape().setX(this.getX());
             this.getCld().getShape().setY(this.getY());
 

@@ -16,6 +16,7 @@ import com.example.game.State.GameLoop.PlayingState;
 import com.example.game.UI.HUD;
 import javafx.scene.Group;
 import javafx.scene.Node;
+import javafx.stage.Stage;
 
 import java.util.*;
 
@@ -81,12 +82,12 @@ public class GameUpdate implements Runnable{
         HUD.getInstance();
     }
 
-    public void startGameLoop(GameScene gameScene){
+    public void startGameLoop(Stage stage,GameScene gameScene){
         world.getChildren().clear();
 
 
         this.game_scene = gameScene;
-        this.input_manager = new InputManager(game_scene);
+        this.input_manager = new InputManager(stage,game_scene);
 
         plr = character_playable_factory.createPlayer("fire weapon", "pistol", "with input", "sixway", input_manager);
         enemy = character_enemy_factory.createEnemy("fire weapon", "pistol", "without input", "oneway");
