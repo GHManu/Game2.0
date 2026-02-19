@@ -3,9 +3,7 @@ package com.example.game.Environment;
 import com.example.game.Environment.Character.Movement.Direction;
 import javafx.scene.shape.Rectangle;
 
-
 public class Collider {
-
     private Rectangle shape;
     private boolean can_hit_right = true;
     private boolean can_hit_left = true;
@@ -82,5 +80,6 @@ public class Collider {
         double h =  this.getShape().getHeight();
         return nextX < other.getShape().getX() + other.getShape().getWidth() && nextX + w > other.getShape().getX() && nextY < other.getShape().getY() + other.getShape().getHeight() && nextY + h > other.getShape().getY();
     }
+
 }
 

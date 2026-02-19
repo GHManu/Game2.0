@@ -22,8 +22,8 @@ public class Player extends ACharacterPlayable {
 
     public Player(){
 
-        setX( (IScreenSettings.screenWidth/2.0));
-        setY((IScreenSettings.screenHeight/2.0));
+        setX( (IScreenSettings.screenWidth/2.0) + 250);
+        setY((IScreenSettings.screenHeight/2.0) + 120);
 
         setProgressBar(new ProgressBar(1.0));
         setvBox(new VBox(getProgressBar()));

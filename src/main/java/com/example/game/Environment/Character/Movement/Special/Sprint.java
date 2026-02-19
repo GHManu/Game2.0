@@ -27,7 +27,6 @@ public class Sprint {
 
     protected void sprintStatus(double deltatime){
         if (!isSprinting && this.timeReCharge <= 0) {
-            // Se non stiamo sprintando e il tempo di ricarica è finito
             isSprinting = true; //si attiva sprint
             this.timeSprint = SPRINT_TIME_DURATION;
             System.out.println("Sprint attivato! Durata: " + SPRINT_TIME_DURATION + " secondi.");
@@ -57,7 +56,7 @@ public class Sprint {
 
 
     protected void walk(double deltaTime, ACharacter plr){
-        plr.setSpeed(2.5);
+        Platform.runLater(() -> { plr.setSpeed(2.5);});
 
         if (this.timeReCharge > 0) {
             Platform.runLater(() -> { this.timeReCharge -= deltaTime;});
