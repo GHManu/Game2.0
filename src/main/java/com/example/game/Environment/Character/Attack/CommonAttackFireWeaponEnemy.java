@@ -22,12 +22,7 @@ public class CommonAttackFireWeaponEnemy extends ACommonAttack {
     public CommonAttackFireWeaponEnemy(AFireWeapon fw){
         this.fw = fw;
     }
-    private void moveEnemyIfAlive(double dt, ACharacterEnemy subject, ACharacterPlayable target) {
-        if (subject.isAlive() &&
-                target.isAlive()) {
-            subject.getMovementStrategy().movement(dt, subject);
-        }
-    }
+
     private void updateProjectile(double dt, ACharacterEnemy subject, ACharacterPlayable target, AFireWeapon fireWeapon) {
 
         fireWeapon.setProjectile(fireWeapon.getMag().getFirst());
@@ -71,8 +66,6 @@ public class CommonAttackFireWeaponEnemy extends ACommonAttack {
     public void normalAttack(double dt, ACharacterEnemy subject, ACharacterPlayable target) {
 
         initAttack(dt, subject, target);
-
-        moveEnemyIfAlive(dt, subject, target);
 
         if (subject.isAlive() &&
                 !subject.isAttack_flag() &&

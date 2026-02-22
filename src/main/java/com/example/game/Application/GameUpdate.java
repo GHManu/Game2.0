@@ -156,9 +156,6 @@ public class GameUpdate implements Runnable{
 
     public void gameMethodMovementHandler(double deltaTime) {
 
-       //     if(enemy != null && plr != null && plr.getCld() != null && enemy.getCld() != null)   plr.getCld().collisionDetected(enemy.getCld().getShape(), true);
-
-
         for (AEntity c1 : characters) {
             for (AEntity c2 : characters) {
                 if (c1 != c2) {
@@ -168,9 +165,9 @@ public class GameUpdate implements Runnable{
         }
 
 
-
+        enemy.getMovementStrategy().movement(deltaTime, enemy);
         plr.movement(deltaTime);
-
+        //npc1.getMovementStrategy().movement(deltaTime, npc1);
     }
 
 
