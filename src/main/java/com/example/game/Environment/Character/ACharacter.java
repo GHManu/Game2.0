@@ -147,4 +147,5 @@ public abstract class ACharacter extends AEntity {
         }
         return true;
     }
+
 }

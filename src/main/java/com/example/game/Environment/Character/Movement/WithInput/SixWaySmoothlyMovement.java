@@ -1,15 +1,20 @@
 package com.example.game.Environment.Character.Movement.WithInput;
 
+import com.example.game.Environment.Character.Enemy.ACharacterEnemy;
 import com.example.game.Environment.Character.Movement.Direction;
 import com.example.game.Environment.Character.Movement.DirectionSetting;
 import com.example.game.Environment.Character.ACharacter;
 import com.example.game.Environment.Character.Movement.Special.Sprint;
 
+import com.example.game.Environment.Character.NPC.ANPC;
+import com.example.game.Environment.Collider;
 import com.example.game.Environment.Map.MyMap;
 import com.example.game.InputManager.InputManager;
 import com.example.game.UI.EGameImages;
 import javafx.application.Platform;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 
@@ -112,6 +117,8 @@ public class SixWaySmoothlyMovement extends AMovementStrategyWithInput {
                 )
         );
     }
+
+
 
 
 

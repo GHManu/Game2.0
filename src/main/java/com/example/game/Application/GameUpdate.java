@@ -4,9 +4,12 @@ import com.example.game.Environment.Camera;
 import com.example.game.Environment.Character.Enemy.ACharacterEnemy;
 import com.example.game.Environment.Character.Enemy.ACharacterEnemyFactory;
 import com.example.game.Environment.Character.Enemy.EnemyFactory;
+import com.example.game.Environment.Character.NPC.ANPC;
+import com.example.game.Environment.Character.NPC.NPC;
 import com.example.game.Environment.Character.Playable.ACharacterPlayable;
 import com.example.game.Environment.Character.Playable.ACharacterPlayableFactory;
 import com.example.game.Environment.Character.Playable.PlayerFactory;
+import com.example.game.Environment.Collider;
 import com.example.game.Environment.Destroyer;
 import com.example.game.Environment.Map.MyMap;
 import com.example.game.InputManager.InputManager;
@@ -36,7 +39,7 @@ public class GameUpdate implements Runnable{
     InputManager input_manager;
     private Destroyer destroyer;
     private Camera camera;
-
+    ANPC npc1;
 
     public Camera getCamera() {
         return camera;
@@ -92,6 +95,9 @@ public class GameUpdate implements Runnable{
         plr = character_playable_factory.createPlayer("fire weapon", "pistol", "with input", "sixway", input_manager);
         enemy = character_enemy_factory.createEnemy("fire weapon", "pistol", "without input", "oneway");
 
+        npc1 = new NPC("npc1.txt");
+
+
         this.setState(new PlayingState());
         plr.setRoot(world);
         camera = new Camera(world, game_scene, plr);
@@ -101,7 +107,8 @@ public class GameUpdate implements Runnable{
                 plr.getvBox(),
                 plr.getImgView(),
                 enemy.getvBox(),
-                enemy.getImgView()
+                enemy.getImgView(),
+                npc1.getImgView()
         );
 
         elements.forEach(node ->
@@ -140,13 +147,13 @@ public class GameUpdate implements Runnable{
 
     public void gameMethodMovementHandler(double deltaTime) {
 
-            if(enemy != null && plr != null && plr.getCld() != null && enemy.getCld() != null)   plr.getCld().collisionDetected(enemy.getCld().getShape(), true);
+        if (plr == null) return;
 
-            assert plr != null;
-
-            plr.movement(deltaTime);
+        plr.movement(deltaTime);
 
     }
+
+
 
     public void gameMethodAttackHandler(double deltatime){
        if(input_manager.consumeMouseClick()){

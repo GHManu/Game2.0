@@ -58,20 +58,20 @@ public class Collider {
     private void handleHorizontalCollision(Rectangle other, double deltaX, boolean block) {
         if (deltaX < 0) {
             can_hit_left = false;
-            if (block) shape.setX(other.getX() - shape.getWidth());
+            //if (block) shape.setX(other.getX() - shape.getWidth());
         } else {
             can_hit_right = false;
-            if (block) shape.setX(other.getX() + other.getWidth());
+            //if (block) shape.setX(other.getX() + shape.getWidth());
         }
     }
 
     private void handleVerticalCollision(Rectangle other, double deltaY, boolean block) {
         if (deltaY < 0) {
             can_hit_down = false;
-            if (block) shape.setY(other.getY() - shape.getHeight());
+            //if (block) shape.setY(other.getY() - shape.getHeight());
         } else {
             can_hit_up = false;
-            if (block) shape.setY(other.getY() + other.getHeight());
+            //if (block) shape.setY(other.getY() + shape.getHeight());
         }
     }
 

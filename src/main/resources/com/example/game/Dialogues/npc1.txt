@@ -1,0 +1,10 @@
+[Primo incontro]
+Benvenuto viandante!
+Per vincere dovrai sconfiggere il nemico più avanti, buona fortuna!!!!
+
+[Incontro random]
+Sei ancora qui? Devi sconfiggere il nemico !!!!
+
+[Dopo uccisione nemico]
+Hai sconfitto quel nemico tutto da solo, complimenti!!!!
+Ecco la tua ricompensa!

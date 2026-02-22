@@ -84,7 +84,7 @@ public class CommonAttackFireWeaponPlayer extends ACommonAttack {
             double mxScene = player.getxDest();
             double myScene = player.getyDest();
 
-            // 4. Converti anche la destinazione nel parent del proiettile
+
             Point2D destLocal = player.root.sceneToLocal(mxScene, myScene);
             double mx = destLocal.getX();
             double my = destLocal.getY();

@@ -2,6 +2,7 @@ package com.example.game.Environment.Character.Playable;
 
 import com.example.game.Environment.Character.Enemy.ACharacterEnemy;
 import com.example.game.Environment.Character.Movement.WithInput.AMovementStrategyWithInput;
+import com.example.game.Environment.Character.NPC.ANPC;
 import com.example.game.Environment.Collider;
 import com.example.game.UI.EGameImages;
 import com.example.game.UI.IScreenSettings;

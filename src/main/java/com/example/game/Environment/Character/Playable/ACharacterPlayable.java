@@ -2,6 +2,7 @@ package com.example.game.Environment.Character.Playable;
 
 import com.example.game.Environment.Character.ACharacter;
 import com.example.game.Environment.Character.Enemy.ACharacterEnemy;
+import com.example.game.Environment.Character.NPC.ANPC;
 import javafx.scene.Group;
 
 
