@@ -1,20 +1,17 @@
 package com.example.game.Environment.Character.Movement.WithInput;
 
-import com.example.game.Environment.Character.Enemy.ACharacterEnemy;
+import com.example.game.Application.GameUpdate;
 import com.example.game.Environment.Character.Movement.Direction;
 import com.example.game.Environment.Character.Movement.DirectionSetting;
 import com.example.game.Environment.Character.ACharacter;
 import com.example.game.Environment.Character.Movement.Special.Sprint;
 
-import com.example.game.Environment.Character.NPC.ANPC;
-import com.example.game.Environment.Collider;
 import com.example.game.Environment.Map.MyMap;
 import com.example.game.InputManager.InputManager;
 import com.example.game.UI.EGameImages;
 import javafx.application.Platform;
 
-import java.util.ArrayList;
-import java.util.List;
+
 import java.util.Map;
 
 
@@ -53,7 +50,7 @@ public class SixWaySmoothlyMovement extends AMovementStrategyWithInput {
                             double nextY = plr.getY() - plr.getSpeed() * dt;
 
                             if (plr.getCld().canHit(Direction.UP) &&
-                                    plr.canMoveTo(nextX, nextY, MyMap.getWallColliders())) {
+                                    plr.canMoveTo(nextX, nextY, MyMap.getWallColliders(), GameUpdate.getCharacters())) {
 
                                 updatePosition(plr, nextX, nextY);
                                 return true;
@@ -71,7 +68,7 @@ public class SixWaySmoothlyMovement extends AMovementStrategyWithInput {
                             double nextY = plr.getY() + plr.getSpeed() * dt;
 
                             if (plr.getCld().canHit(Direction.DOWN) &&
-                                    plr.canMoveTo(nextX, nextY, MyMap.getWallColliders())) {
+                                    plr.canMoveTo(nextX, nextY, MyMap.getWallColliders(), GameUpdate.getCharacters())) {
 
                                 updatePosition(plr, nextX, nextY);
                                 return true;
@@ -89,7 +86,7 @@ public class SixWaySmoothlyMovement extends AMovementStrategyWithInput {
                             double nextY = plr.getY();
 
                             if (plr.getCld().canHit(Direction.LEFT) &&
-                                    plr.canMoveTo(nextX, nextY, MyMap.getWallColliders())) {
+                                    plr.canMoveTo(nextX, nextY, MyMap.getWallColliders(), GameUpdate.getCharacters())) {
 
                                 updatePosition(plr, nextX, nextY);
                                 return true;
@@ -107,7 +104,7 @@ public class SixWaySmoothlyMovement extends AMovementStrategyWithInput {
                             double nextY = plr.getY();
 
                             if (plr.getCld().canHit(Direction.RIGHT) &&
-                                    plr.canMoveTo(nextX, nextY, MyMap.getWallColliders())) {
+                                    plr.canMoveTo(nextX, nextY, MyMap.getWallColliders(), GameUpdate.getCharacters())) {
 
                                 updatePosition(plr, nextX, nextY);
                                 return true;

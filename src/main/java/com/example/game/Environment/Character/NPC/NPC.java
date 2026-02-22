@@ -1,5 +1,6 @@
 package com.example.game.Environment.Character.NPC;
 
+import com.example.game.Environment.Character.Movement.NoInput.OneWayMovement;
 import com.example.game.Environment.Collider;
 import com.example.game.UI.EGameImages;
 import com.example.game.UI.IScreenSettings;
@@ -22,7 +23,7 @@ public class NPC extends ANPC{
         getImgView().setLayoutY(getY());
 
         setCld(new Collider(getX(), getY(), IScreenSettings.sizeTile, IScreenSettings.sizeTile));
-
+        this.setMovementStrategy(new OneWayMovement());
     }
 
     public NPC(String filename) {

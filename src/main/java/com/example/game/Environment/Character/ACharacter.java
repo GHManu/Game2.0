@@ -140,10 +140,19 @@ public abstract class ACharacter extends AEntity {
         this.setHealth(newHealth);
 
     }
-    public boolean canMoveTo(double nextX, double nextY, List<Collider> walls) {
+    public boolean canMoveTo(double nextX, double nextY,
+                             List<Collider> walls,
+                             List<AEntity> others) {
         for (Collider w : walls)
         {
             if (this.getCld().intersectsAt(nextX, nextY, w)) { return false; }
+        }
+
+        for (AEntity other : others) {
+            if (other != this &&
+                    this.getCld().intersectsAt(nextX, nextY, other.getCld())) {
+                return false;
+            }
         }
         return true;
     }

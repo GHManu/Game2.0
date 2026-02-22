@@ -4,8 +4,6 @@ import com.example.game.Environment.Character.Enemy.ACharacterEnemy;
 import com.example.game.Environment.Character.Playable.ACharacterPlayable;
 import com.example.game.Environment.Collider;
 import com.example.game.Environment.Map.MyMap;
-import com.example.game.Environment.Object.NonInteractable.ANonInterableObjects;
-import com.example.game.Environment.Object.NonInteractable.Wall;
 import com.example.game.UI.EGameImages;
 import com.example.game.Environment.Object.Interactable.Weapon.Ranged.ProjectileIterator;
 import com.example.game.Environment.Object.Interactable.Weapon.Ranged.AFireWeapon;
@@ -80,7 +78,6 @@ public class CommonAttackFireWeaponPlayer extends ACommonAttack {
             double px = local.getX();
             double py = local.getY();
 
-            // 3. Destinazione del click (in Scene)
             double mxScene = player.getxDest();
             double myScene = player.getyDest();
 

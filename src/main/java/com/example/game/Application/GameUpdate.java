@@ -1,6 +1,8 @@
 package com.example.game.Application;
 
+import com.example.game.Environment.AEntity;
 import com.example.game.Environment.Camera;
+import com.example.game.Environment.Character.ACharacter;
 import com.example.game.Environment.Character.Enemy.ACharacterEnemy;
 import com.example.game.Environment.Character.Enemy.ACharacterEnemyFactory;
 import com.example.game.Environment.Character.Enemy.EnemyFactory;
@@ -9,7 +11,6 @@ import com.example.game.Environment.Character.NPC.NPC;
 import com.example.game.Environment.Character.Playable.ACharacterPlayable;
 import com.example.game.Environment.Character.Playable.ACharacterPlayableFactory;
 import com.example.game.Environment.Character.Playable.PlayerFactory;
-import com.example.game.Environment.Collider;
 import com.example.game.Environment.Destroyer;
 import com.example.game.Environment.Map.MyMap;
 import com.example.game.InputManager.InputManager;
@@ -40,6 +41,11 @@ public class GameUpdate implements Runnable{
     private Destroyer destroyer;
     private Camera camera;
     ANPC npc1;
+    private static List<AEntity> characters = new ArrayList<>();
+
+    public static List<AEntity> getCharacters() {
+        return characters;
+    }
 
     public Camera getCamera() {
         return camera;
@@ -74,7 +80,7 @@ public class GameUpdate implements Runnable{
 
     protected GameUpdate(Group world){
         currentThread = new Thread(this);
-
+        characters = new ArrayList<>();
         this.world = world;
         world_My_map = new MyMap("/com/example/game/Maps/map.txt");
 
@@ -97,6 +103,9 @@ public class GameUpdate implements Runnable{
 
         npc1 = new NPC("npc1.txt");
 
+        characters.add(plr);
+        characters.add(enemy);
+        characters.add(npc1);
 
         this.setState(new PlayingState());
         plr.setRoot(world);
@@ -147,7 +156,18 @@ public class GameUpdate implements Runnable{
 
     public void gameMethodMovementHandler(double deltaTime) {
 
-        if (plr == null) return;
+       //     if(enemy != null && plr != null && plr.getCld() != null && enemy.getCld() != null)   plr.getCld().collisionDetected(enemy.getCld().getShape(), true);
+
+
+        for (AEntity c1 : characters) {
+            for (AEntity c2 : characters) {
+                if (c1 != c2) {
+                    c1.getCld().collisionDetected(c2.getCld().getShape(), true);
+                }
+            }
+        }
+
+
 
         plr.movement(deltaTime);
 

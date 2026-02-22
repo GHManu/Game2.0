@@ -1,5 +1,6 @@
 package com.example.game.Environment.Character.Movement.NoInput;
 
+import com.example.game.Application.GameUpdate;
 import com.example.game.Environment.Character.Movement.Direction;
 import com.example.game.Environment.Character.Movement.DirectionSetting;
 import com.example.game.Environment.Character.ACharacter;
@@ -15,7 +16,7 @@ public class OneWayMovement extends AMovementStrategyWithoutInput {
             (dt, enemy) -> {
                 double nextY = enemy.getY() + enemy.getSpeed() * dt;
                 double nextX = enemy.getX();
-                if (enemy.canMoveTo(nextX, nextY, MyMap.getWallColliders())) {
+                if (enemy.canMoveTo(nextX, nextY, MyMap.getWallColliders(), GameUpdate.getCharacters())) {
                     enemy.setY(nextY);
                     return true;
                 }
@@ -30,7 +31,7 @@ public class OneWayMovement extends AMovementStrategyWithoutInput {
             (dt, enemy) -> {
                 double nextY = enemy.getY() - enemy.getSpeed() * dt;
                 double nextX = enemy.getX();
-                if (enemy.canMoveTo(nextX, nextY, MyMap.getWallColliders())) {
+                if (enemy.canMoveTo(nextX, nextY, MyMap.getWallColliders(), GameUpdate.getCharacters())) {
                     enemy.setY(nextY);
                     return true;
                 }
