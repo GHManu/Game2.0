@@ -2,7 +2,6 @@ package com.example.game.Application;
 
 import com.example.game.Environment.AEntity;
 import com.example.game.Environment.Camera;
-import com.example.game.Environment.Character.ACharacter;
 import com.example.game.Environment.Character.Enemy.ACharacterEnemy;
 import com.example.game.Environment.Character.Enemy.ACharacterEnemyFactory;
 import com.example.game.Environment.Character.Enemy.EnemyFactory;

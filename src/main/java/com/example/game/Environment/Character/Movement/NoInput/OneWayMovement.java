@@ -39,12 +39,44 @@ public class OneWayMovement extends AMovementStrategyWithoutInput {
             }
     );
 
+    private static final DirectionSetting MOVE_RIGHT = new DirectionSetting(
+            im -> true,
+            enemy -> enemy.setDirection(Direction.LEFT),
+            enemy -> enemy.changeImage(EGameImages.Right_Side_Pg.getImage()),
+            (dt, enemy) -> {
+                double nextX = enemy.getX() + enemy.getSpeed() * dt;
+                double nextY = enemy.getY();
+                if (enemy.canMoveTo(nextX, nextY, MyMap.getWallColliders(), GameUpdate.getCharacters())) {
+                    enemy.setX(nextX); return true;
+                }
+                return false;
+            }
+            );
+
+    private static final DirectionSetting MOVE_LEFT = new DirectionSetting(
+            im -> true,
+            enemy -> enemy.setDirection(Direction.RIGHT),
+            enemy -> enemy.changeImage(EGameImages.Left_Side_Enemy_c.getImage()),
+            (dt, enemy) -> {
+                double nextX = enemy.getX() - enemy.getSpeed() * dt;
+                double nextY = enemy.getY();
+                if (enemy.canMoveTo(nextX, nextY, MyMap.getWallColliders(), GameUpdate.getCharacters())) {
+                    enemy.setX(nextX);
+                    return true;
+                }
+                return false;
+            }
+            );
 
     @Override
     public void movement(double dt, ACharacter enemy) {
 
-        DirectionSetting setting =
-                enemy.getDirection() == Direction.DOWN ? MOVE_DOWN : MOVE_UP;
+        DirectionSetting setting = switch (enemy.getDirection()) {
+            case DOWN -> MOVE_DOWN;
+            case UP -> MOVE_UP;
+            case LEFT -> MOVE_LEFT;
+            case RIGHT -> MOVE_RIGHT;
+        };
 
         setting.set_image().accept(enemy);
 
@@ -54,7 +86,6 @@ public class OneWayMovement extends AMovementStrategyWithoutInput {
             setting.set_direction_flag().accept(enemy);
         }
 
-        // aggiorna grafica
         double y = enemy.getY();
         enemy.getImgView().setLayoutY(y);
         enemy.getCld().getShape().setY(y);
