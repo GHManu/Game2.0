@@ -1,25 +1,15 @@
 package com.example.game.Environment.Character.Playable;
 
 import com.example.game.Environment.Character.Enemy.ACharacterEnemy;
-import com.example.game.Environment.Character.Movement.WithInput.AMovementStrategyWithInput;
-import com.example.game.Environment.Character.NPC.ANPC;
 import com.example.game.Environment.Collider;
 import com.example.game.UI.EGameImages;
 import com.example.game.UI.IScreenSettings;
 import com.example.game.Environment.Object.Interactable.Weapon.AWeapon;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.KeyCode;
 import javafx.scene.layout.VBox;
 
-
-import java.util.Set;
-
-
 public class Player extends ACharacterPlayable {
-
-
-
 
     public Player(){
 
@@ -66,7 +56,7 @@ public class Player extends ACharacterPlayable {
 
     @Override
     public void select_attack(double deltatime, ACharacterPlayable plr, ACharacterEnemy enemy) {
-            this.getFightStrategy().normalAttack(deltatime, enemy, plr);
+            this.getFightStrategyPlayer().normalAttack(deltatime, plr);
     }
 
     @Override

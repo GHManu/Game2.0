@@ -1,23 +1,23 @@
 package com.example.game.Environment.Character.Attack;
 
 import com.example.game.Application.GameUpdate;
-import com.example.game.Environment.AEntity;
+import com.example.game.Environment.Character.ACharacter;
 import com.example.game.Environment.Character.Enemy.ACharacterEnemy;
 import com.example.game.Environment.Character.Playable.ACharacterPlayable;
-import com.example.game.Environment.Collider;
 import com.example.game.Environment.Map.MyMap;
-import com.example.game.Environment.Object.Interactable.Weapon.Ranged.AProjectile;
+import com.example.game.Environment.Object.Interactable.Weapon.IFightStrategyPlayer;
+import com.example.game.Environment.Object.Interactable.Weapon.Ranged.*;
+import com.example.game.Environment.Object.Interactable.Weapon.Ranged.ProjectileCollisionResolver;
 import com.example.game.UI.EGameImages;
-import com.example.game.Environment.Object.Interactable.Weapon.Ranged.ProjectileIterator;
-import com.example.game.Environment.Object.Interactable.Weapon.Ranged.AFireWeapon;
-import com.example.game.Environment.Object.Interactable.Weapon.Ranged.NormalAProjectile;
 import com.example.game.UI.HUD;
 import javafx.application.Platform;
 import javafx.geometry.Bounds;
 import javafx.geometry.Point2D;
 
-public class CommonAttackFireWeaponPlayer extends ACommonAttack {
+public class CommonAttackFireWeaponPlayer extends ACommonAttack implements IFightStrategyPlayer {
     private final AFireWeapon fw;
+    private ProjectileManager projectileManager = new ProjectileManager();
+    private ProjectileCollisionResolver projectileCollisionResolver = new ProjectileCollisionResolver();
 
     public CommonAttackFireWeaponPlayer(AFireWeapon fw) {
         this.fw = fw;
@@ -32,53 +32,45 @@ public class CommonAttackFireWeaponPlayer extends ACommonAttack {
 
 
     @Override
-    public void normalAttack(double dt, ACharacterEnemy enm, ACharacterPlayable player) {
-        initAttack(dt,enm, player);
+    public void normalAttack(double dt, ACharacterPlayable player) {
+        initAttack(dt, player);
         ProjectileIterator it = new ProjectileIterator(fw.getMag());
         while (it.hasNext()) {
             NormalAProjectile p = (NormalAProjectile) it.next();
             fw.setProjectile(p);
             player.getWeapon().fight(dt);
             if (p.isArrived(player.getxDest(), player.getyDest())) {
-                removeProjectile(p, player, it);
+                this.projectileManager.removeProjectile(player.root, p, it);
                 continue;
             }
 
-            for (Collider wall : MyMap.getWallColliders()) {
-                if (p.getCld().getShape().intersects(
-                        wall.getShape().getBoundsInLocal())) {
-                    removeProjectile(p, player, it);
-                    break;
-                }
+            if (projectileCollisionResolver.hitWall(p, MyMap.getWallColliders())) {
+                projectileManager.removeProjectile(player.root, p, it);
+                continue;
             }
 
-
-            for (AEntity c : GameUpdate.getCharacters()) {
-                if (c instanceof ACharacterEnemy enemy) {
-                    if (p.getCld().getShape().intersects(enemy.getCld().getShape().getBoundsInLocal())) {
-                        applyDamage(enemy, p.normal_damage);
-                        removeProjectile(p, player, it);
+            ACharacterEnemy enemy = projectileCollisionResolver.hitEnemy(p, GameUpdate.getCharacters());
+            if (enemy != null) {
+                applyDamage(enemy, p.normal_damage);
+                projectileManager.removeProjectile(player.root, p, it);
+                continue;
+            }
+            for (ACharacter c : GameUpdate.getCharacters()) {
+                if (c instanceof ACharacterEnemy e) {
+                    AFireWeapon enemyWeapon = (AFireWeapon) e.getWeapon();
+                    if (projectileCollisionResolver.hitEnemyProjectile(p, enemyWeapon)) {
+                        projectileManager.removeProjectile(player.root, p, it);
                         break;
                     }
-
-                    AFireWeapon enemyWeapon = (AFireWeapon) enemy.getWeapon();
-                    ProjectileIterator enemyIt = new ProjectileIterator(enemyWeapon.getMag());
-                    while (enemyIt.hasNext()) {
-                        AProjectile ep = enemyIt.next();
-                        if (p.getCld().getShape().intersects(ep.getCld().getShape().getBoundsInLocal())) {
-                            removeProjectile(p, player, it);
-                            break;
-                        }
-                    }
-
                 }
             }
+
         }
         if (fw.getMag().isEmpty()) player.setAttack_flag(false);
     }
 
     @Override
-    public void initAttack(double deltatime, ACharacterEnemy enemy, ACharacterPlayable player) {
+    public void initAttack(double deltatime, ACharacterPlayable player) {
         if (player.getProgressBar().getProgress() <= 0) return;
 
         if (player.isInit_attack_flag()) {

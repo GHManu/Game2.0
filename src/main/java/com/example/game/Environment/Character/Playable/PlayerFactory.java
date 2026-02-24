@@ -21,7 +21,7 @@ public class PlayerFactory extends ACharacterPlayableFactory{
                 weapon_factory = new FireWeaponFactory();
                 AWeapon weapon_selected = weapon_factory.createWeapon(concreteWeapon);
                 player.setWeapon(weapon_selected);
-                player.setFightStrategy(new CommonAttackFireWeaponPlayer((AFireWeapon) player.getWeapon()));
+                player.setFightStrategyPlayer(new CommonAttackFireWeaponPlayer((AFireWeapon) player.getWeapon()));
                 break;
 
             default:

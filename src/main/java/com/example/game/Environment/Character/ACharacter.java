@@ -4,19 +4,13 @@ import com.example.game.Environment.AEntity;
 import com.example.game.Environment.Character.Movement.Direction;
 import com.example.game.Environment.Character.Movement.IMovementStrategy;
 import com.example.game.Environment.Collider;
-import com.example.game.Environment.Object.NonInteractable.Wall;
-import com.example.game.UI.EGameImages;
 import com.example.game.Environment.Object.Interactable.Weapon.AWeapon;
 import com.example.game.Environment.Object.Interactable.Weapon.IFightStrategy;
-import javafx.application.Platform;
 import javafx.scene.control.ProgressBar;
-import javafx.scene.image.Image;
 import javafx.scene.layout.VBox;
 
-import java.util.ArrayList;
 import java.util.List;
 
-//17 righe
 
 public abstract class ACharacter extends AEntity {
 
@@ -34,7 +28,6 @@ public abstract class ACharacter extends AEntity {
     protected boolean attack_flag;
 
     private IMovementStrategy movementStrategy;
-    private IFightStrategy fightStrategy;
     private AWeapon weapon;
 
 
@@ -126,13 +119,7 @@ public abstract class ACharacter extends AEntity {
     public void setInit_attack_flag(boolean init_attack_flag) {
         this.init_attack_flag = init_attack_flag;
     }
-    public IFightStrategy getFightStrategy() {
-        return fightStrategy;
-    }
 
-    public void setFightStrategy(IFightStrategy fightStrategy) {
-        this.fightStrategy = fightStrategy;
-    }
     public boolean isAlive(){ return this.getProgressBar().getProgress() > 0.1 && this.getHealth() > 0;}
 
     public void takeDamage(double amount){
@@ -142,7 +129,7 @@ public abstract class ACharacter extends AEntity {
     }
     public boolean canMoveTo(double nextX, double nextY,
                              List<Collider> walls,
-                             List<AEntity> others) {
+                             List<ACharacter> others) {
         for (Collider w : walls)
         {
             if (this.getCld().intersectsAt(nextX, nextY, w)) { return false; }

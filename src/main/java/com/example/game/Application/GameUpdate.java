@@ -2,6 +2,7 @@ package com.example.game.Application;
 
 import com.example.game.Environment.AEntity;
 import com.example.game.Environment.Camera;
+import com.example.game.Environment.Character.ACharacter;
 import com.example.game.Environment.Character.Enemy.ACharacterEnemy;
 import com.example.game.Environment.Character.Enemy.ACharacterEnemyFactory;
 import com.example.game.Environment.Character.Enemy.EnemyFactory;
@@ -40,9 +41,9 @@ public class GameUpdate implements Runnable{
     private Destroyer destroyer;
     private Camera camera;
     ANPC npc1;
-    private static List<AEntity> characters = new ArrayList<>();
+    private static List<ACharacter> characters = new ArrayList<>();
 
-    public static List<AEntity> getCharacters() {
+    public static List<ACharacter> getCharacters() {
         return characters;
     }
 
@@ -104,7 +105,6 @@ public class GameUpdate implements Runnable{
 
         characters.add(plr);
         characters.add(enemy);
-        characters.add(npc1);
 
         this.setState(new PlayingState());
         plr.setRoot(world);
@@ -155,8 +155,8 @@ public class GameUpdate implements Runnable{
 
     public void gameMethodMovementHandler(double deltaTime) {
 
-        for (AEntity c1 : characters) {
-            for (AEntity c2 : characters) {
+        for (ACharacter c1 : characters) {
+            for (ACharacter c2 : characters) {
                 if (c1 != c2) {
                     c1.getCld().collisionDetected(c2.getCld().getShape(), true);
                 }
@@ -166,7 +166,6 @@ public class GameUpdate implements Runnable{
 
         enemy.getMovementStrategy().movement(deltaTime, enemy);
         plr.movement(deltaTime);
-        //npc1.getMovementStrategy().movement(deltaTime, npc1);
     }
 
 

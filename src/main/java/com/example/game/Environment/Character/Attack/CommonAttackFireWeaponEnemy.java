@@ -4,63 +4,23 @@ import com.example.game.Environment.Character.Enemy.ACharacterEnemy;
 import com.example.game.Environment.Character.Playable.ACharacterPlayable;
 import com.example.game.Environment.Collider;
 import com.example.game.Environment.Character.Movement.Direction;
+import com.example.game.Environment.Object.Interactable.Weapon.Ranged.CollisionResolver;
+import com.example.game.Environment.Object.Interactable.Weapon.IFightStrategyEnemy;
+import com.example.game.Environment.Object.Interactable.Weapon.Ranged.ProjectileManager;
 import com.example.game.UI.EGameImages;
 import com.example.game.Environment.Object.Interactable.Weapon.Ranged.AFireWeapon;
 import com.example.game.Environment.Object.Interactable.Weapon.Ranged.AProjectile;
 import com.example.game.Environment.Object.Interactable.Weapon.Ranged.NormalAProjectile;
-import com.example.game.UI.HUD;
-import javafx.application.Platform;
-import javafx.scene.Group;
-import javafx.scene.control.ProgressBar;
-import javafx.scene.image.ImageView;
-import javafx.scene.layout.VBox;
-import javafx.scene.shape.Rectangle;
 
-public class CommonAttackFireWeaponEnemy extends ACommonAttack {
+
+public class CommonAttackFireWeaponEnemy extends ACommonAttack implements IFightStrategyEnemy {
     private final AFireWeapon fw;
+    private final ProjectileManager projectileManager = new ProjectileManager();
+    private final CollisionResolver collisionResolver = new CollisionResolver();
 
     public CommonAttackFireWeaponEnemy(AFireWeapon fw){
         this.fw = fw;
     }
-
-    private void updateProjectile(double dt, ACharacterEnemy subject, ACharacterPlayable target, AFireWeapon fireWeapon) {
-
-        fireWeapon.setProjectile(fireWeapon.getMag().getFirst());
-        subject.getWeapon().fight(dt);
-
-        Collider projectileCld = fireWeapon.getProjectile().getCld();
-        projectileCld.collisionDetected(projectileCld.getShape(), false);
-    }
-    private void removeProjectile(Group root, AProjectile p) {
-        HUD.removeElement(root,  p.getImgView());
-    }
-
-    private void applyCollision(
-            ACharacterPlayable target,
-            double dx, double dy,
-            double rebound) {
-
-        ImageView img = target.getImgView();
-        Rectangle shape = target.getCld().getShape();
-        ProgressBar bar = target.getProgressBar();
-        VBox vbox = target.getvBox();
-
-        Platform.runLater(() -> {
-            img.setX(img.getX() + dx * rebound);
-            img.setY(img.getY() + dy * rebound);
-
-            shape.setLayoutX(shape.getLayoutX() - dx * rebound);
-            shape.setLayoutY(shape.getLayoutY() - dy * rebound);
-
-            bar.setTranslateX(bar.getTranslateX() + dx * rebound * 0.4);
-            bar.setTranslateY(bar.getTranslateY() + dy * rebound * 0.4);
-
-            vbox.setTranslateX(vbox.getTranslateX() + dx * rebound * 0.4);
-            vbox.setTranslateY(vbox.getTranslateY() + dy * rebound * 0.4);
-        });
-    }
-
-
 
     @Override
     public void normalAttack(double dt, ACharacterEnemy subject, ACharacterPlayable target) {
@@ -71,14 +31,14 @@ public class CommonAttackFireWeaponEnemy extends ACommonAttack {
                 !subject.isAttack_flag() &&
                 target.isAlive()) {
 
-            updateProjectile(dt, subject, target, fw);
+            projectileManager.updateProjectile(dt, fw);
 
             AProjectile p = fw.getProjectile();
             Collider projectileCld = p.getCld();
 
 
             if (p.isArrived(target.getX(), target.getY())) {
-                removeProjectile(target.root, p);
+                projectileManager.removeProjectile(target.root, p);
                 subject.setAttack_flag(true);
                 return;
             }
@@ -86,24 +46,15 @@ public class CommonAttackFireWeaponEnemy extends ACommonAttack {
 
             if (projectileCld.intersect(target.getCld().getShape())) {
 
-                Collider cld = target.getCld();
-
                 double speed = target.getSpeed();
                 double rebound = subject.getREBOUND();
 
-                if (cld.canHit(Direction.RIGHT))
-                    applyCollision(target, -speed, 0, rebound);
+                for (Direction d : Direction.values()) {
+                    if (target.getCld().canHit(d))
+                        collisionResolver.applyRebound(target, d, speed, rebound);
+                }
 
-                if (cld.canHit(Direction.LEFT))
-                    applyCollision(target,  speed, 0, rebound);
-
-                if (cld.canHit(Direction.DOWN))
-                    applyCollision(target, 0,  speed, rebound);
-
-                if (cld.canHit(Direction.UP))
-                    applyCollision(target, 0, -speed, rebound);
-
-                removeProjectile(target.root, p);
+                projectileManager.removeProjectile(target.root, p);
                 applyDamage(target, 0.2);
 
                 subject.setAttack_flag(true);
@@ -112,7 +63,7 @@ public class CommonAttackFireWeaponEnemy extends ACommonAttack {
 
         if (!subject.isAlive() &&
                 !fw.getProjectile().isArrived(target.getX(), target.getY())) {
-            removeProjectile(target.root, fw.getProjectile());
+            projectileManager.removeProjectile(target.root, fw.getProjectile());
         }
     }
 
@@ -124,7 +75,7 @@ public class CommonAttackFireWeaponEnemy extends ACommonAttack {
 
             AProjectile p = new NormalAProjectile(EGameImages.ProvaAttaccoEnemy.getImage(), enemy.getX(), enemy.getY(), player.getX(), player.getY());
 
-            HUD.addElement(player.root, p.getImgView());
+            projectileManager.spawnProjectile(player.root, p);
 
             ((AFireWeapon) enemy.getWeapon()).getMag().set(0, p);
 

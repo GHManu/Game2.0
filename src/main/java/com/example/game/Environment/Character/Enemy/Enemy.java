@@ -34,7 +34,7 @@ public class Enemy extends ACharacterEnemy {
 
         setImgView(new ImageView(getImg()));
 
-        //imposto la grandezza dell'immagine
+
         getImgView().setFitWidth(IScreenSettings.sizeTile);
         getImgView().setFitHeight(IScreenSettings.sizeTile);
 
@@ -53,7 +53,7 @@ public class Enemy extends ACharacterEnemy {
     }
     @Override
     public void select_attack(double deltatime, ACharacterPlayable plr, ACharacterEnemy enemy){
-        this.getFightStrategy().normalAttack(deltatime, enemy, plr);
+        this.getFightStrategyEnemy().normalAttack(deltatime, enemy,plr);
 
     }
 
