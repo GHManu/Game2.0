@@ -5,7 +5,6 @@ import com.example.game.Environment.Character.Movement.Direction;
 import com.example.game.Environment.Character.Movement.IMovementStrategy;
 import com.example.game.Environment.Collider;
 import com.example.game.Environment.Object.Interactable.Weapon.AWeapon;
-import com.example.game.Environment.Object.Interactable.Weapon.IFightStrategy;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.layout.VBox;
 

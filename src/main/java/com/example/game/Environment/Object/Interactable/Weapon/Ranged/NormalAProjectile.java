@@ -39,22 +39,6 @@ public class NormalAProjectile extends AProjectile {
         setCld( new Collider(getX(), getY(), IScreenSettings.sizeTile, IScreenSettings.sizeTile));
     }
 
-    protected void journey(double deltaTime, double speed){
 
-        double x = getX(), y = getY();
-        x += deltaTime * speed * this.getDirectionX();
-        setX(x);
-        y +=  deltaTime * speed * this.getDirectionY();
-        setY(y);
-
-        Platform.runLater(() -> {
-            this.getImgView().setTranslateX(this.getX());
-            this.getImgView().setTranslateY(this.getY());
-            this.getCld().getShape().setX(this.getX());
-            this.getCld().getShape().setY(this.getY());
-
-        });
-
-    }
 
 }

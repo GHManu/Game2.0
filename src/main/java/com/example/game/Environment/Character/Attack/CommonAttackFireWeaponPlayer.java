@@ -1,6 +1,5 @@
 package com.example.game.Environment.Character.Attack;
 
-import com.example.game.Application.GameUpdate;
 import com.example.game.Environment.Character.ACharacter;
 import com.example.game.Environment.Character.Enemy.ACharacterEnemy;
 import com.example.game.Environment.Character.Playable.ACharacterPlayable;
@@ -10,7 +9,6 @@ import com.example.game.Environment.Object.Interactable.Weapon.Ranged.*;
 import com.example.game.Environment.Object.Interactable.Weapon.Ranged.ProjectileCollisionResolver;
 import com.example.game.UI.EGameImages;
 import com.example.game.UI.HUD;
-import javafx.application.Platform;
 import javafx.geometry.Bounds;
 import javafx.geometry.Point2D;
 
@@ -18,11 +16,13 @@ import java.util.List;
 
 public class CommonAttackFireWeaponPlayer extends ACommonAttack implements IFightStrategyPlayer {
     private final AFireWeapon fw;
-    private ProjectileManager projectileManager = new ProjectileManager();
-    private ProjectileCollisionResolver projectileCollisionResolver = new ProjectileCollisionResolver();
+    private final ProjectileManager projectileManager = new ProjectileManager();
+    private final ProjectileCollisionResolver projectileCollisionResolver = new ProjectileCollisionResolver();
+    private final IProjectileFactory projectileFactory;
 
-    public CommonAttackFireWeaponPlayer(AFireWeapon fw) {
+    public CommonAttackFireWeaponPlayer(AFireWeapon fw, IProjectileFactory projectileFactor) {
         this.fw = fw;
+        this.projectileFactory = projectileFactor;
     }
 
 
@@ -31,7 +31,7 @@ public class CommonAttackFireWeaponPlayer extends ACommonAttack implements IFigh
         initAttack(dt, player);
         ProjectileIterator it = new ProjectileIterator(fw.getMag());
         while (it.hasNext()) {
-            NormalAProjectile p = (NormalAProjectile) it.next();
+            AProjectile p =  it.next();
             fw.setProjectile(p);
             player.getWeapon().fight(dt);
             if (p.isArrived(player.getxDest(), player.getyDest())) {
@@ -87,14 +87,7 @@ public class CommonAttackFireWeaponPlayer extends ACommonAttack implements IFigh
             double mx = destLocal.getX();
             double my = destLocal.getY();
 
-
-            NormalAProjectile p =  new NormalAProjectile(
-                    EGameImages.ProvaAttacco.getImage(),
-                    px,
-                    py,
-                    mx,
-                    my
-            );
+            AProjectile p = projectileFactory.create(px, py, mx, my,EGameImages.ProvaAttacco.getImage() );
 
 
             fw.getMag().add(p);

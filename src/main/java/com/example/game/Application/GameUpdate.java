@@ -1,14 +1,9 @@
 package com.example.game.Application;
 
 import com.example.game.Environment.Camera;
-import com.example.game.Environment.Character.ACharacter;
 import com.example.game.Environment.Character.Enemy.ACharacterEnemy;
-import com.example.game.Environment.Character.Enemy.ACharacterEnemyFactory;
 import com.example.game.Environment.Character.Enemy.EnemyFactory;
-import com.example.game.Environment.Character.NPC.ANPC;
-import com.example.game.Environment.Character.NPC.NPC;
 import com.example.game.Environment.Character.Playable.ACharacterPlayable;
-import com.example.game.Environment.Character.Playable.ACharacterPlayableFactory;
 import com.example.game.Environment.Character.Playable.PlayerFactory;
 import com.example.game.Environment.Destroyer;
 import com.example.game.Environment.Map.MyMap;
@@ -26,7 +21,6 @@ import java.util.*;
 
 public class GameUpdate implements Runnable{
 
-    private final float FPS = 60;
     private ACharacterPlayable plr;
     private ACharacterEnemy enemy;
     private final CharacterSpawner characterSpawner;
@@ -35,7 +29,6 @@ public class GameUpdate implements Runnable{
 
     private final Group world;
     private final Thread currentThread;
-    private GameScene game_scene;
     private final MyMap world_My_map;
     private IGameLoopState current_state;
     private GameController game_controller;
@@ -66,8 +59,7 @@ public class GameUpdate implements Runnable{
         world.getChildren().clear();
 
 
-        this.game_scene = gameScene;
-        this.input_manager = new InputManager(stage,game_scene);
+        this.input_manager = new InputManager(stage, gameScene);
 
         plr = characterSpawner.spawnPlayer(this.input_manager);
         enemy = characterSpawner.spawnEnemy();
@@ -78,7 +70,7 @@ public class GameUpdate implements Runnable{
 
         this.setState(new PlayingState());
         plr.setRoot(world);
-        camera = new Camera(world, game_scene, plr);
+        camera = new Camera(world, gameScene, plr);
         world_My_map.drawMap(world);
 
         List<Node> elements = List.of(
@@ -99,7 +91,7 @@ public class GameUpdate implements Runnable{
 
 
     @Override
-    public void run() { //processo in esecuzione
+    public void run() {
 
         double deltatime = 0;
         long currentTime;
@@ -110,6 +102,7 @@ public class GameUpdate implements Runnable{
         while(currentThread.isAlive()){
             currentTime = System.currentTimeMillis();
 
+            float FPS = 60;
             deltatime += (currentTime - lastUpdate) / (1000.0 / FPS);
             lastUpdate = currentTime;
 

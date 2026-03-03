@@ -1,6 +1,7 @@
 package com.example.game.Environment.Object.Interactable.Weapon.Ranged;
 
 import com.example.game.Environment.AEntity;
+import javafx.application.Platform;
 
 public abstract class AProjectile extends AEntity {
     double directionX, directionY;
@@ -9,7 +10,23 @@ public abstract class AProjectile extends AEntity {
     public double normal_damage = 0.2;
     protected final double speed = 2.5;
 
-    protected abstract void journey(double deltaTime, double speed);
+    protected void journey(double deltaTime, double speed){
+
+        double x = getX(), y = getY();
+        x += deltaTime * speed * this.getDirectionX();
+        setX(x);
+        y +=  deltaTime * speed * this.getDirectionY();
+        setY(y);
+
+        Platform.runLater(() -> {
+            this.getImgView().setTranslateX(this.getX());
+            this.getImgView().setTranslateY(this.getY());
+            this.getCld().getShape().setX(this.getX());
+            this.getCld().getShape().setY(this.getY());
+
+        });
+
+    }
     public final boolean isArrived(double xDest, double yDest){
         double dx = this.xDest - getX();
         double dy = this.yDest - getY();

@@ -4,22 +4,20 @@ import com.example.game.Environment.Character.Enemy.ACharacterEnemy;
 import com.example.game.Environment.Character.Playable.ACharacterPlayable;
 import com.example.game.Environment.Collider;
 import com.example.game.Environment.Character.Movement.Direction;
-import com.example.game.Environment.Object.Interactable.Weapon.Ranged.CollisionResolver;
+import com.example.game.Environment.Object.Interactable.Weapon.Ranged.*;
 import com.example.game.Environment.Object.Interactable.Weapon.IFightStrategyEnemy;
-import com.example.game.Environment.Object.Interactable.Weapon.Ranged.ProjectileManager;
 import com.example.game.UI.EGameImages;
-import com.example.game.Environment.Object.Interactable.Weapon.Ranged.AFireWeapon;
-import com.example.game.Environment.Object.Interactable.Weapon.Ranged.AProjectile;
-import com.example.game.Environment.Object.Interactable.Weapon.Ranged.NormalAProjectile;
 
 
 public class CommonAttackFireWeaponEnemy extends ACommonAttack implements IFightStrategyEnemy {
     private final AFireWeapon fw;
     private final ProjectileManager projectileManager = new ProjectileManager();
     private final CollisionResolver collisionResolver = new CollisionResolver();
+    private final IProjectileFactory projectileFactory;
 
-    public CommonAttackFireWeaponEnemy(AFireWeapon fw){
+    public CommonAttackFireWeaponEnemy(AFireWeapon fw, IProjectileFactory projectileFactory){
         this.fw = fw;
+        this.projectileFactory = projectileFactory;
     }
 
     @Override
@@ -73,8 +71,7 @@ public class CommonAttackFireWeaponEnemy extends ACommonAttack implements IFight
 
             enemy.setAttack_flag(false);
 
-            AProjectile p = new NormalAProjectile(EGameImages.ProvaAttaccoEnemy.getImage(), enemy.getX(), enemy.getY(), player.getX(), player.getY());
-
+            AProjectile p = projectileFactory.create(enemy.getX(), enemy.getY(), player.getX(), player.getY(),EGameImages.ProvaAttaccoEnemy.getImage());
             projectileManager.spawnProjectile(player.root, p);
 
             ((AFireWeapon) enemy.getWeapon()).getMag().set(0, p);
