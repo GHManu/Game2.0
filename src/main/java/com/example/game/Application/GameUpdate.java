@@ -1,6 +1,5 @@
 package com.example.game.Application;
 
-import com.example.game.Environment.AEntity;
 import com.example.game.Environment.Camera;
 import com.example.game.Environment.Character.ACharacter;
 import com.example.game.Environment.Character.Enemy.ACharacterEnemy;
@@ -26,50 +25,26 @@ import java.util.*;
 
 
 public class GameUpdate implements Runnable{
-    private final Group world;
+
+    private final float FPS = 60;
     private ACharacterPlayable plr;
+    private ACharacterEnemy enemy;
+    private final CharacterSpawner characterSpawner;
+    private MovementHandler movementHandler;
+    private AttackHandler attackHandler;
+
+    private final Group world;
     private final Thread currentThread;
     private GameScene game_scene;
-    private final float FPS = 60;
-    private ACharacterEnemy enemy;
-    private final ACharacterEnemyFactory character_enemy_factory;
-    private final ACharacterPlayableFactory character_playable_factory;
     private final MyMap world_My_map;
     private IGameLoopState current_state;
     private GameController game_controller;
     InputManager input_manager;
     private Destroyer destroyer;
     private Camera camera;
-    ANPC npc1;
-    private static List<ACharacter> characters = new ArrayList<>();
 
-    public static List<ACharacter> getCharacters() {
-        return characters;
-    }
 
-    public Camera getCamera() {
-        return camera;
-    }
 
-    public void setCamera(Camera camera) {
-        this.camera = camera;
-    }
-
-    public Destroyer getDestroyer() {
-        return destroyer;
-    }
-
-    public void setDestroyer(Destroyer destroyer) {
-        this.destroyer = destroyer;
-    }
-
-    public GameController getGame_controller() {
-        return game_controller;
-    }
-
-    public void setGame_controller(GameController game_controller) {
-        this.game_controller = game_controller;
-    }
 
     public void setState(IGameLoopState newState) {
         if (current_state != null)
@@ -80,13 +55,9 @@ public class GameUpdate implements Runnable{
 
     protected GameUpdate(Group world){
         currentThread = new Thread(this);
-        characters = new ArrayList<>();
         this.world = world;
         world_My_map = new MyMap("/com/example/game/Maps/map.txt");
-
-        character_playable_factory = new PlayerFactory();
-        character_enemy_factory = new EnemyFactory();
-
+        this.characterSpawner = new CharacterSpawner(new PlayerFactory(), new EnemyFactory());
         destroyer = new Destroyer(world);
         HUD.getInstance();
     }
@@ -98,13 +69,12 @@ public class GameUpdate implements Runnable{
         this.game_scene = gameScene;
         this.input_manager = new InputManager(stage,game_scene);
 
-        plr = character_playable_factory.createPlayer("fire weapon", "pistol", "with input", "sixway", input_manager);
-        enemy = character_enemy_factory.createEnemy("fire weapon", "pistol", "without input", "oneway");
+        plr = characterSpawner.spawnPlayer(this.input_manager);
+        enemy = characterSpawner.spawnEnemy();
 
-        npc1 = new NPC("npc1.txt");
-
-        characters.add(plr);
-        characters.add(enemy);
+        CollisionHandler collisionHandler = new CollisionHandler();
+        movementHandler = new MovementHandler(collisionHandler);
+        attackHandler = new AttackHandler(this.input_manager);
 
         this.setState(new PlayingState());
         plr.setRoot(world);
@@ -115,14 +85,12 @@ public class GameUpdate implements Runnable{
                 plr.getvBox(),
                 plr.getImgView(),
                 enemy.getvBox(),
-                enemy.getImgView(),
-                npc1.getImgView()
+                enemy.getImgView()
         );
 
         elements.forEach(node ->
                  HUD.addElement(world, node)
         );
-
 
 
         currentThread.start();
@@ -152,36 +120,13 @@ public class GameUpdate implements Runnable{
         }
 
     }
-
-    public void gameMethodMovementHandler(double deltaTime) {
-
-        for (ACharacter c1 : characters) {
-            for (ACharacter c2 : characters) {
-                if (c1 != c2) {
-                    c1.getCld().collisionDetected(c2.getCld().getShape(), true);
-                }
-            }
-        }
-
-
-        enemy.getMovementStrategy().movement(deltaTime, enemy);
-        plr.movement(deltaTime);
+    public void updateMovement(double dt) {
+        movementHandler.handle(dt, characterSpawner.getCharacters(), enemy, plr);
     }
 
-
-
-    public void gameMethodAttackHandler(double deltatime){
-       if(input_manager.consumeMouseClick()){
-           plr.setInit_attack_flag(true);
-           plr.setxDest(input_manager.getMouseX());
-           plr.setyDest(input_manager.getMouseY());
-       }
-       if(plr.isAttack_flag() || plr.isInit_attack_flag()){
-           plr.select_attack(deltatime, plr, enemy);
-       }
-
+    public void updateAttack(double dt) {
+        attackHandler.handle(dt, plr, enemy, characterSpawner.getCharacters());
     }
-
     public ACharacterPlayable getPlr() {
         return plr;
     }
@@ -200,5 +145,28 @@ public class GameUpdate implements Runnable{
 
     public InputManager getInput_manager() {
         return input_manager;
+    }
+    public Camera getCamera() {
+        return camera;
+    }
+
+    public void setCamera(Camera camera) {
+        this.camera = camera;
+    }
+
+    public Destroyer getDestroyer() {
+        return destroyer;
+    }
+
+    public void setDestroyer(Destroyer destroyer) {
+        this.destroyer = destroyer;
+    }
+
+    public GameController getGame_controller() {
+        return game_controller;
+    }
+
+    public void setGame_controller(GameController game_controller) {
+        this.game_controller = game_controller;
     }
 }

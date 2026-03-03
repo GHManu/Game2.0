@@ -14,6 +14,8 @@ import javafx.application.Platform;
 import javafx.geometry.Bounds;
 import javafx.geometry.Point2D;
 
+import java.util.List;
+
 public class CommonAttackFireWeaponPlayer extends ACommonAttack implements IFightStrategyPlayer {
     private final AFireWeapon fw;
     private ProjectileManager projectileManager = new ProjectileManager();
@@ -23,16 +25,9 @@ public class CommonAttackFireWeaponPlayer extends ACommonAttack implements IFigh
         this.fw = fw;
     }
 
-    private void removeProjectile(AProjectile p, ACharacterPlayable player, ProjectileIterator it) {
-        it.remove();
-        Platform.runLater( () -> {
-                HUD.removeElement(player.root, p.getImgView());
-        });
-    }
-
 
     @Override
-    public void normalAttack(double dt, ACharacterPlayable player) {
+    public void normalAttack(double dt, ACharacterPlayable player, List<ACharacter> characters) {
         initAttack(dt, player);
         ProjectileIterator it = new ProjectileIterator(fw.getMag());
         while (it.hasNext()) {
@@ -49,13 +44,13 @@ public class CommonAttackFireWeaponPlayer extends ACommonAttack implements IFigh
                 continue;
             }
 
-            ACharacterEnemy enemy = projectileCollisionResolver.hitEnemy(p, GameUpdate.getCharacters());
+            ACharacterEnemy enemy = projectileCollisionResolver.hitEnemy(p, characters);
             if (enemy != null) {
                 applyDamage(enemy, p.normal_damage);
                 projectileManager.removeProjectile(player.root, p, it);
                 continue;
             }
-            for (ACharacter c : GameUpdate.getCharacters()) {
+            for (ACharacter c : characters) {
                 if (c instanceof ACharacterEnemy e) {
                     AFireWeapon enemyWeapon = (AFireWeapon) e.getWeapon();
                     if (projectileCollisionResolver.hitEnemyProjectile(p, enemyWeapon)) {

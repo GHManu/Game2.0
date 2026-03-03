@@ -2,6 +2,8 @@ package com.example.game.Environment.Character.Movement;
 
 import com.example.game.Environment.Character.ACharacter;
 import com.example.game.InputManager.InputManager;
+
+import java.util.List;
 import java.util.function.BiFunction;
 import java.util.function.Consumer;
 import java.util.function.Predicate;

@@ -7,7 +7,7 @@ import com.example.game.Environment.Object.Interactable.Weapon.IFightStrategyEne
 import com.example.game.Environment.Object.Interactable.Weapon.IFightStrategyPlayer;
 import javafx.scene.Group;
 
-
+import java.util.List;
 
 
 public abstract class ACharacterPlayable extends ACharacter {
@@ -43,6 +43,6 @@ public abstract class ACharacterPlayable extends ACharacter {
         this.root = root;
     }
 
-    public abstract void select_attack(double deltatime, ACharacterPlayable plr, ACharacterEnemy enemy);
-    public abstract void movement(double deltatime);
+    public abstract void select_attack(double deltatime, ACharacterPlayable plr, ACharacterEnemy enemy, List<ACharacter> characters);
+    public abstract void movement(double deltatime, List<ACharacter> characters);
 }

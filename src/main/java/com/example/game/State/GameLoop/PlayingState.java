@@ -15,8 +15,8 @@ public class PlayingState implements IGameLoopState {
         Platform.runLater(() -> context.getCamera().update());
 
         if(context.getPlr().isAlive()){
-            context.gameMethodMovementHandler(deltatime);
-            context.gameMethodAttackHandler(deltatime);
+            context.updateMovement(deltatime);
+            context.updateAttack(deltatime);
 
         }
 
