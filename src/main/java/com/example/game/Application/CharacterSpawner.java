@@ -3,8 +3,12 @@ package com.example.game.Application;
 import com.example.game.Environment.Character.ACharacter;
 import com.example.game.Environment.Character.Enemy.ACharacterEnemy;
 import com.example.game.Environment.Character.Enemy.ACharacterEnemyFactory;
+import com.example.game.Environment.Character.Movement.EConcreteMovement;
+import com.example.game.Environment.Character.Movement.EMovementType;
 import com.example.game.Environment.Character.Playable.ACharacterPlayable;
 import com.example.game.Environment.Character.Playable.ACharacterPlayableFactory;
+import com.example.game.Environment.Object.Interactable.Weapon.EConcreteWeapon;
+import com.example.game.Environment.Object.Interactable.Weapon.EWeaponType;
 import com.example.game.InputManager.InputManager;
 
 import java.util.ArrayList;
@@ -25,14 +29,14 @@ public class CharacterSpawner {
 
         public ACharacterPlayable spawnPlayer(InputManager inputManager) {
             ACharacterPlayable player = playerFactory.createPlayer(
-                    "fire weapon", "pistol", "with input", "sixway", inputManager);
+                    EWeaponType.FIRE_WEAPON, EConcreteWeapon.NORMAL_PISTOL, EMovementType.WITH_INPUT, EConcreteMovement.SIX_WAY, inputManager);
             characters.add(player);
             return player;
         }
 
         public ACharacterEnemy spawnEnemy() {
             ACharacterEnemy enemy = enemyFactory.createEnemy(
-                    "fire weapon", "pistol", "without input", "oneway");
+                    EWeaponType.FIRE_WEAPON, EConcreteWeapon.NORMAL_PISTOL, EMovementType.WITHOUT_INPUT, EConcreteMovement.ONE_WAY);
             characters.add(enemy);
             return enemy;
         }

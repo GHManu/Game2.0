@@ -1,4 +1,4 @@
-package com.example.game.Environment.Character.NPC;
+package com.example.game.Environment.Character;
 
 import java.io.IOException;
 import java.nio.file.Files;

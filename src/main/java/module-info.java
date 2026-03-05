@@ -41,8 +41,6 @@ module com.example.gamedemo {
     opens com.example.game.Environment.Character.Movement.Special to javafx.fxml;
     exports com.example.game.InputManager;
     opens com.example.game.InputManager to javafx.fxml;
-    exports com.example.game.Environment.Character.NPC;
-    opens com.example.game.Environment.Character.NPC to javafx.fxml;
     exports com.example.game.Environment.Character.Enemy;
     opens com.example.game.Environment.Character.Enemy to javafx.fxml;
     exports com.example.game.Environment.Character.Playable;

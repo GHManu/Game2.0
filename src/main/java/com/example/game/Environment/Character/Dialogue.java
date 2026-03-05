@@ -1,4 +1,4 @@
-package com.example.game.Environment.Character.NPC;
+package com.example.game.Environment.Character;
 
 public class Dialogue {
     private final String[] lines;

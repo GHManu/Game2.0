@@ -2,8 +2,6 @@ package com.example.game.Environment.Character.Playable;
 
 import com.example.game.Environment.Character.ACharacter;
 import com.example.game.Environment.Character.Enemy.ACharacterEnemy;
-import com.example.game.Environment.Character.NPC.ANPC;
-import com.example.game.Environment.Object.Interactable.Weapon.IFightStrategyEnemy;
 import com.example.game.Environment.Object.Interactable.Weapon.IFightStrategyPlayer;
 import javafx.scene.Group;
 

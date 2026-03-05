@@ -97,8 +97,6 @@ public class GameUpdate implements Runnable{
         long currentTime;
         long lastUpdate = System.currentTimeMillis();
 
-
-
         while(currentThread.isAlive()){
             currentTime = System.currentTimeMillis();
 

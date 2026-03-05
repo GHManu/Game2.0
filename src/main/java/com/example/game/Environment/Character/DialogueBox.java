@@ -1,4 +1,4 @@
-package com.example.game.Environment.Character.NPC;
+package com.example.game.Environment.Character;
 
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
