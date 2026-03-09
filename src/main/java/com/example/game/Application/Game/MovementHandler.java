@@ -1,4 +1,4 @@
-package com.example.game.Application;
+package com.example.game.Application.Game;
 
 import com.example.game.Environment.Character.ACharacter;
 import com.example.game.Environment.Character.Enemy.ACharacterEnemy;

@@ -1,6 +1,6 @@
 package com.example.game.State.GameLoop;
 
-import com.example.game.Application.GameUpdate;
+import com.example.game.Application.Game.GameUpdate;
 
 public interface IGameLoopState {
     void start(GameUpdate context);

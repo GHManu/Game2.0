@@ -1,5 +1,6 @@
 package com.example.game.Application;
 
+import com.example.game.Application.Game.GameUpdate;
 import com.example.game.Scene.GameOverScene;
 import com.example.game.Scene.GameScene;
 import com.example.game.Scene.VictoryScene;

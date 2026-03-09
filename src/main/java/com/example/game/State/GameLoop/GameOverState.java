@@ -1,6 +1,7 @@
 package com.example.game.State.GameLoop;
 
-import com.example.game.Application.GameUpdate;
+import com.example.game.Application.Game.GameUpdate;
+
 import javafx.application.Platform;
 
 public class GameOverState implements IGameLoopState {

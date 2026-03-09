@@ -1,5 +1,6 @@
-package com.example.game.Application;
+package com.example.game.Application.Game;
 
+import com.example.game.Application.GameController;
 import com.example.game.Environment.Camera;
 import com.example.game.Environment.Character.Enemy.ACharacterEnemy;
 import com.example.game.Environment.Character.Enemy.EnemyFactory;
@@ -46,7 +47,7 @@ public class GameUpdate implements Runnable{
         current_state.start(this);
     }
 
-    protected GameUpdate(Group world){
+    public GameUpdate(Group world){
         currentThread = new Thread(this);
         this.world = world;
         world_My_map = new MyMap("/com/example/game/Maps/map.txt");
