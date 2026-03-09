@@ -6,7 +6,6 @@ import com.example.game.Environment.Character.Playable.ACharacterPlayable;
 import com.example.game.Environment.Map.MyMap;
 import com.example.game.Environment.Object.Interactable.Weapon.IFightStrategyPlayer;
 import com.example.game.Environment.Object.Interactable.Weapon.Ranged.*;
-import com.example.game.Environment.Object.Interactable.Weapon.Ranged.ProjectileCollisionResolver;
 import com.example.game.UI.EGameImages;
 import com.example.game.UI.HUD;
 import javafx.geometry.Bounds;
@@ -64,38 +63,36 @@ public class CommonAttackFireWeaponPlayer extends ACommonAttack implements IFigh
         if (fw.getMag().isEmpty()) player.setAttack_flag(false);
     }
 
-    @Override
+    private Point2D getPlayerCenter(ACharacterPlayable player) {
+        Bounds b = player.getImgView().localToScene(player.getImgView().getBoundsInLocal());
+        double sceneX = b.getMinX() + b.getWidth() / 2;
+        double sceneY = b.getMinY() + b.getHeight() / 2;
+        return player.root.sceneToLocal(sceneX, sceneY);
+    }
+
+    private Point2D getDestination(ACharacterPlayable player) {
+        return player.root.sceneToLocal(player.getxDest(), player.getyDest());
+    }
+
+   
+   @Override
     public void initAttack(double deltatime, ACharacterPlayable player) {
         if (player.getProgressBar().getProgress() <= 0) return;
 
         if (player.isInit_attack_flag()) {
-
-
-            Bounds b = player.getImgView().localToScene(player.getImgView().getBoundsInLocal());
-            double sceneX = b.getMinX() + b.getWidth() / 2;
-            double sceneY = b.getMinY() + b.getHeight() / 2;
-
-            Point2D local = player.root.sceneToLocal(sceneX, sceneY);
-            double px = local.getX();
-            double py = local.getY();
-
-            double mxScene = player.getxDest();
-            double myScene = player.getyDest();
-
-
-            Point2D destLocal = player.root.sceneToLocal(mxScene, myScene);
-            double mx = destLocal.getX();
-            double my = destLocal.getY();
-
-            AProjectile p = projectileFactory.create(px, py, mx, my,EGameImages.ProvaAttacco.getImage() );
-
-
+            Point2D origin = getPlayerCenter(player);
+            Point2D dest   = getDestination(player);
+            
+            AProjectile p = projectileFactory.create(
+                origin.getX(), origin.getY(),
+                dest.getX(), dest.getY(),
+                EGameImages.ProvaAttacco.getImage()
+            );
             fw.getMag().add(p);
-            HUD.addElement(player.root, p.getImgView());
+            projectileManager.spawnProjectile(player.root, p);
             player.setAttack_flag(true);
         }
 
         player.setInit_attack_flag(false);
     }
-
 }

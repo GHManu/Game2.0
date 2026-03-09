@@ -9,6 +9,7 @@ import com.example.game.Environment.Character.Playable.ACharacterPlayable;
 import com.example.game.Environment.Character.Playable.ACharacterPlayableFactory;
 import com.example.game.Environment.Object.Interactable.Weapon.EConcreteWeapon;
 import com.example.game.Environment.Object.Interactable.Weapon.EWeaponType;
+import com.example.game.Environment.Object.Interactable.Weapon.Ranged.EProjectileType;
 import com.example.game.InputManager.InputManager;
 
 import java.util.ArrayList;
@@ -29,14 +30,14 @@ public class CharacterSpawner {
 
         public ACharacterPlayable spawnPlayer(InputManager inputManager) {
             ACharacterPlayable player = playerFactory.createPlayer(
-                    EWeaponType.FIRE_WEAPON, EConcreteWeapon.NORMAL_PISTOL, EMovementType.WITH_INPUT, EConcreteMovement.SIX_WAY, inputManager);
+                    EWeaponType.FIRE_WEAPON, EConcreteWeapon.NORMAL_PISTOL, EProjectileType.NORMAL ,EMovementType.WITH_INPUT, EConcreteMovement.SIX_WAY, inputManager);
             characters.add(player);
             return player;
         }
 
         public ACharacterEnemy spawnEnemy() {
             ACharacterEnemy enemy = enemyFactory.createEnemy(
-                    EWeaponType.FIRE_WEAPON, EConcreteWeapon.NORMAL_PISTOL, EMovementType.WITHOUT_INPUT, EConcreteMovement.ONE_WAY);
+                    EWeaponType.FIRE_WEAPON, EConcreteWeapon.NORMAL_PISTOL, EProjectileType.NORMAL, EMovementType.WITHOUT_INPUT, EConcreteMovement.ONE_WAY);
             characters.add(enemy);
             return enemy;
         }

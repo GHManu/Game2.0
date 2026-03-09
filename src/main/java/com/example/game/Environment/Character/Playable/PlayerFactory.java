@@ -11,12 +11,12 @@ import com.example.game.InputManager.InputManager;
 public class PlayerFactory extends ACharacterPlayableFactory{
 
     @Override
-    public ACharacterPlayable createPlayer(EWeaponType weaponType, EConcreteWeapon concreteWeapon,
+    public ACharacterPlayable createPlayer(EWeaponType weaponType, EConcreteWeapon concreteWeapon, EProjectileType projectileType,
                                            EMovementType movementType, EConcreteMovement concreteMovement, InputManager inputManager) {
         return new PlayerBuilder()
                 .weaponType(weaponType)
                 .concreteWeapon(concreteWeapon)
-                .projectileType(EProjectileType.NORMAL)
+                .projectileType(projectileType)
                 .movementType(movementType)
                 .concreteMovement(concreteMovement)
                 .inputManager(inputManager)

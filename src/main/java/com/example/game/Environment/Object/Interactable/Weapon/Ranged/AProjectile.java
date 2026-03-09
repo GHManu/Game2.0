@@ -9,6 +9,10 @@ public abstract class AProjectile extends AEntity {
     protected static final double margine = 2.0;
     public double normal_damage = 0.2;
     protected final double speed = 2.5;
+    private EProjectileType type;
+    public AProjectile( EProjectileType type){
+        this.setProjectileType(type);
+    }
 
     protected void journey(double deltaTime, double speed){
 
@@ -63,5 +67,11 @@ public abstract class AProjectile extends AEntity {
 
     public void setyDest(double yDest) {
         this.yDest = yDest;
+    }
+    public void setProjectileType(EProjectileType type){
+        this.type = type;
+    }
+    public EProjectileType getProjectileType(){
+        return this.type;
     }
 }

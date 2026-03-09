@@ -11,6 +11,7 @@ public class NormalAProjectile extends AProjectile {
 
 
     public NormalAProjectile(Image img, double x, double y, double xDest, double yDest) {
+            super(EProjectileType.NORMAL);
             setImgView(new ImageView(img));
             getImgView().setFitWidth(IScreenSettings.sizeTile);
             getImgView().setFitHeight(IScreenSettings.sizeTile);

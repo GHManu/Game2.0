@@ -21,8 +21,6 @@ module com.example.gamedemo {
     opens com.example.game.Environment to javafx.fxml;
     exports com.example.game.Environment.Object.Interactable.Weapon.Ranged;
     opens com.example.game.Environment.Object.Interactable.Weapon.Ranged to javafx.fxml;
-    exports com.example.game.Environment.Object.Interactable.Weapon.CloseRange;
-    opens com.example.game.Environment.Object.Interactable.Weapon.CloseRange to javafx.fxml;
     exports com.example.game.Environment.Object.Interactable;
     opens com.example.game.Environment.Object.Interactable to javafx.fxml;
     exports com.example.game.Environment.Object.NonInteractable;
