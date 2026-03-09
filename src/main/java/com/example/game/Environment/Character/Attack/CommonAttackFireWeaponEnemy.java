@@ -2,10 +2,10 @@ package com.example.game.Environment.Character.Attack;
 
 import com.example.game.Environment.Character.Enemy.ACharacterEnemy;
 import com.example.game.Environment.Character.Playable.ACharacterPlayable;
+import com.example.game.Environment.Objects.Interactable.Weapon.IFightStrategyEnemy;
+import com.example.game.Environment.Objects.Interactable.Weapon.Ranged.*;
 import com.example.game.Environment.Collider;
 import com.example.game.Environment.Character.Movement.Direction;
-import com.example.game.Environment.Object.Interactable.Weapon.Ranged.*;
-import com.example.game.Environment.Object.Interactable.Weapon.IFightStrategyEnemy;
 import com.example.game.UI.EGameImages;
 
 

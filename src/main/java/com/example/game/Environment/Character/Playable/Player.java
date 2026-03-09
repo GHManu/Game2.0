@@ -2,10 +2,11 @@ package com.example.game.Environment.Character.Playable;
 
 import com.example.game.Environment.Character.ACharacter;
 import com.example.game.Environment.Character.Enemy.ACharacterEnemy;
+import com.example.game.Environment.Objects.Interactable.Weapon.AWeapon;
 import com.example.game.Environment.Collider;
 import com.example.game.UI.EGameImages;
 import com.example.game.UI.IScreenSettings;
-import com.example.game.Environment.Object.Interactable.Weapon.AWeapon;
+
 import javafx.scene.control.ProgressBar;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;

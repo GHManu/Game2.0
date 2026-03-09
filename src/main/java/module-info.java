@@ -5,8 +5,8 @@ module com.example.gamedemo {
     requires java.desktop;
 
 
-    exports com.example.game.Environment.Object.Interactable.Weapon;
-    opens com.example.game.Environment.Object.Interactable.Weapon to javafx.fxml;
+    exports com.example.game.Environment.Objects.Interactable.Weapon;
+    opens com.example.game.Environment.Objects.Interactable.Weapon to javafx.fxml;
     exports com.example.game.Scene;
     opens com.example.game.Scene to javafx.fxml;
     exports com.example.game.State.GameLoop;
@@ -19,12 +19,12 @@ module com.example.gamedemo {
     opens com.example.game.Application to javafx.fxml;
     exports com.example.game.Environment;
     opens com.example.game.Environment to javafx.fxml;
-    exports com.example.game.Environment.Object.Interactable.Weapon.Ranged;
-    opens com.example.game.Environment.Object.Interactable.Weapon.Ranged to javafx.fxml;
-    exports com.example.game.Environment.Object.Interactable;
-    opens com.example.game.Environment.Object.Interactable to javafx.fxml;
-    exports com.example.game.Environment.Object.NonInteractable;
-    opens com.example.game.Environment.Object.NonInteractable to javafx.fxml;
+    exports com.example.game.Environment.Objects.Interactable.Weapon.Ranged;
+    opens com.example.game.Environment.Objects.Interactable.Weapon.Ranged to javafx.fxml;
+    exports com.example.game.Environment.Objects.Interactable;
+    opens com.example.game.Environment.Objects.Interactable to javafx.fxml;
+    exports com.example.game.Environment.Objects.NonInteractable;
+    opens com.example.game.Environment.Objects.NonInteractable to javafx.fxml;
     exports com.example.game.Environment.Character;
     opens com.example.game.Environment.Character to javafx.fxml;
     exports com.example.game.Environment.Character.Movement.NoInput;

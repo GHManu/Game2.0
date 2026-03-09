@@ -1,16 +1,17 @@
-package com.example.game.Environment.Object.NonInteractable;
+package com.example.game.Environment.Objects.NonInteractable;
 
 import com.example.game.Environment.Collider;
 import com.example.game.UI.EGameImages;
 import com.example.game.UI.IScreenSettings;
 import javafx.scene.image.ImageView;
 
-public class Water extends ANonInterableObjects {
-    public Water(int pos_x, int pos_y){
+public class Wall extends ANonInterableObjects {
+
+    public Wall(int pos_x, int pos_y){
         this.setX(pos_x * IScreenSettings.sizeTile);
         this.setY(pos_y * IScreenSettings.sizeTile);
 
-        this.setImg(EGameImages.Water.getImage());
+        this.setImg(EGameImages.Wall.getImage());
 
         this.setImgView(new ImageView(getImg()));
 

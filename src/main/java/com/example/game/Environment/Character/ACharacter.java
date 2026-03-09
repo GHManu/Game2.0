@@ -3,8 +3,9 @@ package com.example.game.Environment.Character;
 import com.example.game.Environment.AEntity;
 import com.example.game.Environment.Character.Movement.Direction;
 import com.example.game.Environment.Character.Movement.IMovementStrategy;
+import com.example.game.Environment.Objects.Interactable.Weapon.AWeapon;
 import com.example.game.Environment.Collider;
-import com.example.game.Environment.Object.Interactable.Weapon.AWeapon;
+
 import javafx.scene.control.ProgressBar;
 import javafx.scene.layout.VBox;
 

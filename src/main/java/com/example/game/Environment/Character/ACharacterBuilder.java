@@ -5,11 +5,11 @@ import com.example.game.Environment.Character.Movement.EMovementType;
 import com.example.game.Environment.Character.Movement.IMovementStrategy;
 import com.example.game.Environment.Character.Movement.NoInput.OneWayMovement;
 import com.example.game.Environment.Character.Movement.WithInput.SixWaySmoothlyMovement;
-import com.example.game.Environment.Object.Interactable.Weapon.AWeapon;
-import com.example.game.Environment.Object.Interactable.Weapon.EConcreteWeapon;
-import com.example.game.Environment.Object.Interactable.Weapon.EWeaponType;
-import com.example.game.Environment.Object.Interactable.Weapon.Ranged.EProjectileType;
-import com.example.game.Environment.Object.Interactable.Weapon.Ranged.FireWeaponFactory;
+import com.example.game.Environment.Objects.Interactable.Weapon.AWeapon;
+import com.example.game.Environment.Objects.Interactable.Weapon.EConcreteWeapon;
+import com.example.game.Environment.Objects.Interactable.Weapon.EWeaponType;
+import com.example.game.Environment.Objects.Interactable.Weapon.Ranged.EProjectileType;
+import com.example.game.Environment.Objects.Interactable.Weapon.Ranged.FireWeaponFactory;
 import com.example.game.InputManager.InputManager;
 
 import java.util.Map;

@@ -1,4 +1,4 @@
-package com.example.game.Environment.Object.Interactable.Weapon.Ranged;
+package com.example.game.Environment.Objects.Interactable.Weapon.Ranged;
 
 import java.util.Iterator;
 import java.util.List;

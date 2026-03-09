@@ -1,4 +1,4 @@
-package com.example.game.Environment.Object.Interactable.Weapon;
+package com.example.game.Environment.Objects.Interactable.Weapon;
 
 
 public interface IFightWeaponStrategy {

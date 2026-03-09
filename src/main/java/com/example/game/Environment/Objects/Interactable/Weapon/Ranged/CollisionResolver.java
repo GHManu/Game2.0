@@ -1,4 +1,4 @@
-package com.example.game.Environment.Object.Interactable.Weapon.Ranged;
+package com.example.game.Environment.Objects.Interactable.Weapon.Ranged;
 
 import com.example.game.Environment.Character.Movement.Direction;
 import com.example.game.Environment.Character.Playable.ACharacterPlayable;

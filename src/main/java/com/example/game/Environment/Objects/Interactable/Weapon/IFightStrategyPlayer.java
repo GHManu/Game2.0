@@ -1,4 +1,4 @@
-package com.example.game.Environment.Object.Interactable.Weapon;
+package com.example.game.Environment.Objects.Interactable.Weapon;
 
 import com.example.game.Environment.Character.ACharacter;
 import com.example.game.Environment.Character.Playable.ACharacterPlayable;

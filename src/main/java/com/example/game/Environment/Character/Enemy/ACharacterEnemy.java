@@ -2,7 +2,7 @@ package com.example.game.Environment.Character.Enemy;
 
 import com.example.game.Environment.Character.ACharacter;
 import com.example.game.Environment.Character.Playable.ACharacterPlayable;
-import com.example.game.Environment.Object.Interactable.Weapon.IFightStrategyEnemy;
+import com.example.game.Environment.Objects.Interactable.Weapon.IFightStrategyEnemy;
 
 public abstract class ACharacterEnemy extends ACharacter {
 

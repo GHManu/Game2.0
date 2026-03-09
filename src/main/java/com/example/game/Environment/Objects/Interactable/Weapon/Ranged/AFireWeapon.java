@@ -1,9 +1,9 @@
-package com.example.game.Environment.Object.Interactable.Weapon.Ranged;
+package com.example.game.Environment.Objects.Interactable.Weapon.Ranged;
 
-
-import com.example.game.Environment.Object.Interactable.Weapon.AWeapon;
 
 import java.util.List;
+
+import com.example.game.Environment.Objects.Interactable.Weapon.AWeapon;
 
 public abstract class AFireWeapon extends AWeapon {
     private AProjectile p;

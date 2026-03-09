@@ -1,9 +1,9 @@
 package com.example.game.Environment.Map;
 import com.example.game.Environment.AEntity;
 import com.example.game.Environment.Collider;
-import com.example.game.Environment.Object.NonInteractable.Grass;
-import com.example.game.Environment.Object.NonInteractable.Wall;
-import com.example.game.Environment.Object.NonInteractable.Water;
+import com.example.game.Environment.Objects.NonInteractable.Grass;
+import com.example.game.Environment.Objects.NonInteractable.Wall;
+import com.example.game.Environment.Objects.NonInteractable.Water;
 import com.example.game.UI.HUD;
 import javafx.scene.Group;
 

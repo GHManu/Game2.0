@@ -1,4 +1,4 @@
-package com.example.game.Environment.Object.NonInteractable;
+package com.example.game.Environment.Objects.NonInteractable;
 
 import com.example.game.Environment.AEntity;
 

@@ -7,9 +7,9 @@ import com.example.game.Environment.Character.Movement.EConcreteMovement;
 import com.example.game.Environment.Character.Movement.EMovementType;
 import com.example.game.Environment.Character.Playable.ACharacterPlayable;
 import com.example.game.Environment.Character.Playable.ACharacterPlayableFactory;
-import com.example.game.Environment.Object.Interactable.Weapon.EConcreteWeapon;
-import com.example.game.Environment.Object.Interactable.Weapon.EWeaponType;
-import com.example.game.Environment.Object.Interactable.Weapon.Ranged.EProjectileType;
+import com.example.game.Environment.Objects.Interactable.Weapon.EConcreteWeapon;
+import com.example.game.Environment.Objects.Interactable.Weapon.EWeaponType;
+import com.example.game.Environment.Objects.Interactable.Weapon.Ranged.EProjectileType;
 import com.example.game.InputManager.InputManager;
 
 import java.util.ArrayList;
