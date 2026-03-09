@@ -74,7 +74,7 @@ public class CommonAttackFireWeaponEnemy extends ACommonAttack implements IFight
             AProjectile p = projectileFactory.create(enemy.getX(), enemy.getY(), player.getX(), player.getY(),EGameImages.ProvaAttaccoEnemy.getImage());
             projectileManager.spawnProjectile(player.root, p);
 
-            ((AFireWeapon) enemy.getWeapon()).getMag().set(0, p);
+            fw.getMag().set(0, p);
 
         }
 

@@ -7,7 +7,6 @@ import com.example.game.Environment.Map.MyMap;
 import com.example.game.Environment.Object.Interactable.Weapon.IFightStrategyPlayer;
 import com.example.game.Environment.Object.Interactable.Weapon.Ranged.*;
 import com.example.game.UI.EGameImages;
-import com.example.game.UI.HUD;
 import javafx.geometry.Bounds;
 import javafx.geometry.Point2D;
 
