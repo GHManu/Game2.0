@@ -4,8 +4,8 @@ import com.example.game.Environment.AEntity;
 import javafx.application.Platform;
 
 public abstract class AProjectile extends AEntity {
-    double directionX, directionY;
-    double xDest, yDest;
+    double direction_x, direction_y;
+    double x_dest, y_dest;
     protected static final double margine = 2.0;
     public double normal_damage = 0.2;
     protected final double speed = 2.5;
@@ -17,56 +17,56 @@ public abstract class AProjectile extends AEntity {
     protected void journey(double deltaTime, double speed){
 
         double x = getX(), y = getY();
-        x += deltaTime * speed * this.getDirectionX();
+        x += deltaTime * speed * this.getDirection_x();
         setX(x);
-        y +=  deltaTime * speed * this.getDirectionY();
+        y +=  deltaTime * speed * this.getDirection_y();
         setY(y);
 
         Platform.runLater(() -> {
-            this.getImgView().setTranslateX(this.getX());
-            this.getImgView().setTranslateY(this.getY());
-            this.getCld().getShape().setX(this.getX());
-            this.getCld().getShape().setY(this.getY());
+            this.getImg_view().setTranslateX(this.getX());
+            this.getImg_view().setTranslateY(this.getY());
+            this.getCollider().getShape().setX(this.getX());
+            this.getCollider().getShape().setY(this.getY());
 
         });
 
     }
     public final boolean isArrived(double xDest, double yDest){
-        double dx = this.xDest - getX();
-        double dy = this.yDest - getY();
+        double dx = this.x_dest - getX();
+        double dy = this.y_dest - getY();
         return Math.sqrt(dx * dx + dy * dy) <= margine;
     }
 
-    public double getDirectionX() {
-        return directionX;
+    public double getDirection_x() {
+        return direction_x;
     }
 
-    public void setDirectionX(double directionX) {
-        this.directionX = directionX;
+    public void setDirection_x(double direction_x) {
+        this.direction_x = direction_x;
     }
 
-    public double getDirectionY() {
-        return directionY;
+    public double getDirection_y() {
+        return direction_y;
     }
 
-    public void setDirectionY(double directionY) {
-        this.directionY = directionY;
+    public void setDirection_y(double direction_y) {
+        this.direction_y = direction_y;
     }
 
-    public double getxDest() {
-        return xDest;
+    public double getX_dest() {
+        return x_dest;
     }
 
-    public void setxDest(double xDest) {
-        this.xDest = xDest;
+    public void setX_dest(double x_dest) {
+        this.x_dest = x_dest;
     }
 
-    public double getyDest() {
-        return yDest;
+    public double getY_dest() {
+        return y_dest;
     }
 
-    public void setyDest(double yDest) {
-        this.yDest = yDest;
+    public void setY_dest(double y_dest) {
+        this.y_dest = y_dest;
     }
     public void setProjectileType(EProjectileType type){
         this.type = type;

@@ -11,14 +11,14 @@ import com.example.game.Environment.Objects.Interactable.Weapon.Ranged.EProjecti
 public class EnemyFactory extends ACharacterEnemyFactory {
 
     @Override
-    public ACharacterEnemy createEnemy(EWeaponType weaponType, EConcreteWeapon concreteWeapon, EProjectileType projectileType,
-                                           EMovementType movementType, EConcreteMovement concreteMovement) {
+    public ACharacterEnemy createEnemy(EWeaponType weapon_type, EConcreteWeapon concrete_weapon, EProjectileType projectile_type,
+                                       EMovementType movement_type, EConcreteMovement concrete_movement) {
         return new EnemyBuilder()
-                .weaponType(weaponType)
-                .concreteWeapon(concreteWeapon)
-                .projectileType(projectileType)
-                .movementType(movementType)
-                .concreteMovement(concreteMovement)
+                .weaponType(weapon_type)
+                .concreteWeapon(concrete_weapon)
+                .projectileType(projectile_type)
+                .movementType(movement_type)
+                .concreteMovement(concrete_movement)
                 .build();
     }
 }

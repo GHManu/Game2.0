@@ -9,12 +9,12 @@ import com.example.game.Environment.Objects.Interactable.Weapon.EConcreteWeapon;
 
 public class FireWeaponFactory extends AWeaponFactory {
 
-    private static final Map<EConcreteWeapon, Supplier<AFireWeapon>> FIRE_WEAPON_REGISTRY = Map.of(
+    private static final Map<EConcreteWeapon, Supplier<AFireWeapon>> fire_weapon_registry = Map.of(
             EConcreteWeapon.NORMAL_PISTOL, NormalPistol::new
         );
 
     @Override
     public AWeapon createWeapon(EConcreteWeapon type) {
-        return FIRE_WEAPON_REGISTRY.get(type).get();
+        return fire_weapon_registry.get(type).get();
     }
 }

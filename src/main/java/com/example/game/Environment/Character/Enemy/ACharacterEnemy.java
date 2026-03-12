@@ -7,18 +7,18 @@ import com.example.game.Environment.Objects.Interactable.Weapon.IFightStrategyEn
 public abstract class ACharacterEnemy extends ACharacter {
 
     private final double REBOUND = 2.56784;
-    private IFightStrategyEnemy fightStrategyEnemy;
+    private IFightStrategyEnemy fight_strategy_enemy;
 
 
-    public IFightStrategyEnemy getFightStrategyEnemy() {
-        return fightStrategyEnemy;
+    public IFightStrategyEnemy getFight_strategy_enemy() {
+        return fight_strategy_enemy;
     }
 
-    public void setFightStrategyEnemy(IFightStrategyEnemy fightStrategyEnemy) {
-        this.fightStrategyEnemy = fightStrategyEnemy;
+    public void setFight_strategy_enemy(IFightStrategyEnemy fight_strategy_enemy) {
+        this.fight_strategy_enemy = fight_strategy_enemy;
     }
 
-    public abstract void select_attack(double deltatime, ACharacterPlayable plr, ACharacterEnemy enemy);
+    public abstract void selectAttack(double deltatime, ACharacterPlayable plr, ACharacterEnemy enemy);
 
 
     public double getREBOUND() {

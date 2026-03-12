@@ -16,12 +16,7 @@ public class Collider {
         this.shape.setArcWidth(10);
     }
 
-    public Rectangle getShape() {
-        return shape;
-    }
-    public void setShape(Rectangle shape) {
-        this.shape = shape;
-    }
+
 
     public boolean canHit(Direction dir) {
         return switch (dir) {
@@ -79,6 +74,13 @@ public class Collider {
         double w = this.getShape().getWidth();
         double h =  this.getShape().getHeight();
         return nextX < other.getShape().getX() + other.getShape().getWidth() && nextX + w > other.getShape().getX() && nextY < other.getShape().getY() + other.getShape().getHeight() && nextY + h > other.getShape().getY();
+    }
+
+    public Rectangle getShape() {
+        return shape;
+    }
+    public void setShape(Rectangle shape) {
+        this.shape = shape;
     }
 
 }

@@ -8,15 +8,15 @@ import javafx.scene.Group;
 public class ProjectileManager {
 
     public void spawnProjectile(Group root, AProjectile p) {
-        Platform.runLater(() -> HUD.addElement(root, p.getImgView()));
+        Platform.runLater(() -> HUD.addElement(root, p.getImg_view()));
     }
 
     public void removeProjectile(Group root, AProjectile p) {
-        Platform.runLater(() -> HUD.removeElement(root, p.getImgView()) );
+        Platform.runLater(() -> HUD.removeElement(root, p.getImg_view()) );
     }
     public void removeProjectile(Group root, AProjectile p, ProjectileIterator it) {
         it.remove();
-        Platform.runLater(() -> HUD.removeElement(root, p.getImgView()) );
+        Platform.runLater(() -> HUD.removeElement(root, p.getImg_view()) );
     }
 
 
@@ -24,7 +24,7 @@ public class ProjectileManager {
         weapon.setProjectile(weapon.getMag().getFirst());
         weapon.fight(dt);
 
-        Collider projectileCld = weapon.getProjectile().getCld();
+        Collider projectileCld = weapon.getProjectile().getCollider();
         projectileCld.collisionDetected(projectileCld.getShape(), false);
 
     }

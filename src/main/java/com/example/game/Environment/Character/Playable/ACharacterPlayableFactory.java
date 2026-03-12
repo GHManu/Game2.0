@@ -9,11 +9,11 @@ import com.example.game.InputManager.InputManager;
 
 public abstract class ACharacterPlayableFactory {
     public abstract ACharacterPlayable createPlayer(
-            EWeaponType weaponType,
-            EConcreteWeapon concreteWeapon,
-            EProjectileType projectileType,
-            EMovementType movementType,
-            EConcreteMovement concreteMovement,
-            InputManager inputManager
+            EWeaponType weapon_type,
+            EConcreteWeapon concrete_weapon,
+            EProjectileType projectile_type,
+            EMovementType movement_type,
+            EConcreteMovement concrete_movement,
+            InputManager input_manager
     );
 }

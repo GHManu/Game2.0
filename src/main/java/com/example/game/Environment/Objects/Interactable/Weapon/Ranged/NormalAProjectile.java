@@ -10,34 +10,34 @@ import javafx.scene.image.ImageView;
 public class NormalAProjectile extends AProjectile {
 
 
-    public NormalAProjectile(Image img, double x, double y, double xDest, double yDest) {
+    public NormalAProjectile(Image img, double x, double y, double x_dest, double y_dest) {
             super(EProjectileType.NORMAL);
-            setImgView(new ImageView(img));
-            getImgView().setFitWidth(IScreenSettings.sizeTile);
-            getImgView().setFitHeight(IScreenSettings.sizeTile);
+            setImg_view(new ImageView(img));
+            getImg_view().setFitWidth(IScreenSettings.size_tile);
+            getImg_view().setFitHeight(IScreenSettings.size_tile);
 
             setX(x);
             setY(y);
         Platform.runLater(() -> {
-            this.getImgView().setTranslateX(this.getX());
-            this.getImgView().setTranslateY(this.getY());
+            this.getImg_view().setTranslateX(this.getX());
+            this.getImg_view().setTranslateY(this.getY());
         });
 
 
 
-        this.setxDest(xDest);
-        this.setyDest(yDest);
+        this.setX_dest(x_dest);
+        this.setY_dest(y_dest);
 
-        double dx = this.getxDest() - x;
-        double dy = this.getyDest() - y;
+        double dx = this.getX_dest() - x;
+        double dy = this.getY_dest() - y;
         double distance = Math.sqrt(dx * dx + dy * dy);
 
         if(distance != 0){
-            this.setDirectionX(dx / distance);
-            this.setDirectionY(dy / distance);
+            this.setDirection_x(dx / distance);
+            this.setDirection_y(dy / distance);
         }
 
-        setCld( new Collider(getX(), getY(), IScreenSettings.sizeTile, IScreenSettings.sizeTile));
+        setCollider( new Collider(getX(), getY(), IScreenSettings.size_tile, IScreenSettings.size_tile));
     }
 
 

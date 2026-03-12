@@ -18,42 +18,42 @@ import java.util.function.Supplier;
 
 public abstract class ACharacterBuilder<T extends ACharacter> {
 
-    protected EConcreteWeapon concreteWeapon;
-    protected EProjectileType projectileType;
-    protected EConcreteMovement concreteMovement;
-    protected EMovementType movementType;
-    protected EWeaponType weaponType;
-    protected InputManager inputManager;
+    protected EConcreteWeapon concrete_weapon;
+    protected EProjectileType projectile_type;
+    protected EConcreteMovement concrete_movement;
+    protected EMovementType movement_type;
+    protected EWeaponType weapon_type;
+    protected InputManager input_manager;
 
 
-    protected static final Map<EConcreteWeapon, Supplier<AWeapon>> WEAPON_REGISTRY = Map.of(
+    protected static final Map<EConcreteWeapon, Supplier<AWeapon>> weapon_registry = Map.of(
             EConcreteWeapon.NORMAL_PISTOL, () -> new FireWeaponFactory().createWeapon(EConcreteWeapon.NORMAL_PISTOL)
     );
 
-    protected static final Map<EConcreteMovement, Function<InputManager, IMovementStrategy>> MOVEMENT_REGISTRY = Map.of(
+    protected static final Map<EConcreteMovement, Function<InputManager, IMovementStrategy>> movement_registry = Map.of(
             EConcreteMovement.SIX_WAY, im -> new SixWaySmoothlyMovement(im),
             EConcreteMovement.ONE_WAY,  im -> new OneWayMovement()
     );
 
 
-    public ACharacterBuilder<T> weaponType(EWeaponType w) { this.weaponType = w; return this; }
-    public ACharacterBuilder<T> concreteWeapon(EConcreteWeapon w) { this.concreteWeapon = w; return this; }
-    public ACharacterBuilder<T> projectileType(EProjectileType p) { this.projectileType = p; return this; }
-    public ACharacterBuilder<T> movementType(EMovementType w) { this.movementType = w; return this; }
-    public ACharacterBuilder<T> concreteMovement(EConcreteMovement m) { this.concreteMovement = m; return this; }
-    public ACharacterBuilder<T> inputManager(InputManager im) { this.inputManager = im; return this; }
+    public ACharacterBuilder<T> weaponType(EWeaponType w) { this.weapon_type = w; return this; }
+    public ACharacterBuilder<T> concreteWeapon(EConcreteWeapon w) { this.concrete_weapon = w; return this; }
+    public ACharacterBuilder<T> projectileType(EProjectileType p) { this.projectile_type = p; return this; }
+    public ACharacterBuilder<T> movementType(EMovementType w) { this.movement_type = w; return this; }
+    public ACharacterBuilder<T> concreteMovement(EConcreteMovement m) { this.concrete_movement = m; return this; }
+    public ACharacterBuilder<T> inputManager(InputManager im) { this.input_manager = im; return this; }
 
 
     protected void applyWeapon(ACharacter character) {
-        if (concreteWeapon == null) return;
-        AWeapon w = WEAPON_REGISTRY.get(concreteWeapon).get();
+        if (concrete_weapon == null) return;
+        AWeapon w = weapon_registry.get(concrete_weapon).get();
         character.setWeapon(w);
-        if (projectileType == null) projectileType = EProjectileType.NORMAL;
+        if (projectile_type == null) projectile_type = EProjectileType.NORMAL;
     }
 
     protected void applyMovement(ACharacter character) {
-        if (concreteMovement == null) return;
-        character.setMovementStrategy(MOVEMENT_REGISTRY.get(concreteMovement).apply(inputManager));
+        if (concrete_movement == null) return;
+        character.setMovement_strategy(movement_registry.get(concrete_movement).apply(input_manager));
     }
 
 

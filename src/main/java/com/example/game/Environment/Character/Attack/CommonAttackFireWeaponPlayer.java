@@ -32,12 +32,12 @@ public class CommonAttackFireWeaponPlayer extends ACommonAttack implements IFigh
             AProjectile p =  it.next();
             fw.setProjectile(p);
             player.getWeapon().fight(dt);
-            if (p.isArrived(player.getxDest(), player.getyDest())) {
+            if (p.isArrived(player.getX_dest(), player.getY_dest())) {
                 this.projectileManager.removeProjectile(player.root, p, it);
                 continue;
             }
 
-            if (projectileCollisionResolver.hitWall(p, MyMap.getWallColliders())) {
+            if (projectileCollisionResolver.hitWall(p, MyMap.getWall_colliders())) {
                 projectileManager.removeProjectile(player.root, p, it);
                 continue;
             }
@@ -63,20 +63,20 @@ public class CommonAttackFireWeaponPlayer extends ACommonAttack implements IFigh
     }
 
     private Point2D getPlayerCenter(ACharacterPlayable player) {
-        Bounds b = player.getImgView().localToScene(player.getImgView().getBoundsInLocal());
+        Bounds b = player.getImg_view().localToScene(player.getImg_view().getBoundsInLocal());
         double sceneX = b.getMinX() + b.getWidth() / 2;
         double sceneY = b.getMinY() + b.getHeight() / 2;
         return player.root.sceneToLocal(sceneX, sceneY);
     }
 
     private Point2D getDestination(ACharacterPlayable player) {
-        return player.root.sceneToLocal(player.getxDest(), player.getyDest());
+        return player.root.sceneToLocal(player.getX_dest(), player.getY_dest());
     }
 
    
    @Override
     public void initAttack(double deltatime, ACharacterPlayable player) {
-        if (player.getProgressBar().getProgress() <= 0) return;
+        if (player.getProgress_bar().getProgress() <= 0) return;
 
         if (player.isInit_attack_flag()) {
             Point2D origin = getPlayerCenter(player);

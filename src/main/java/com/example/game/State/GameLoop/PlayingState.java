@@ -31,7 +31,7 @@ public class PlayingState implements IGameLoopState {
         }
 
         if(context.getEnemy().isAlive())
-            context.getEnemy().select_attack(deltatime, context.getPlr(), context.getEnemy());
+            context.getEnemy().selectAttack(deltatime, context.getPlr(), context.getEnemy());
     }
 
     @Override

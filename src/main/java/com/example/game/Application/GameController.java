@@ -29,24 +29,24 @@ public class GameController {
         registry.register("start", new StartGameCommand(this));
         registry.register("quit", new QuitGameCommand(model));
 
-        view.getStartButton().setOnAction(e -> registry.get("start").execute());
-        view.getQuitButton().setOnAction(e -> registry.get("quit").execute());
+        view.getStart_button().setOnAction(e -> registry.get("start").execute());
+        view.getQuit_button().setOnAction(e -> registry.get("quit").execute());
 
 
         stage.setTitle("Simple Game");
-        stage.setScene(view.getMenuScene());
+        stage.setScene(view.getMenu_scene());
         stage.show();
     }
 
     public void startGame() {
         model.startGame();
 
-        Group gameRoot = new Group();
-        GameScene gameScene = new GameScene(gameRoot, GameScene.screenWidth, GameScene.screenHeight, Color.BLACK);
+        Group game_root = new Group();
+        GameScene game_scene = new GameScene(game_root, GameScene.screenWidth, GameScene.screenHeight, Color.BLACK);
 
-        stage.setScene(gameScene);
-        GameUpdate gameUpdate = new GameUpdate(gameRoot);
-        gameUpdate.startGameLoop(stage,gameScene);
+        stage.setScene(game_scene);
+        GameUpdate gameUpdate = new GameUpdate(game_root);
+        gameUpdate.startGameLoop(stage,game_scene);
         gameUpdate.setGame_controller(this);
         stage.setResizable(false);
         stage.setOnCloseRequest(event ->{ this.model.stopGame(); System.exit(0);});

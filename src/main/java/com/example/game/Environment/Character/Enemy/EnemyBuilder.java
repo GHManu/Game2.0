@@ -13,14 +13,14 @@ import java.util.function.Function;
 
 public class EnemyBuilder extends ACharacterBuilder<ACharacterEnemy> {
 
-    private static final Map<EProjectileType, Function<AFireWeapon, IFightStrategyEnemy>> PROJECTILE_REGISTRY = Map.of(
+    private static final Map<EProjectileType, Function<AFireWeapon, IFightStrategyEnemy>> projectile_registry = Map.of(
             EProjectileType.NORMAL, fw -> new CommonAttackFireWeaponEnemy(fw, new NormalProjectileFactory())
     );
 
     @Override
     protected void applyFightStrategy(ACharacterEnemy enemy) {
-        if (projectileType == null) return;
-        enemy.setFightStrategyEnemy(PROJECTILE_REGISTRY.get(projectileType).apply((AFireWeapon) enemy.getWeapon()));
+        if (projectile_type == null) return;
+        enemy.setFight_strategy_enemy(projectile_registry.get(projectile_type).apply((AFireWeapon) enemy.getWeapon()));
     }
 
     @Override

@@ -11,37 +11,37 @@ import java.util.List;
 
 public abstract class ACharacterPlayable extends ACharacter {
     public Group root;
-    private double xDest, yDest;
-    private IFightStrategyPlayer fightStrategyPlayer;
+    private double x_dest, y_dest;
+    private IFightStrategyPlayer fight_strategy_player;
 
-    public IFightStrategyPlayer getFightStrategyPlayer() {
-        return fightStrategyPlayer;
+    public IFightStrategyPlayer getFight_strategy_player() {
+        return fight_strategy_player;
     }
 
-    public void setFightStrategyPlayer(IFightStrategyPlayer fightStrategyPlayer) {
-        this.fightStrategyPlayer = fightStrategyPlayer;
+    public void setFight_strategy_player(IFightStrategyPlayer fight_strategy_player) {
+        this.fight_strategy_player = fight_strategy_player;
     }
 
-    public double getxDest() {
-        return xDest;
+    public double getX_dest() {
+        return x_dest;
     }
 
-    public void setxDest(double xDest) {
-        this.xDest = xDest;
+    public void setX_dest(double x_dest) {
+        this.x_dest = x_dest;
     }
 
-    public double getyDest() {
-        return yDest;
+    public double getY_dest() {
+        return y_dest;
     }
 
-    public void setyDest(double yDest) {
-        this.yDest = yDest;
+    public void setY_dest(double y_dest) {
+        this.y_dest = y_dest;
     }
 
     public void setRoot(Group root){
         this.root = root;
     }
 
-    public abstract void select_attack(double deltatime, ACharacterPlayable plr, ACharacterEnemy enemy, List<ACharacter> characters);
+    public abstract void selectAttack(double deltatime, ACharacterPlayable plr, ACharacterEnemy enemy, List<ACharacter> characters);
     public abstract void movement(double deltatime, List<ACharacter> characters);
 }

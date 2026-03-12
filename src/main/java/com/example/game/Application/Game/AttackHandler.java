@@ -8,19 +8,19 @@ import com.example.game.InputManager.InputManager;
 import java.util.List;
 
 public class AttackHandler {
-        private final InputManager inputManager;
+        private final InputManager input_manager;
 
-        public AttackHandler(InputManager inputManager) {
-            this.inputManager = inputManager;
+        public AttackHandler(InputManager input_manager) {
+            this.input_manager = input_manager;
         }
 
         public void handle(double deltaTime, ACharacterPlayable player, ACharacterEnemy enemy, List<ACharacter> characters) {
-            if (inputManager.consumeMouseClick()) {
+            if (input_manager.consumeMouseClick()) {
                 player.setInit_attack_flag(true);
-                player.setxDest(inputManager.getMouseX());
-                player.setyDest(inputManager.getMouseY());
+                player.setX_dest(input_manager.getMouseX());
+                player.setY_dest(input_manager.getMouseY());
             }
             if (player.isAttack_flag() || player.isInit_attack_flag())
-                player.select_attack(deltaTime, player, enemy, characters);
+                player.selectAttack(deltaTime, player, enemy, characters);
         }
 }

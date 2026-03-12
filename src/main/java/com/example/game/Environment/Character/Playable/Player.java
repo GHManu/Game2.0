@@ -20,15 +20,15 @@ public class Player extends ACharacterPlayable {
         setX( (IScreenSettings.screenWidth/2.0) + 250);
         setY((IScreenSettings.screenHeight/2.0) + 120);
 
-        setProgressBar(new ProgressBar(1.0));
-        setvBox(new VBox(getProgressBar()));
+        setProgress_bar(new ProgressBar(1.0));
+        setVbox(new VBox(getProgress_bar()));
 
-        getvBox().setSpacing(10);
-        getvBox().setLayoutX(getX());
-        getvBox().setLayoutY(getY() - 20);
+        getVbox().setSpacing(10);
+        getVbox().setLayoutX(getX());
+        getVbox().setLayoutY(getY() - 20);
 
-        this.setxDest(0);
-        this.setyDest(0);
+        this.setX_dest(0);
+        this.setY_dest(0);
 
         this.setInit_attack_flag(false);
         this.setAttack_flag(false);
@@ -40,15 +40,15 @@ public class Player extends ACharacterPlayable {
 
         setImg( EGameImages.Front_Pg.getImage());
 
-        setImgView(new ImageView(getImg()));
+        setImg_view(new ImageView(getImg()));
 
-        getImgView().setFitWidth(IScreenSettings.sizeTile);
-        getImgView().setFitHeight(IScreenSettings.sizeTile);
+        getImg_view().setFitWidth(IScreenSettings.size_tile);
+        getImg_view().setFitHeight(IScreenSettings.size_tile);
 
-        getImgView().setLayoutX(getX());
-        getImgView().setLayoutY(getY());
+        getImg_view().setLayoutX(getX());
+        getImg_view().setLayoutY(getY());
 
-        setCld(new Collider(getX(), getY(), IScreenSettings.sizeTile, IScreenSettings.sizeTile));
+        setCollider(new Collider(getX(), getY(), IScreenSettings.size_tile, IScreenSettings.size_tile));
     }
 
 
@@ -59,13 +59,13 @@ public class Player extends ACharacterPlayable {
 
 
     @Override
-    public void select_attack(double deltatime, ACharacterPlayable plr, ACharacterEnemy enemy, List<ACharacter> characters) {
-            this.getFightStrategyPlayer().normalAttack(deltatime, plr,characters);
+    public void selectAttack(double deltatime, ACharacterPlayable plr, ACharacterEnemy enemy, List<ACharacter> characters) {
+            this.getFight_strategy_player().normalAttack(deltatime, plr,characters);
     }
 
     @Override
     public void movement(double deltatime, List<ACharacter> characters) {
-        this.getMovementStrategy().movement(deltatime, this, characters);
+        this.getMovement_strategy().movement(deltatime, this, characters);
     }
 
 }

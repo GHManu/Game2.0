@@ -26,8 +26,8 @@ public enum EGameImages {
 
     private EGameImages(String path){
         this.path = path;
-        this.image = new Image(Objects.requireNonNull(getClass().getResourceAsStream(path)), IScreenSettings.sizeTile, // requestedWidth
-                IScreenSettings.sizeTile, // requestedHeight
+        this.image = new Image(Objects.requireNonNull(getClass().getResourceAsStream(path)), IScreenSettings.size_tile, // requestedWidth
+                IScreenSettings.size_tile, // requestedHeight
                 false, false);
     }
 

@@ -24,18 +24,18 @@ public class CollisionResolver {
 
     private void applyCollision(ACharacterPlayable target, double dx, double dy, double rebound) {
         Platform.runLater(() -> {
-            target.getImgView().setX(target.getImgView().getX() + dx * rebound);
-            target.getImgView().setY(target.getImgView().getY() + dy * rebound);
+            target.getImg_view().setX(target.getImg_view().getX() + dx * rebound);
+            target.getImg_view().setY(target.getImg_view().getY() + dy * rebound);
 
-            Rectangle shape = target.getCld().getShape();
+            Rectangle shape = target.getCollider().getShape();
             shape.setLayoutX(shape.getLayoutX() - dx * rebound);
             shape.setLayoutY(shape.getLayoutY() - dy * rebound);
 
-            ProgressBar bar = target.getProgressBar();
+            ProgressBar bar = target.getProgress_bar();
             bar.setTranslateX(bar.getTranslateX() + dx * rebound * 0.4);
             bar.setTranslateY(bar.getTranslateY() + dy * rebound * 0.4);
 
-            VBox vbox = target.getvBox();
+            VBox vbox = target.getVbox();
             vbox.setTranslateX(vbox.getTranslateX() + dx * rebound * 0.4);
             vbox.setTranslateY(vbox.getTranslateY() + dy * rebound * 0.4);
         });

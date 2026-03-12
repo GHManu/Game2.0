@@ -8,53 +8,53 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.VBox;
 
 public class GameView {
-    private VBox menuLayout;
-    private Button startButton;
-    private Button quitButton;
-    private Scene menuScene;
+    private VBox menu_layout;
+    private Button start_button;
+    private Button quit_button;
+    private Scene menu_scene;
 
 
-    private Scene victoryScene;
-    private Scene gameOverScene;
+    private Scene victory_scene;
+    private Scene gameover_scene;
 
     public GameView(double width, double height) {
-        menuLayout = new VBox(20);
-        menuLayout.setAlignment(Pos.CENTER);
-        menuLayout.getStyleClass().add("vbox-menu");
+        menu_layout = new VBox(20);
+        menu_layout.setAlignment(Pos.CENTER);
+        menu_layout.getStyleClass().add("vbox-menu");
 
-        startButton = new Button("▶ Start Game");
-        startButton.getStyleClass().add("button-start");
+        start_button = new Button("▶ Start Game");
+        start_button.getStyleClass().add("button-start");
 
-        quitButton = new Button("✖ Quit");
-        quitButton.getStyleClass().add("button-quit");
+        quit_button = new Button("✖ Quit");
+        quit_button.getStyleClass().add("button-quit");
 
-        menuLayout.getChildren().addAll(startButton, quitButton);
+        menu_layout.getChildren().addAll(start_button, quit_button);
 
-        menuScene = new Scene(menuLayout, width, height);
-        menuScene.getStylesheets().add(getClass().getResource("/com/example/game/Style/SceneStyle.css").toExternalForm());
+        menu_scene = new Scene(menu_layout, width, height);
+        menu_scene.getStylesheets().add(getClass().getResource("/com/example/game/Style/SceneStyle.css").toExternalForm());
 
 
-        victoryScene = VictoryScene.create(
+        victory_scene = VictoryScene.create(
                 () -> {},
                 () -> {} );
-        gameOverScene = GameOverScene.create(
+        gameover_scene = GameOverScene.create(
                 () -> {},
                 () -> {} );
     }
 
 
-    public Scene getMenuScene() {
-        return menuScene;
+    public Scene getMenu_scene() {
+        return menu_scene;
     }
 
-    public Button getStartButton() {
-        return startButton;
+    public Button getStart_button() {
+        return start_button;
     }
 
-    public Button getQuitButton() { return quitButton; }
+    public Button getQuit_button() { return quit_button; }
 
-    public Scene getVictoryScene() { return victoryScene; }
+    public Scene getVictory_scene() { return victory_scene; }
 
-    public Scene getGameOverScene() { return gameOverScene; }
+    public Scene getGameover_scene() { return gameover_scene; }
 
 }

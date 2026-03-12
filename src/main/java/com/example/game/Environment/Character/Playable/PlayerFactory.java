@@ -9,15 +9,15 @@ import com.example.game.InputManager.InputManager;
 public class PlayerFactory extends ACharacterPlayableFactory{
 
     @Override
-    public ACharacterPlayable createPlayer(EWeaponType weaponType, EConcreteWeapon concreteWeapon, EProjectileType projectileType,
-                                           EMovementType movementType, EConcreteMovement concreteMovement, InputManager inputManager) {
+    public ACharacterPlayable createPlayer(EWeaponType weapon_type, EConcreteWeapon concrete_weapon, EProjectileType projectile_type,
+                                           EMovementType movement_type, EConcreteMovement concrete_movement, InputManager input_manager) {
         return new PlayerBuilder()
-                .weaponType(weaponType)
-                .concreteWeapon(concreteWeapon)
-                .projectileType(projectileType)
-                .movementType(movementType)
-                .concreteMovement(concreteMovement)
-                .inputManager(inputManager)
+                .weaponType(weapon_type)
+                .concreteWeapon(concrete_weapon)
+                .projectileType(projectile_type)
+                .movementType(movement_type)
+                .concreteMovement(concrete_movement)
+                .inputManager(input_manager)
                 .build();
     }
 }

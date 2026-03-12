@@ -18,9 +18,8 @@ import java.util.List;
 
 public class MyMap extends AEntity {
     private static HashMap<Point, Integer> tile_map;
-    private static List<Collider> wallColliders = new ArrayList<>();
+    private static List<Collider> wall_colliders = new ArrayList<>();
 
-    public static List<Collider> getWallColliders() { return wallColliders; }
 
     public MyMap(String filename) {
         tile_map = new HashMap<>();
@@ -51,22 +50,24 @@ public class MyMap extends AEntity {
             switch (value) {
                 case 1: // muro
                     Wall wall = new Wall(p.x, p.y);
-                    wallColliders.add(wall.getCld());
-                    HUD.addElement(root,wall.getCld().getShape());
-                    HUD.addElement(root,wall.getImgView());
+                    wall_colliders.add(wall.getCollider());
+                    HUD.addElement(root,wall.getCollider().getShape());
+                    HUD.addElement(root,wall.getImg_view());
                     break;
                 case 2: // acqua
                     Water water = new Water(p.x, p.y);
-                    HUD.addElement(root,water.getCld().getShape());
-                    HUD.addElement(root,water.getImgView());
+                    HUD.addElement(root,water.getCollider().getShape());
+                    HUD.addElement(root,water.getImg_view());
                     break;
                 default: // erba
                     Grass grass = new Grass(p.x, p.y);
-                    HUD.addElement(root,grass.getCld().getShape());
-                    HUD.addElement(root,grass.getImgView());
+                    HUD.addElement(root,grass.getCollider().getShape());
+                    HUD.addElement(root,grass.getImg_view());
                     break;
             }
         }
     }
+
+    public static List<Collider> getWall_colliders() { return wall_colliders; }
 
 }

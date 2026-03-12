@@ -14,8 +14,8 @@ import java.util.List;
 
 public abstract class ACharacter extends AEntity {
 
-    private ProgressBar progressBar;
-    private VBox vBox;
+    private ProgressBar progress_bar;
+    private VBox vbox;
     private double initial_Health = 2450.431;
     private double health;
     private double strength;
@@ -27,9 +27,31 @@ public abstract class ACharacter extends AEntity {
     protected boolean init_attack_flag;
     protected boolean attack_flag;
 
-    private IMovementStrategy movementStrategy;
+    private IMovementStrategy movement_strategy;
     private AWeapon weapon;
 
+
+    public void takeDamage(double amount){
+        double newHealth = this.getHealth() - (this.getInitial_Health() * amount);
+        this.setHealth(newHealth);
+
+    }
+    public boolean canMoveTo(double nextX, double nextY,
+                             List<Collider> walls,
+                             List<ACharacter> others) {
+        for (Collider w : walls)
+        {
+            if (this.getCollider().intersectsAt(nextX, nextY, w)) { return false; }
+        }
+
+        for (AEntity other : others) {
+            if (other != this &&
+                    this.getCollider().intersectsAt(nextX, nextY, other.getCollider())) {
+                return false;
+            }
+        }
+        return true;
+    }
 
     public AWeapon getWeapon() {
         return weapon;
@@ -40,12 +62,12 @@ public abstract class ACharacter extends AEntity {
         this.weapon = weapon;
     }
 
-    public IMovementStrategy getMovementStrategy() {
-        return movementStrategy;
+    public IMovementStrategy getMovement_strategy() {
+        return movement_strategy;
     }
 
-    public void setMovementStrategy(IMovementStrategy movementStrategy) {
-        this.movementStrategy = movementStrategy;
+    public void setMovement_strategy(IMovementStrategy movement_strategy) {
+        this.movement_strategy = movement_strategy;
     }
 
     public Direction getDirection() {
@@ -55,20 +77,20 @@ public abstract class ACharacter extends AEntity {
     public void setDirection(Direction direction) {
         this.direction = direction;
     }
-    public ProgressBar getProgressBar() {
-        return progressBar;
+    public ProgressBar getProgress_bar() {
+        return progress_bar;
     }
 
-    public void setProgressBar(ProgressBar progressBar) {
-        this.progressBar = progressBar;
+    public void setProgress_bar(ProgressBar progress_bar) {
+        this.progress_bar = progress_bar;
     }
 
-    public VBox getvBox() {
-        return vBox;
+    public VBox getVbox() {
+        return vbox;
     }
 
-    public void setvBox(VBox vBox) {
-        this.vBox = vBox;
+    public void setVbox(VBox vbox) {
+        this.vbox = vbox;
     }
 
     public double getInitial_Health() {
@@ -120,28 +142,8 @@ public abstract class ACharacter extends AEntity {
         this.init_attack_flag = init_attack_flag;
     }
 
-    public boolean isAlive(){ return this.getProgressBar().getProgress() > 0.1 && this.getHealth() > 0;}
+    public boolean isAlive(){ return this.getProgress_bar().getProgress() > 0.1 && this.getHealth() > 0;}
 
-    public void takeDamage(double amount){
-        double newHealth = this.getHealth() - (this.getInitial_Health() * amount);
-        this.setHealth(newHealth);
 
-    }
-    public boolean canMoveTo(double nextX, double nextY,
-                             List<Collider> walls,
-                             List<ACharacter> others) {
-        for (Collider w : walls)
-        {
-            if (this.getCld().intersectsAt(nextX, nextY, w)) { return false; }
-        }
-
-        for (AEntity other : others) {
-            if (other != this &&
-                    this.getCld().intersectsAt(nextX, nextY, other.getCld())) {
-                return false;
-            }
-        }
-        return true;
-    }
 
 }

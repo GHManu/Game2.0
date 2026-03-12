@@ -10,7 +10,7 @@ public class ProjectileCollisionResolver {
 
     public boolean hitWall(AProjectile p, List<Collider> walls) {
         for (Collider wall : walls) {
-            if (p.getCld().getShape().intersects(wall.getShape().getBoundsInLocal())) {
+            if (p.getCollider().getShape().intersects(wall.getShape().getBoundsInLocal())) {
                 return true;
             }
         }
@@ -20,7 +20,7 @@ public class ProjectileCollisionResolver {
     public ACharacterEnemy hitEnemy(AProjectile p, List<ACharacter> chars) {
         for (ACharacter c : chars) {
             if (c instanceof ACharacterEnemy enemy) {
-                if (p.getCld().getShape().intersects(enemy.getCld().getShape().getBoundsInLocal())) {
+                if (p.getCollider().getShape().intersects(enemy.getCollider().getShape().getBoundsInLocal())) {
                     return enemy;
                 }
             }
@@ -28,11 +28,11 @@ public class ProjectileCollisionResolver {
         return null;
     }
 
-    public boolean hitEnemyProjectile(AProjectile p, AFireWeapon enemyWeapon) {
-        ProjectileIterator it = new ProjectileIterator(enemyWeapon.getMag());
+    public boolean hitEnemyProjectile(AProjectile p, AFireWeapon enemy_weapon) {
+        ProjectileIterator it = new ProjectileIterator(enemy_weapon.getMag());
         while (it.hasNext()) {
             AProjectile ep = it.next();
-            if (p.getCld().getShape().intersects(ep.getCld().getShape().getBoundsInLocal())) {
+            if (p.getCollider().getShape().intersects(ep.getCollider().getShape().getBoundsInLocal())) {
                 return true;
             }
         }

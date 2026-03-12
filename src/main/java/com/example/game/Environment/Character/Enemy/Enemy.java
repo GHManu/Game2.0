@@ -20,12 +20,12 @@ public class Enemy extends ACharacterEnemy {
         setX( (IScreenSettings.screenWidth/2.0) + 480.0);
         setY((IScreenSettings.screenHeight/2.0) - 0.25);
 
-        setProgressBar(new ProgressBar(1.0));
-        setvBox(new VBox(getProgressBar()));
+        setProgress_bar(new ProgressBar(1.0));
+        setVbox(new VBox(getProgress_bar()));
 
-        getvBox().setSpacing(10);
-        getvBox().setLayoutX(getX());
-        getvBox().setLayoutY(getY() - 20);
+        getVbox().setSpacing(10);
+        getVbox().setLayoutX(getX());
+        getVbox().setLayoutY(getY() - 20);
 
          this.setHealth(this.getInitial_Health());
         setSpeed(1.5);
@@ -33,16 +33,16 @@ public class Enemy extends ACharacterEnemy {
 
         setImg( EGameImages.Front_Enemy_c.getImage());
 
-        setImgView(new ImageView(getImg()));
+        setImg_view(new ImageView(getImg()));
 
 
-        getImgView().setFitWidth(IScreenSettings.sizeTile);
-        getImgView().setFitHeight(IScreenSettings.sizeTile);
+        getImg_view().setFitWidth(IScreenSettings.size_tile);
+        getImg_view().setFitHeight(IScreenSettings.size_tile);
 
-        getImgView().setLayoutX(getX());
-        getImgView().setLayoutY(getY());
+        getImg_view().setLayoutX(getX());
+        getImg_view().setLayoutY(getY());
 
-        setCld(new Collider(getX(), getY(), IScreenSettings.sizeTile, IScreenSettings.sizeTile));
+        setCollider(new Collider(getX(), getY(), IScreenSettings.size_tile, IScreenSettings.size_tile));
 
         attack_flag = true;
 
@@ -53,8 +53,8 @@ public class Enemy extends ACharacterEnemy {
         setWeapon(weapon);
     }
     @Override
-    public void select_attack(double deltatime, ACharacterPlayable plr, ACharacterEnemy enemy){
-        this.getFightStrategyEnemy().normalAttack(deltatime, enemy,plr);
+    public void selectAttack(double deltatime, ACharacterPlayable plr, ACharacterEnemy enemy){
+        this.getFight_strategy_enemy().normalAttack(deltatime, enemy,plr);
 
     }
 

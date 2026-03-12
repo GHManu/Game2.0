@@ -3,15 +3,15 @@ package com.example.game.UI;
 //7 righe
 
 public interface IScreenSettings {
-    int initialSizeTile = 16;
+    int initial_size_tile = 16;
     int scale = 3;
 
-    int maxScreenWidth = 16;
-    int maxScreenHeight = 12;
+    int max_screen_width = 16;
+    int max_screen_height = 12;
 
-    int sizeTile = initialSizeTile*scale;
+    int size_tile = initial_size_tile *scale;
 
 
-    int screenWidth = sizeTile * maxScreenWidth;
-    int screenHeight = sizeTile * maxScreenHeight;
+    int screenWidth = size_tile * max_screen_width;
+    int screenHeight = size_tile * max_screen_height;
 }

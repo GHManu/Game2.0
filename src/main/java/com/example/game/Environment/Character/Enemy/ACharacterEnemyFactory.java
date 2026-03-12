@@ -7,6 +7,6 @@ import com.example.game.Environment.Objects.Interactable.Weapon.EWeaponType;
 import com.example.game.Environment.Objects.Interactable.Weapon.Ranged.EProjectileType;
 
 public abstract class ACharacterEnemyFactory {
-    public abstract ACharacterEnemy createEnemy(EWeaponType weaponType, EConcreteWeapon concreteWeapon, EProjectileType projectileType,
-                                                EMovementType movementType, EConcreteMovement concreteMovement);
+    public abstract ACharacterEnemy createEnemy(EWeaponType weapon_type, EConcreteWeapon concrete_weapon, EProjectileType projectile_type,
+                                                EMovementType movement_type, EConcreteMovement concrete_movement);
 }

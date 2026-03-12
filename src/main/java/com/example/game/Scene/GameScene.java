@@ -9,8 +9,8 @@ public class GameScene extends Scene implements IScreenSettings {
 
 
 
-    public GameScene(Parent parent, double width, double height, Paint colorBackground) {
-        super(parent,width, height, colorBackground);
+    public GameScene(Parent parent, double width, double height, Paint color_background) {
+        super(parent,width, height, color_background);
 
     }
 

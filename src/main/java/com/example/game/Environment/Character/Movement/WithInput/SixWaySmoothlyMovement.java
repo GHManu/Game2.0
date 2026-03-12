@@ -34,8 +34,8 @@ public class SixWaySmoothlyMovement extends AMovementStrategyWithInput {
     private void moveUp(double dt, ACharacter target, List<ACharacter> characters) {
         target.changeImage(EGameImages.Back_Pg.getImage());
         double nextY = target.getY() - target.getSpeed() * dt;
-        if (target.getCld().canHit(Direction.UP) &&
-                target.canMoveTo(target.getX(), nextY, MyMap.getWallColliders(), characters)) {
+        if (target.getCollider().canHit(Direction.UP) &&
+                target.canMoveTo(target.getX(), nextY, MyMap.getWall_colliders(), characters)) {
             updatePosition(target, target.getX(), nextY);
         }
     }
@@ -43,8 +43,8 @@ public class SixWaySmoothlyMovement extends AMovementStrategyWithInput {
     private void moveDown(double dt, ACharacter target, List<ACharacter> characters) {
         target.changeImage(EGameImages.Front_Pg.getImage());
         double nextY = target.getY() + target.getSpeed() * dt;
-        if (target.getCld().canHit(Direction.DOWN) &&
-                target.canMoveTo(target.getX(), nextY, MyMap.getWallColliders(), characters)) {
+        if (target.getCollider().canHit(Direction.DOWN) &&
+                target.canMoveTo(target.getX(), nextY, MyMap.getWall_colliders(), characters)) {
             updatePosition(target, target.getX(), nextY);
         }
     }
@@ -52,8 +52,8 @@ public class SixWaySmoothlyMovement extends AMovementStrategyWithInput {
     private void moveLeft(double dt, ACharacter target, List<ACharacter> characters) {
         target.changeImage(EGameImages.Left_Side_Pg.getImage());
         double nextX = target.getX() - target.getSpeed() * dt;
-        if (target.getCld().canHit(Direction.LEFT) &&
-                target.canMoveTo(nextX, target.getY(), MyMap.getWallColliders(), characters)) {
+        if (target.getCollider().canHit(Direction.LEFT) &&
+                target.canMoveTo(nextX, target.getY(), MyMap.getWall_colliders(), characters)) {
             updatePosition(target, nextX, target.getY());
         }
     }
@@ -61,8 +61,8 @@ public class SixWaySmoothlyMovement extends AMovementStrategyWithInput {
     private void moveRight(double dt, ACharacter target, List<ACharacter> characters) {
         target.changeImage(EGameImages.Right_Side_Pg.getImage());
         double nextX = target.getX() + target.getSpeed() * dt;
-        if (target.getCld().canHit(Direction.RIGHT) &&
-                target.canMoveTo(nextX, target.getY(), MyMap.getWallColliders(), characters)) {
+        if (target.getCollider().canHit(Direction.RIGHT) &&
+                target.canMoveTo(nextX, target.getY(), MyMap.getWall_colliders(), characters)) {
             updatePosition(target, nextX, target.getY());
         }
     }
@@ -71,12 +71,12 @@ public class SixWaySmoothlyMovement extends AMovementStrategyWithInput {
         target.setX(x);
         target.setY(y);
         Platform.runLater(() -> {
-            target.getImgView().setLayoutX(x);
-            target.getImgView().setLayoutY(y);
-            target.getCld().getShape().setX(x);
-            target.getCld().getShape().setY(y);
-            target.getvBox().setLayoutX(x);
-            target.getvBox().setLayoutY(y - 20);
+            target.getImg_view().setLayoutX(x);
+            target.getImg_view().setLayoutY(y);
+            target.getCollider().getShape().setX(x);
+            target.getCollider().getShape().setY(y);
+            target.getVbox().setLayoutX(x);
+            target.getVbox().setLayoutY(y - 20);
         });
     }
 }

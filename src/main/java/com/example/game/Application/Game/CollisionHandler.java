@@ -10,7 +10,7 @@ public class CollisionHandler {
             for (ACharacter c1 : characters)
                 for (ACharacter c2 : characters)
                     if (c1 != c2)
-                        c1.getCld().collisionDetected(c2.getCld().getShape(), true);
+                        c1.getCollider().collisionDetected(c2.getCollider().getShape(), true);
         }
 
 }

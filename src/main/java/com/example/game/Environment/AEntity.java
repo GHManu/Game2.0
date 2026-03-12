@@ -11,14 +11,14 @@ import javafx.scene.image.ImageView;
 public abstract class AEntity{
 
     private Image img;
-    private ImageView imgView;
+    private ImageView img_view;
 
 
     private double x;
     private double y;
 
 
-    private Collider cld;
+    private Collider collider;
 
 
     public Image getImg() {
@@ -29,12 +29,12 @@ public abstract class AEntity{
         this.img = img;
     }
 
-    public ImageView getImgView() {
-        return imgView;
+    public ImageView getImg_view() {
+        return img_view;
     }
 
-    public void setImgView(ImageView imgView) {
-        this.imgView = imgView;
+    public void setImg_view(ImageView img_view) {
+        this.img_view = img_view;
     }
 
     public double getX() {
@@ -53,12 +53,12 @@ public abstract class AEntity{
         this.y = y;
     }
 
-    public Collider getCld() {
-        return cld;
+    public Collider getCollider() {
+        return collider;
     }
 
-    public void setCld(Collider cld) {
-        this.cld = cld;
+    public void setCollider(Collider collider) {
+        this.collider = collider;
     }
 
 
@@ -66,7 +66,7 @@ public abstract class AEntity{
         for(EGameImages ea : EGameImages.values()){
             if(ea.getImage() == image){
                 Platform.runLater(() -> {
-                    getImgView().setImage(image);
+                    getImg_view().setImage(image);
                 });
                 break;
             }

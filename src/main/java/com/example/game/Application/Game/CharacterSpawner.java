@@ -18,25 +18,25 @@ import java.util.List;
 
 public class CharacterSpawner {
 
-        private final ACharacterPlayableFactory playerFactory;
-        private final ACharacterEnemyFactory enemyFactory;
+        private final ACharacterPlayableFactory player_factory;
+        private final ACharacterEnemyFactory enemy_factory;
         private final List<ACharacter> characters = new ArrayList<>(); // non più static
 
-        public CharacterSpawner(ACharacterPlayableFactory playerFactory,
-                                ACharacterEnemyFactory enemyFactory) {
-            this.playerFactory = playerFactory;
-            this.enemyFactory = enemyFactory;
+        public CharacterSpawner(ACharacterPlayableFactory player_factory,
+                                ACharacterEnemyFactory enemy_factory) {
+            this.player_factory = player_factory;
+            this.enemy_factory = enemy_factory;
         }
 
         public ACharacterPlayable spawnPlayer(InputManager inputManager) {
-            ACharacterPlayable player = playerFactory.createPlayer(
+            ACharacterPlayable player = player_factory.createPlayer(
                     EWeaponType.FIRE_WEAPON, EConcreteWeapon.NORMAL_PISTOL, EProjectileType.NORMAL ,EMovementType.WITH_INPUT, EConcreteMovement.SIX_WAY, inputManager);
             characters.add(player);
             return player;
         }
 
         public ACharacterEnemy spawnEnemy() {
-            ACharacterEnemy enemy = enemyFactory.createEnemy(
+            ACharacterEnemy enemy = enemy_factory.createEnemy(
                     EWeaponType.FIRE_WEAPON, EConcreteWeapon.NORMAL_PISTOL, EProjectileType.NORMAL, EMovementType.WITHOUT_INPUT, EConcreteMovement.ONE_WAY);
             characters.add(enemy);
             return enemy;

@@ -8,19 +8,19 @@ import javafx.scene.image.ImageView;
 public class Wall extends ANonInterableObjects {
 
     public Wall(int pos_x, int pos_y){
-        this.setX(pos_x * IScreenSettings.sizeTile);
-        this.setY(pos_y * IScreenSettings.sizeTile);
+        this.setX(pos_x * IScreenSettings.size_tile);
+        this.setY(pos_y * IScreenSettings.size_tile);
 
         this.setImg(EGameImages.Wall.getImage());
 
-        this.setImgView(new ImageView(getImg()));
+        this.setImg_view(new ImageView(getImg()));
 
-        this.getImgView().setFitWidth(IScreenSettings.sizeTile);
-        this.getImgView().setFitHeight(IScreenSettings.sizeTile);
+        this.getImg_view().setFitWidth(IScreenSettings.size_tile);
+        this.getImg_view().setFitHeight(IScreenSettings.size_tile);
 
-        this.getImgView().setLayoutX(getX());
-        this.getImgView().setLayoutY(getY());
+        this.getImg_view().setLayoutX(getX());
+        this.getImg_view().setLayoutY(getY());
 
-        this.setCld(new Collider(getX(), getY(), IScreenSettings.sizeTile, IScreenSettings.sizeTile));
+        this.setCollider(new Collider(getX(), getY(), IScreenSettings.size_tile, IScreenSettings.size_tile));
     }
 }

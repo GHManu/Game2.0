@@ -24,13 +24,13 @@ public class GameUpdate implements Runnable{
 
     private ACharacterPlayable plr;
     private ACharacterEnemy enemy;
-    private final CharacterSpawner characterSpawner;
-    private MovementHandler movementHandler;
-    private AttackHandler attackHandler;
+    private final CharacterSpawner character_spawner;
+    private MovementHandler movement_handler;
+    private AttackHandler attack_handler;
 
     private final Group world;
-    private final Thread currentThread;
-    private final MyMap world_My_map;
+    private final Thread current_thread;
+    private final MyMap world_my_map;
     private IGameLoopState current_state;
     private GameController game_controller;
     InputManager input_manager;
@@ -48,37 +48,37 @@ public class GameUpdate implements Runnable{
     }
 
     public GameUpdate(Group world){
-        currentThread = new Thread(this);
+        current_thread = new Thread(this);
         this.world = world;
-        world_My_map = new MyMap("/com/example/game/Maps/map.txt");
-        this.characterSpawner = new CharacterSpawner(new PlayerFactory(), new EnemyFactory());
+        world_my_map = new MyMap("/com/example/game/Maps/map.txt");
+        this.character_spawner = new CharacterSpawner(new PlayerFactory(), new EnemyFactory());
         destroyer = new Destroyer(world);
         HUD.getInstance();
     }
 
-    public void startGameLoop(Stage stage,GameScene gameScene){
+    public void startGameLoop(Stage stage,GameScene game_scene){
         world.getChildren().clear();
 
 
-        this.input_manager = new InputManager(stage, gameScene);
+        this.input_manager = new InputManager(stage, game_scene);
 
-        plr = characterSpawner.spawnPlayer(this.input_manager);
-        enemy = characterSpawner.spawnEnemy();
+        plr = character_spawner.spawnPlayer(this.input_manager);
+        enemy = character_spawner.spawnEnemy();
 
-        CollisionHandler collisionHandler = new CollisionHandler();
-        movementHandler = new MovementHandler(collisionHandler);
-        attackHandler = new AttackHandler(this.input_manager);
+        CollisionHandler collision_handler = new CollisionHandler();
+        movement_handler = new MovementHandler(collision_handler);
+        attack_handler = new AttackHandler(this.input_manager);
 
         this.setState(new PlayingState());
         plr.setRoot(world);
-        camera = new Camera(world, gameScene, plr);
-        world_My_map.drawMap(world);
+        camera = new Camera(world, game_scene, plr);
+        world_my_map.drawMap(world);
 
         List<Node> elements = List.of(
-                plr.getvBox(),
-                plr.getImgView(),
-                enemy.getvBox(),
-                enemy.getImgView()
+                plr.getVbox(),
+                plr.getImg_view(),
+                enemy.getVbox(),
+                enemy.getImg_view()
         );
 
         elements.forEach(node ->
@@ -86,7 +86,7 @@ public class GameUpdate implements Runnable{
         );
 
 
-        currentThread.start();
+        current_thread.start();
 
     }
 
@@ -98,7 +98,7 @@ public class GameUpdate implements Runnable{
         long currentTime;
         long lastUpdate = System.currentTimeMillis();
 
-        while(currentThread.isAlive()){
+        while(current_thread.isAlive()){
             currentTime = System.currentTimeMillis();
 
             float FPS = 60;
@@ -113,11 +113,11 @@ public class GameUpdate implements Runnable{
 
     }
     public void updateMovement(double dt) {
-        movementHandler.handle(dt, characterSpawner.getCharacters(), enemy, plr);
+        movement_handler.handle(dt, character_spawner.getCharacters(), enemy, plr);
     }
 
     public void updateAttack(double dt) {
-        attackHandler.handle(dt, plr, enemy, characterSpawner.getCharacters());
+        attack_handler.handle(dt, plr, enemy, character_spawner.getCharacters());
     }
     public ACharacterPlayable getPlr() {
         return plr;

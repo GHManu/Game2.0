@@ -24,8 +24,8 @@ public class HUD {
     public static void updateProgressBar(ACharacter character, double damage)
     {
         Platform.runLater(() -> {
-            double progress = (character.getProgressBar().getProgress() - damage);
-            character.getProgressBar().setProgress(progress);
+            double progress = (character.getProgress_bar().getProgress() - damage);
+            character.getProgress_bar().setProgress(progress);
         });
     }
 

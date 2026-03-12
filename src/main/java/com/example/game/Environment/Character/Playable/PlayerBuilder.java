@@ -15,14 +15,14 @@ import java.util.function.Function;
 
     public class PlayerBuilder extends ACharacterBuilder<ACharacterPlayable> {
 
-        private static final Map<EProjectileType, Function<AFireWeapon, IFightStrategyPlayer>> PROJECTILE_REGISTRY = Map.of(
+        private static final Map<EProjectileType, Function<AFireWeapon, IFightStrategyPlayer>> projectile_registry = Map.of(
                 EProjectileType.NORMAL, fw -> new CommonAttackFireWeaponPlayer(fw, new NormalProjectileFactory())
         );
 
         @Override
         protected void applyFightStrategy(ACharacterPlayable player) {
-            if (projectileType == null) return;
-            player.setFightStrategyPlayer(PROJECTILE_REGISTRY.get(projectileType).apply((AFireWeapon) player.getWeapon()));
+            if (projectile_type == null) return;
+            player.setFight_strategy_player(projectile_registry.get(projectile_type).apply((AFireWeapon) player.getWeapon()));
         }
 
         @Override

@@ -11,10 +11,10 @@ public class Destroyer {
         this.world = world;
     }
     public void destroyCharacter(ACharacter c) {
-        if(c != null && c.getCld().getShape() != null) {
-            HUD.removeElement(world, c.getvBox());
-            HUD.removeElement(world, c.getCld().getShape());
-            HUD.removeElement(world, c.getImgView());
+        if(c != null && c.getCollider().getShape() != null) {
+            HUD.removeElement(world, c.getVbox());
+            HUD.removeElement(world, c.getCollider().getShape());
+            HUD.removeElement(world, c.getImg_view());
             System.gc();
         }
     }

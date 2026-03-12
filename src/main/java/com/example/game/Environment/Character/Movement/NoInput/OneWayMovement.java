@@ -13,7 +13,7 @@ public class OneWayMovement extends AMovementStrategyWithoutInput {
     private boolean moveUp(double dt, ACharacter enemy, List<ACharacter> characters) {
         enemy.changeImage(EGameImages.Back_Enemy_c.getImage());
         double nextY = enemy.getY() - enemy.getSpeed() * dt;
-        if (enemy.canMoveTo(enemy.getX(), nextY, MyMap.getWallColliders(), characters)) {
+        if (enemy.canMoveTo(enemy.getX(), nextY, MyMap.getWall_colliders(), characters)) {
             enemy.setY(nextY);
             return true;
         }
@@ -24,7 +24,7 @@ public class OneWayMovement extends AMovementStrategyWithoutInput {
     private boolean moveLeft(double dt, ACharacter enemy, List<ACharacter> characters) {
         enemy.changeImage(EGameImages.Left_Side_Enemy_c.getImage());
         double nextX = enemy.getX() - enemy.getSpeed() * dt;
-        if (enemy.canMoveTo(nextX, enemy.getY(), MyMap.getWallColliders(), characters)) {
+        if (enemy.canMoveTo(nextX, enemy.getY(), MyMap.getWall_colliders(), characters)) {
             enemy.setX(nextX);
             return true;
         }
@@ -35,7 +35,7 @@ public class OneWayMovement extends AMovementStrategyWithoutInput {
     private boolean moveRight(double dt, ACharacter enemy, List<ACharacter> characters) {
         enemy.changeImage(EGameImages.Right_Side_Pg.getImage());
         double nextX = enemy.getX() + enemy.getSpeed() * dt;
-        if (enemy.canMoveTo(nextX, enemy.getY(), MyMap.getWallColliders(), characters)) {
+        if (enemy.canMoveTo(nextX, enemy.getY(), MyMap.getWall_colliders(), characters)) {
             enemy.setX(nextX);
             return true;
         }
@@ -58,7 +58,7 @@ public class OneWayMovement extends AMovementStrategyWithoutInput {
     private boolean moveDown(double dt, ACharacter enemy, List<ACharacter> characters) {
         enemy.changeImage(EGameImages.Front_Enemy_c.getImage());
         double nextY = enemy.getY() + enemy.getSpeed() * dt;
-        if (enemy.canMoveTo(enemy.getX(), nextY, MyMap.getWallColliders(), characters)) {
+        if (enemy.canMoveTo(enemy.getX(), nextY, MyMap.getWall_colliders(), characters)) {
             enemy.setY(nextY);
             return true;
         }
@@ -70,9 +70,9 @@ public class OneWayMovement extends AMovementStrategyWithoutInput {
     private void applyPosition(ACharacter enemy) {
         double y = enemy.getY();
         Platform.runLater(() -> {
-            enemy.getImgView().setLayoutY(y);
-            enemy.getCld().getShape().setY(y);
-            enemy.getvBox().setLayoutY(y - 20);
+            enemy.getImg_view().setLayoutY(y);
+            enemy.getCollider().getShape().setY(y);
+            enemy.getVbox().setLayoutY(y - 20);
         });
 
     }
