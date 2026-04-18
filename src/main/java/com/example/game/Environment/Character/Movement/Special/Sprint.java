@@ -1,11 +1,9 @@
 package com.example.game.Environment.Character.Movement.Special;
 
-import com.example.game.InputManager.AInputCommands;
 import com.example.game.Environment.Character.ACharacter;
 import com.example.game.InputManager.InputManager;
 import javafx.application.Platform;
-import javafx.scene.input.KeyCode;
-import java.util.Set;
+
 
 public class Sprint {
 
