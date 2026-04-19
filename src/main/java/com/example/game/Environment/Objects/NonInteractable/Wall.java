@@ -1,11 +1,12 @@
 package com.example.game.Environment.Objects.NonInteractable;
 
+import com.example.game.Environment.AEntity;
 import com.example.game.Environment.Collider;
 import com.example.game.UI.EGameImages;
 import com.example.game.UI.IScreenSettings;
 import javafx.scene.image.ImageView;
 
-public class Wall extends ANonInterableObjects {
+public class Wall extends AEntity {
 
     public Wall(int pos_x, int pos_y){
         this.setX(pos_x * IScreenSettings.size_tile);
