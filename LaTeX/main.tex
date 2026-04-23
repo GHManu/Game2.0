@@ -296,29 +296,28 @@ public abstract class ACharacterBuilder<T extends ACharacter> {
             EConcreteMovement.ONE_WAY,  im -> new OneWayMovement()
     );
 
-    public ACharacterBuilder<T> weaponType(EWeaponType w) { this.weapon_type = w; return this; }
+    public ACharacterBuilder<T> weaponType(EWeaponType w) { this.weapon_type = w; 
+    return this; }
     //per ogni variabile...
 
-    protected void applyWeapon(ACharacter character) {
-        //...
-    }
-    protected void applyMovement(ACharacter character) {
-       //...
-    }
+    protected void applyWeapon(ACharacter character) {//...}
+    protected void applyMovement(ACharacter character){//...}
     protected abstract void applyFightStrategy(T character);
     public abstract T build();
 }
 
 public class EnemyBuilder extends ACharacterBuilder<ACharacterEnemy> {
-
-    private static final Map<EProjectileType, Function<AFireWeapon, IFightStrategyEnemy>> projectile_registry = Map.of(
-            EProjectileType.NORMAL, fw -> new CommonAttackFireWeaponEnemy(fw, new NormalProjectileFactory())
+    private static final Map<EProjectileType, Function<AFireWeapon, IFightStrategyEnemy>> 
+    projectile_registry = Map.of(
+            EProjectileType.NORMAL, fw -> new CommonAttackFireWeaponEnemy(fw,
+ new NormalProjectileFactory())
     );
 
     @Override
     protected void applyFightStrategy(ACharacterEnemy enemy) {
         if (projectile_type == null) return;
-        enemy.setFight_strategy_enemy(projectile_registry.get(projectile_type).apply((AFireWeapon) enemy.getWeapon()));
+        enemy.setFight_strategy_enemy(projectile_registry.get(projectile_type)
+        .apply((AFireWeapon) enemy.getWeapon()));
     }
 
     @Override
@@ -561,39 +560,44 @@ L'architettura del gioco riflette una chiara separazione a strati:
 \resizebox{0.75\textwidth}{!}{
 \begin{tikzpicture}
     \begin{umlsystem}[x=4, y=0]{Game}
-        \umlusecase[name=start]{Start}
-        \umlusecase[name=move, y=-2]{Movement in the entire map}
-        \umlusecase[name=sprint, x = 8, y = -2]{Sprint}
-        \umlusecase[name=shoot, y=-4]{Attack}
-        \umlusecase[name=win, y=-6]{Win}
-        \umlusecase[name=loose,x = 8, y=-6]{Gameover}
-        \umlusecase[name=close,x = 8, y=-7]{Close}
-        \umlusecase[name=move_en, y=-8]{Movement in a part of the map}
-        \umlusecase[name=shoot_en, y=-10]{Attack}
-        \umlusecase[name=loose_en, y=-12]{Died}
-        \umlusecase[name=win_en, x = 8, y=-12]{Player killed}
+        % Player Side
+        \umlusecase[name=move, y=0]{Movement in the entire map}
+        \umlusecase[name=sprint, x = 8, y = 0]{Sprint}
+        \umlusecase[name=shoot, y=-2]{Attack}
+        \umlusecase[name=state_pl, y=-4]{State} 
+        \umlusecase[name=win_pl, x = 4, y=-5.5]{Win} 
+        \umlusecase[name=loose,x = 8, y=-4]{Gameover}
+        \umlusecase[name=close,x = 8, y=-5.2]{Close}
+
+        % Enemy Side
+        \umlusecase[name=move_en, y=-7]{Movement in a part of the map}
+        \umlusecase[name=shoot_en, y=-9]{Attack}
+        \umlusecase[name=state_en, y=-11]{State} 
+        \umlusecase[name=die_en, x = 4, y=-12.5]{Die} 
+        \umlusecase[name=win_en, x = 8, y=-11]{Player killed}
     \end{umlsystem}
 
-    % Definizione degli Attori (posizionati fuori dal sistema)
-    \umlactor[x=0, y=0]{Player}
-    \umlactor[x=0, y=-10]{Enemy}
+    % Definizione degli Attori 
+    \umlactor[x=0, y=-2]{Player}
+    \umlactor[x=0, y=-9]{Enemy}
 
     % Associazioni tra Attori e Casi d'Uso
-    \umlassoc{Player}{start}
     \umlassoc{Player}{move}
     \umlassoc{Player}{shoot}
-    \umlassoc{Player}{win}
+    \umlassoc{Player}{state_pl}
+    
     \umlassoc{Enemy}{move_en}
     \umlassoc{Enemy}{shoot_en}
-    \umlassoc{Enemy}{loose_en}
+    \umlassoc{Enemy}{state_en}
     
-
-
-    % Relazioni tra Casi d'Uso (es. inclusione)
+    % Relazioni tra Casi d'Uso
     \umlextend{sprint}{move}
-    \umlextend{loose}{win}
-    \umlextend{close}{win}
-    \umlextend{win_en}{loose_en}
+    \umlextend{win_pl}{state_pl}
+    \umlextend{loose}{state_pl}
+    \umlextend{close}{state_pl}
+    
+    \umlextend{die_en}{state_en}
+    \umlextend{win_en}{state_en}
 \end{tikzpicture}
 }
 \end{center}
