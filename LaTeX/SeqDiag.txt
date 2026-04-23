@@ -1,0 +1,125 @@
+@startuml
+skinparam sequence {
+  ArrowColor Black
+  LifeLineBorderColor Black
+  LifeLineBackgroundColor White
+  ActorBorderColor Black
+  ParticipantBorderColor Black
+  FontSize 12
+}
+
+participant ":GameUpdate" as Game
+participant ":PlayingState" as State
+participant ":MovementHandler" as MoveH
+participant ":CollisionHandler" as ColH
+participant ":AttackHandler" as AtkH
+participant ":ACharacterPlayable" as Player
+participant "playerAttack:CommonAttackFireWeaponPlayer" as CAP
+participant ":ProjectileCollisionResolver" as PCR
+participant ":ACharacterEnemy" as Enemies
+participant "enemyAttack:CommonAttackFireWeaponEnemy" as CAE
+participant ":HUD" as Hud
+
+activate Game
+Game -> Game : run()
+
+== Game Loop ==
+loop while running
+    Game -> State : update(context, deltatime)
+    activate State
+    
+    State -> State : Platform.runLater(() -> camera.update())
+
+    alt context.getPlr().isAlive()
+        ' --- MOVIMENTO ---
+        State -> Game : updateMovement(deltatime)
+        activate Game
+        Game -> MoveH: handle(dt, chars, enemy, player)
+        activate MoveH
+        MoveH -> ColH : handle(characters)
+        activate ColH
+        ColH --> MoveH : collisionsResolved
+        deactivate ColH
+        deactivate MoveH
+        deactivate Game
+
+        ' --- ATTACCO PLAYER ---
+        State -> Game : updateAttack(deltatime)
+        activate Game
+        Game -> AtkH : handle(dt, player, enemy, characters)
+        activate AtkH
+        
+        opt click rilevato
+            AtkH -> Player : setInit_attack_flag(true)
+            activate Player
+            deactivate Player
+        end
+        
+        alt player attacca
+            AtkH -> Player : selectAttack(dt, player, enemy, characters)
+            activate Player
+            Player -> CAP : normalAttack(dt, player, characters)
+            activate CAP
+            
+            loop per ogni proiettile (Iterator)
+                CAP -> PCR : hitWall(p, walls)
+                activate PCR
+                PCR -> CAP : true/false
+                deactivate PCR
+                CAP -> PCR : hitEnemy(p, characters)
+                activate PCR
+                PCR --> CAP : enemyFound
+                deactivate PCR
+                
+                alt nemico colpito
+                    CAP -> CAP : applyDamage(enemy, damage)
+                end
+
+                CAP -> PCR : hitEnemyProjectile(p, enemyWeapon)
+                activate PCR
+                PCR -> CAP : true/false
+                deactivate PCR
+            end
+            deactivate CAP
+            deactivate Player
+        end
+        deactivate AtkH
+        deactivate Game
+    end
+
+    ' --- LOGICA VITTORIA/SCONFITTA ---
+    == Logic Check (Win/Loss) ==
+    alt !enemy.isAlive() && player.isAlive()
+        State -> Game : getDestroyer().destroyCharacter(enemy)
+        State -> Game : setState(new WinState())
+    else !player.isAlive()
+        State -> Game : getDestroyer().destroyCharacter(player)
+        State -> Game : setState(new GameOverState())
+    end
+
+    ' --- ATTACCO NEMICO ---
+    == Enemy Attack ==
+    alt context.getEnemy().isAlive()
+        State -> Enemies : selectAttack(deltatime, player, enemy)
+        activate Enemies
+        Enemies -> CAE : normalAttack(dt, enemy, player)
+        activate CAE
+        alt collisione con player
+            CAE -> CAE : applyDamage(player, 0.2)
+        end
+        deactivate CAE
+        deactivate Enemies
+    end
+    
+    deactivate State
+
+    ' --- AGGIORNAMENTO HUD ---
+    Game -> Hud : updateBars(player)
+    activate Hud
+    deactivate Hud
+    Game -> Hud : updateBars(enemy)
+    activate Hud
+    deactivate Hud
+end
+deactivate Game
+@enduml

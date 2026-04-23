@@ -1,0 +1,41 @@
+@startuml
+skinparam state {
+  BackgroundColor<<Main>> Red/White
+  BackgroundColor<<Game>> LightBlue
+  BackgroundColor<<End>> LightGreen
+  BorderColor Black
+}
+
+' --- Flusso Iniziale ---
+[*] -> MainMenu
+MainMenu -right-> Gameplay : Start Game
+MainMenu -down-> [*] : Quit
+
+' --- Blocco Gameplay ---
+state "In Game" as Gameplay <<Game>> {
+    state "Running" as Running
+    state "Check HP" as CheckStatus
+    state WinLossChoice <<choice>>
+
+    [*] -> Running
+    Running -right-> Running : Attack/Sprint
+    Running -down-> CheckStatus : Damage
+    
+    CheckStatus -right-> WinLossChoice
+    WinLossChoice -up-> Running : [Alive]
+    WinLossChoice -down-> [*] : [KO]
+}
+
+' --- Connessione Laterale ---
+Gameplay -right-> EndScreen : End Session
+
+' --- Blocco Finale ---
+state "End Game (MVC)" as EndScreen <<End>> {
+    state PostGameChoice <<choice>>
+    [*] -> PostGameChoice
+    
+    PostGameChoice -up-> MainMenu : Restart
+    PostGameChoice -right-> [*] : Close
+}
+
+@enduml

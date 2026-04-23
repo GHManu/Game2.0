@@ -1,0 +1,121 @@
+@startuml
+skinparam class {
+    BackgroundColor White
+    ArrowColor Black
+    BorderColor Black
+}
+hide circle
+
+' --- CLASSI PRINCIPALI ---
+
+class GameUpdate {
+    +run()
+    +updateMovement(dt)
+    +updateAttack(dt)
+    +setState(State)
+    +getDestroyer(): Destroyer
+}
+
+interface State {
+    +update(context, dt)
+}
+
+class PlayingState {
+    +update(context, dt)
+}
+
+' --- GESTORI (HANDLERS) ---
+
+class MovementHandler {
+    +handle(dt, characters, enemy, player)
+}
+
+class CollisionHandler {
+    +handle(characters)
+}
+
+class AttackHandler {
+    +handle(dt, player, enemy, characters)
+}
+
+' --- PERSONAGGI ---
+
+abstract class ACharacter {
+    +isAlive(): boolean
+}
+
+class ACharacterPlayable {
+    +setInit_attack_flag(bool)
+    +selectAttack(dt, player, enemy, characters)
+}
+
+class ACharacterEnemy {
+    +selectAttack(dt, player, enemy)
+}
+
+' --- STRATEGIE DI ATTACCO (Strategy Pattern) ---
+
+interface IFightStrategyPlayer {
+    +normalAttack(dt, player, characters)
+}
+
+interface IFightStrategyEnemy {
+    +normalAttack(dt, enemy, player)
+}
+
+abstract class ACommonAttack {
+    #applyDamage(target, damage)
+}
+
+class CommonAttackFireWeaponPlayer {
+    +normalAttack(dt, player, characters)
+}
+
+class CommonAttackFireWeaponEnemy {
+    +normalAttack(dt, enemy, player)
+}
+
+' --- UTILITY E UI ---
+
+class ProjectileCollisionResolver {
+    +hitWall(projectile, walls): boolean
+    +hitEnemy(projectile, characters): ACharacterEnemy
+    +hitEnemyProjectile(p, weapon): boolean
+}
+
+class HUD {
+    +updateBars(character)
+}
+
+' --- RELAZIONI ---
+
+' Gerarchie
+State <|.. PlayingState
+ACharacter <|-- ACharacterPlayable
+ACharacter <|-- ACharacterEnemy
+
+ACommonAttack <|-- CommonAttackFireWeaponPlayer
+ACommonAttack <|-- CommonAttackFireWeaponEnemy
+IFightStrategyPlayer <|.. CommonAttackFireWeaponPlayer
+IFightStrategyEnemy <|.. CommonAttackFireWeaponEnemy
+
+' Associazioni e Dipendenze
+GameUpdate o-- State
+GameUpdate --> MovementHandler
+GameUpdate --> AttackHandler
+GameUpdate --> HUD
+
+PlayingState ..> GameUpdate : "cambia stato / invoca update"
+
+MovementHandler --> CollisionHandler
+
+AttackHandler --> ACharacterPlayable : "imposta flag"
+ACharacterPlayable --> IFightStrategyPlayer : "delega attacco"
+ACharacterEnemy --> IFightStrategyEnemy : "delega attacco"
+
+CommonAttackFireWeaponPlayer --> ProjectileCollisionResolver : "usa per calcolo"
+CommonAttackFireWeaponPlayer ..> ACharacterEnemy : "applica danno"
+
+CommonAttackFireWeaponEnemy ..> ACharacterPlayable : "applica danno"
+
+@enduml
