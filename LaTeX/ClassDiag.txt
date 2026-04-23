@@ -8,7 +8,6 @@ skinparam class {
     BackgroundColor<<abstract>> Wheat
 }
 
-' Rimosso "hide circle" per permettere la visualizzazione dei simboli I, A, C
 
 ' --- CLASSI PRINCIPALI ---
 
