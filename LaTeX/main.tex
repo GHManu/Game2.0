@@ -77,9 +77,12 @@
   \vspace{1cm}
   {\normalsize
     Progetto del corso di OOP riscritto con le regole del corso di \textbf{Ingegneria del Software}.\\[0.3em]
-    \textbf{Repository Game}: \href{https://github.com/GHManu/Game}{github.com/GHManu/Game}, \\[0.3em]
-    \textbf{Repository principale}:  \href{https://github.com/GHManu/Game2.0}{github.com/GHManu/Game2.0}, \\[0.3em]
-    \textbf{Nota}: I codici trascritti qua e i vari Diagrammi \textbf{non rappresentano l'intero progetto ma solo la parte significativa di esso}.
+    \textbf{Repository Game(OOP)}: \href{https://github.com/GHManu/Game}{github.com/GHManu/Game}, \\[0.3em]
+    \textbf{Repository Game2.0(Ing Del Sw)}:  \href{https://github.com/GHManu/Game2.0}{github.com/GHManu/Game2.0}, \\[0.3em]
+    \vspace{1cm}
+    \hrule
+    \vspace{1cm}
+    \textbf{Nota}: I codici trascritti e i vari diagrammi UML \textbf{non rappresentano l'intero progetto ma solo la parte significativa di esso}, nelle classi rappresentate nel Class Diagram non ho messo tutte le variabili/metodi, stessa cosa per il Sequence, poichè il progetto anche se semplice è abbastanza complesso; quindi semplificato ma sono riuscito a rappresentare il fulcro e le parti più importanti del software. 
   \par}
   \vfill
   {\small Documento di Analisi dei Requisiti e Design\par}
@@ -684,31 +687,6 @@ Il diagramma illustra gli stati principali dell'applicazione e le transizioni ch
 \noindent \textit{Il diagramma garantisce la corretta gestione del ciclo di vita del gioco, separando nettamente la fase di input attivo dalla gestione dei risultati e dei menu.}
 \end{small}
 
-\clearpage
-\section{UML -- Sequence Diagram}
-\begin{figure}[htbp]
-    \centering % Centra l'immagine nella pagina
-    \includegraphics[width=1.15\linewidth]{SeqDiag.png}
-    \caption{Sequence Diagram}
-    \label{fig:Sequence Diagram} % Serve per fare riferimenti nel testo
-\end{figure}
-
-\section*{Descrizione}
-\begin{small}
-Il diagramma illustra il flusso iterativo del \texttt{GameLoop}, orchestrato dalla classe \texttt{GameUpdate} che delega l'aggiornamento della logica allo stato corrente (\texttt{PlayingState}). Il processo si divide in quattro fasi principali:
-
-\begin{itemize}[leftmargin=*, noitemsep, topsep=0pt]
-    \item \textbf{Gestione Fisica e Input:} Se il giocatore è in vita, vengono invocati i gestori del movimento (\texttt{MovementHandler}) e delle collisioni. Successivamente, l'\texttt{AttackHandler} processa l'input (click del mouse) per inizializzare o continuare la sequenza di attacco.
-    
-    \item \textbf{Risoluzione dei Combattimenti:} La logica degli attacchi è delegata a classi strategia (\texttt{CAP} per il player, \texttt{CAE} per il nemico). Per il giocatore, un iteratore gestisce ogni proiettile attivo, verificando tramite il \texttt{PCR} (Collision Resolver) impatti con muri, nemici o proiettili avversari e applicando il relativo danno.
-    
-    \item \textbf{Verifica delle Condizioni di Terminazione:} Al termine di ogni ciclo, lo stato controlla la vitalità dei personaggi. Se uno dei due soccombe, viene invocato il \texttt{Destroyer} per la rimozione del nodo grafico e viene eseguito il cambio di stato verso \texttt{WinState} o \texttt{GameOverState}.
-    
-    \item \textbf{Aggiornamento Grafico:} L'ultima fase del ciclo prevede l'aggiornamento delle barre della salute nell'\texttt{HUD} per entrambi i personaggi, garantendo il feedback immediato all'utente.
-\end{itemize}
-
-\noindent \textit{Nota tecnica: L'uso di \texttt{Platform.runLater} per l'aggiornamento della camera indica una gestione asincrona del rendering rispetto alla logica di gioco.}
-\end{small}
 
 \clearpage
 %----------------------------------------------------------------------
@@ -736,4 +714,33 @@ L'architettura proposta segue un approccio modulare basato sulla separazione del
 
 \noindent \textit{Il sistema applica rigorosamente i principi SOLID, facilitando l'aggiunta di nuovi contenuti (nemici, armi o stati) senza alterare il codice preesistente.}
 \end{small}
+
+
+\clearpage
+\section{UML -- Sequence Diagram}
+\begin{figure}[htbp]
+    \centering % Centra l'immagine nella pagina
+    \includegraphics[width=1.15\linewidth]{SeqDiag.png}
+    \caption{Sequence Diagram}
+    \label{fig:Sequence Diagram} % Serve per fare riferimenti nel testo
+\end{figure}
+
+\section*{Descrizione}
+\begin{small}
+Il diagramma illustra il flusso iterativo del \texttt{GameLoop}, orchestrato dalla classe \texttt{GameUpdate} che delega l'aggiornamento della logica allo stato corrente (\texttt{PlayingState}). Il processo si divide in quattro fasi principali:
+
+\begin{itemize}[leftmargin=*, noitemsep, topsep=0pt]
+    \item \textbf{Gestione Fisica e Input:} Se il giocatore è in vita, vengono invocati i gestori del movimento (\texttt{MovementHandler}) e delle collisioni. Successivamente, l'\texttt{AttackHandler} processa l'input (click del mouse) per inizializzare o continuare la sequenza di attacco.
+    
+    \item \textbf{Risoluzione dei Combattimenti:} La logica degli attacchi è delegata a classi strategia (\texttt{CAP} per il player, \texttt{CAE} per il nemico). Per il giocatore, un iteratore gestisce ogni proiettile attivo, verificando tramite il \texttt{PCR} (Collision Resolver) impatti con muri, nemici o proiettili avversari e applicando il relativo danno.
+    
+    \item \textbf{Verifica delle Condizioni di Terminazione:} Al termine di ogni ciclo, lo stato controlla la vitalità dei personaggi. Se uno dei due soccombe, viene invocato il \texttt{Destroyer} per la rimozione del nodo grafico e viene eseguito il cambio di stato verso \texttt{WinState} o \texttt{GameOverState}.
+    
+    \item \textbf{Aggiornamento Grafico:} L'ultima fase del ciclo prevede l'aggiornamento delle barre della salute nell'\texttt{HUD} per entrambi i personaggi, garantendo il feedback immediato all'utente.
+\end{itemize}
+
+\noindent \textit{Nota tecnica: L'uso di \texttt{Platform.runLater} per l'aggiornamento della camera indica una gestione asincrona del rendering rispetto alla logica di gioco.}
+\end{small}
+
+
 \end{document}

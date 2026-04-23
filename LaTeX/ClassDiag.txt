@@ -3,8 +3,12 @@ skinparam class {
     BackgroundColor White
     ArrowColor Black
     BorderColor Black
+    ' Colori personalizzati per i cerchi (opzionale)
+    BackgroundColor<<interface>> LighBlue
+    BackgroundColor<<abstract>> Wheat
 }
-hide circle
+
+' Rimosso "hide circle" per permettere la visualizzazione dei simboli I, A, C
 
 ' --- CLASSI PRINCIPALI ---
 
@@ -16,8 +20,8 @@ class GameUpdate {
     +getDestroyer(): Destroyer
 }
 
-interface State {
-    +update(context, dt)
+interface State <<interface>> {
+    {abstract} +update(context, dt)
 }
 
 class PlayingState {
@@ -40,8 +44,8 @@ class AttackHandler {
 
 ' --- PERSONAGGI ---
 
-abstract class ACharacter {
-    +isAlive(): boolean
+abstract class ACharacter <<abstract>> {
+    {abstract} +isAlive(): boolean
 }
 
 class ACharacterPlayable {
@@ -55,15 +59,15 @@ class ACharacterEnemy {
 
 ' --- STRATEGIE DI ATTACCO (Strategy Pattern) ---
 
-interface IFightStrategyPlayer {
-    +normalAttack(dt, player, characters)
+interface IFightStrategyPlayer <<interface>> {
+    {abstract} +normalAttack(dt, player, characters)
 }
 
-interface IFightStrategyEnemy {
-    +normalAttack(dt, enemy, player)
+interface IFightStrategyEnemy <<interface>> {
+    {abstract} +normalAttack(dt, enemy, player)
 }
 
-abstract class ACommonAttack {
+abstract class ACommonAttack <<abstract>> {
     #applyDamage(target, damage)
 }
 
