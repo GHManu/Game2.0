@@ -12,15 +12,15 @@ skinparam class {
 ' --- CLASSI PRINCIPALI ---
 
 class GameUpdate {
-    +run()
-    +updateMovement(dt)
-    +updateAttack(dt)
-    +setState(State)
+    +run() : void
+    +updateMovement(dt:double):void
+    +updateAttack(dt):void
+    +setState(state:IGameLoopState):void
     +getDestroyer(): Destroyer
 }
 
-interface State <<interface>> {
-    {abstract} +update(context, dt)
+interface IGameLoopState <<interface>> {
+    {abstract} +update(context:GameUpdate, dt)
 }
 
 class PlayingState {
@@ -30,7 +30,9 @@ class PlayingState {
 ' --- GESTORI (HANDLERS) ---
 
 class MovementHandler {
-    +handle(dt, characters, enemy, player)
+    +handle(dt, characters:List<ACharacter>,
+    enemy:ACharacterEnemy,
+    player:ACharacterPlayable)
 }
 
 class CollisionHandler {
@@ -63,11 +65,12 @@ interface IFightStrategyPlayer <<interface>> {
 }
 
 interface IFightStrategyEnemy <<interface>> {
-    {abstract} +normalAttack(dt, enemy, player)
+    {abstract} +normalAttack(dt, enemy, player):void
 }
 
 abstract class ACommonAttack <<abstract>> {
-    #applyDamage(target, damage)
+    #applyDamage(target:ACharacter,
+    damage:double):void
 }
 
 class CommonAttackFireWeaponPlayer {
@@ -81,9 +84,12 @@ class CommonAttackFireWeaponEnemy {
 ' --- UTILITY E UI ---
 
 class ProjectileCollisionResolver {
-    +hitWall(projectile, walls): boolean
-    +hitEnemy(projectile, characters): ACharacterEnemy
-    +hitEnemyProjectile(p, weapon): boolean
+    +hitWall(projectile,
+    walls:List<Collider>): boolean
+    +hitEnemy(projectile:AProjectile,
+    characters): ACharacterEnemy
+    +hitEnemyProjectile(projectile, 
+    weapon:AFireWeapon): boolean
 }
 
 class HUD {
@@ -93,7 +99,7 @@ class HUD {
 ' --- RELAZIONI ---
 
 ' Gerarchie
-State <|.. PlayingState
+IGameLoopState <|.. PlayingState
 ACharacter <|-- ACharacterPlayable
 ACharacter <|-- ACharacterEnemy
 
@@ -103,7 +109,7 @@ IFightStrategyPlayer <|.. CommonAttackFireWeaponPlayer
 IFightStrategyEnemy <|.. CommonAttackFireWeaponEnemy
 
 ' Associazioni e Dipendenze
-GameUpdate o-- State
+GameUpdate o-- IGameLoopState
 GameUpdate --> MovementHandler
 GameUpdate --> AttackHandler
 GameUpdate --> HUD
