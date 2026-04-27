@@ -14,10 +14,10 @@ participant ":MovementHandler" as MoveH
 participant ":CollisionHandler" as ColH
 participant ":AttackHandler" as AtkH
 participant ":ACharacterPlayable" as Player
-participant "playerAttack:CommonAttackFireWeaponPlayer" as CAP
+participant ":CommonAttackFireWeaponPlayer" as CAP
 participant ":ProjectileCollisionResolver" as PCR
 participant ":ACharacterEnemy" as Enemies
-participant "enemyAttack:CommonAttackFireWeaponEnemy" as CAE
+participant ":CommonAttackFireWeaponEnemy" as CAE
 participant ":HUD" as Hud
 
 activate Game
